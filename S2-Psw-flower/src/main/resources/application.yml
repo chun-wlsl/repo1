@@ -1,0 +1,30 @@
+#yml使用缩进表示层级，缩进必须使用空格符
+#若是专业的yml编辑器，会自动将tab转成多个空格
+# :    冒号加空格+配置值
+spring:
+   datasource:
+      url: jdbc:mysql://127.0.0.1:3306/cz-s2-dm 
+      username: root
+      password: a
+      #yml支持驼峰命名法
+      driver-class-name: com.mysql.jdbc.Driver
+   
+   mail:
+      #邮箱服务器地址
+      host: smtp.qq.com
+      username: 1740642733@qq.com
+      password: wuyvjhhvxuosdeia
+      default-encoding: UTF-8
+      
+   #
+mail:
+   from:
+      addr: 1740642733@qq.com
+      
+#spring 日志输出设置
+#日志级别：debug , info,warn, erro
+
+         
+  
+  
+ 
