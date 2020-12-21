@@ -8,14 +8,22 @@ public class Flower implements java.io.Serializable{
 
 	private Integer fid;
 	private String fname;
-	private Double market_Price;
-	private Double discount;
-	private Double shop_Price;
+	private Double marketPrice;
+	private Double discount;//折扣
+	private Double shopPrice;
 	private String image;
-	private Integer cid;
-	private Integer is_hot;
-	private Date fdate;
-	private String advice;
+	private Integer cid;//分类
+	private Integer isHot;//是否热门
+	private Date fdate;//出售日期
+	private  Integer fcount;//库存量
+	public Integer getFcount() {
+		return fcount;
+	}
+	public void setFcount(Integer fcount) {
+		this.fcount = fcount;
+	}
+
+	private String advice;//建议
 	
 	public Integer getFid() {
 		return fid;
@@ -29,11 +37,11 @@ public class Flower implements java.io.Serializable{
 	public void setFname(String fname) {
 		this.fname = fname;
 	}
-	public Double getMarket_Price() {
-		return market_Price;
+	public Double getMarketPrice() {
+		return marketPrice;
 	}
-	public void setMarket_Price(Double market_Price) {
-		this.market_Price = market_Price;
+	public void setMarketPrice(Double marketPrice) {
+		this.marketPrice = marketPrice;
 	}
 	public Double getDiscount() {
 		return discount;
@@ -41,11 +49,11 @@ public class Flower implements java.io.Serializable{
 	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
-	public Double getShop_Price() {
-		return shop_Price;
+	public Double getShopPrice() {
+		return shopPrice;
 	}
-	public void setShop_Price(Double shop_Price) {
-		this.shop_Price = shop_Price;
+	public void setShopPrice(Double shopPrice) {
+		this.shopPrice = shopPrice;
 	}
 	public String getImage() {
 		return image;
@@ -59,11 +67,11 @@ public class Flower implements java.io.Serializable{
 	public void setCid(Integer cid) {
 		this.cid = cid;
 	}
-	public Integer getIs_hot() {
-		return is_hot;
+	public Integer getIsHot() {
+		return isHot;
 	}
-	public void setIs_hot(Integer is_hot) {
-		this.is_hot = is_hot;
+	public void setIsHot(Integer isHot) {
+		this.isHot = isHot;
 	}
 	public Date getFdate() {
 		return fdate;
@@ -80,8 +88,8 @@ public class Flower implements java.io.Serializable{
 	
 	@Override
 	public String toString() {
-		return "Flower [fid=" + fid + ", fname=" + fname + ", market_Price=" + market_Price + ", discount=" + discount
-				+ ", shop_Price=" + shop_Price + ", image=" + image + ", cid=" + cid + ", is_hot=" + is_hot + ", fdate="
+		return "Flower [fid=" + fid + ", fname=" + fname + ", marketPrice=" + marketPrice + ", discount=" + discount
+				+ ", shopPrice=" + shopPrice + ", image=" + image + ", cid=" + cid + ", isHot=" + isHot + ", fdate="
 				+ fdate + ", advice=" + advice + "]";
 	}
 	

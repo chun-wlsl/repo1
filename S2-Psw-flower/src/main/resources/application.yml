@@ -3,7 +3,7 @@
 # :    冒号加空格+配置值
 spring:
    datasource:
-      url: jdbc:mysql://127.0.0.1:3306/cz-s2-dm 
+      url: jdbc:mysql://127.0.0.1:3306/s2-wls-xianhua
       username: root
       password: a
       #yml支持驼峰命名法
