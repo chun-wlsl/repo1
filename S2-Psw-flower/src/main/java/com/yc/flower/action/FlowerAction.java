@@ -38,6 +38,18 @@ public class FlowerAction {
 		return fdao.queryFlowerById(fid);
 	}
    
+   //查找商品
+   @RequestMapping("queryProduct")
+	public List<Flower> queryProduct(){
+		return fdao.selectFlower();
+	}
+   
+   //查找折扣最低的商品
+   @RequestMapping("queryDiscount")
+	public Flower queryDiscount(){
+		return fdao.selectByDiscount();
+	}
+   
    //添加商品
    @RequestMapping("create")
 	public Result create(Flower f) {

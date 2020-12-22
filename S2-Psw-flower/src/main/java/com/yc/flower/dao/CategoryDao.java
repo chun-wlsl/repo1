@@ -23,7 +23,7 @@ public class CategoryDao extends BaseDao{
 		return jt.query(sql,categoryRowMapper);
 	}
 	
-	private RowMapper<Category> categoryRowMapper = new RowMapper<Category>() {
+	RowMapper<Category> categoryRowMapper = new RowMapper<Category>() {
 
 		@Override
 		public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
