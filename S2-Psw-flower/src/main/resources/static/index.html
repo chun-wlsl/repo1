@@ -119,7 +119,7 @@ function clearText(field)
             </div>
              
             <script>
-            var v = new Vue({
+             new Vue({
 				el : ".categorylist",
 				data :{
 					category:[]
@@ -135,7 +135,7 @@ function clearText(field)
             
         </div>
          <!--折扣最低-->
-        <div class="sidebar_box"><span class="bottom"></span>
+        <div class="sidebar_box"  id="fdiscount"><span class="bottom"></span>
             <h3>Weekly Special</h3>   
             <div class="content special"> 
                 <img :src="flower.image"  />
@@ -150,7 +150,7 @@ function clearText(field)
         
         <script>
         new Vue({
-			el : ".sidebar_box",
+			el : "#fdiscount",
 			data :{
 				flower:{}
 			},
@@ -175,21 +175,22 @@ function clearText(field)
 		<strong>XHTML</strong></a> &amp; <a href="http://sc.chinaz.com/??css-validator/check/referer" rel="nofollow">
 		<strong>CSS</strong></a>.</p>
        <!-- 商品展示 --> 
-        <div class="product_box"  >
-        <ul><li v-for="f in flist">
-            <a :href="productdetail.html"><img :src="f.image" alt="floral set 1" /></a>
-      		<h3>{{f.fname}}</h3>
-            <p class="product_price">{{f.marketPrice}}</p>
-            <p class="add_to_cart">
-                <a href="productdetail.html">Detail</a>
-                <a href="shoppingcart.html">Add to Cart</a>
-            </p>
-            </li>
-            </ul>
-        </div>        	
+       <span   id="product " v-for="f in flist" >
+        <div  class="product_box" >
+	        
+	            <a href="productdetail.html"><img :src="f.image"  /></a>
+	      		<h3>{{f.fname}}</h3>
+	            <p class="product_price">{{f.marketPrice}}</p>
+	            <p class="add_to_cart">
+	                <a href="productdetail.html">Detail</a>
+	                <a href="shoppingcart.html">Add to Cart</a>
+	            </p>
+	         
+        </div> 
+        </span>       	
       <script>
       new Vue({
-			el:".product_box",
+			el:"#product",
 			data:{
 				flist:[]
 			},

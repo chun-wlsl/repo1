@@ -40,7 +40,7 @@ public class FlowerDao extends BaseDao{
 		});
    }
 	
-	//通过商品fid查找鲜花的详细信息
+	//通过商品fid查找鲜花的详细信息(详情）
 	public Flower queryFlowerById(int fid) {
 		String sql = "select * from flower where fid=?";
 		return jt.query(sql, rs->{
