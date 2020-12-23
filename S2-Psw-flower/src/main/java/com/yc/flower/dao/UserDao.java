@@ -6,24 +6,15 @@ import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.yc.flower.bean.User;
-import com.yc.flower.biz.BizException;
-import com.yc.flower.biz.UserBiz;
-
 @Repository
 public class UserDao extends BaseDao{
 
-	@Resource
-	private UserBiz ubiz;
 	
-	//登录
-	public User login(String name,String pwd,String code,HttpSession session) throws BizException {
-		return ubiz.login(name,pwd,code,session);
-		
-	}
 
 	//根据用户名查询用户
 	public User selectByName(String name) {
@@ -50,4 +41,15 @@ public class UserDao extends BaseDao{
 			return user;
 		}
 	};
+
+	public void insert(User user) {
+		String sql="insert into user values(null,?,?,?,null,?,?,?,now())";
+		jt.update(sql,
+				user.getName(),
+				user.getPwd(),
+				user.getSex(),
+				user.getPhone(),
+				user.getAddr(),
+				user.getEmail());
+	}
 }

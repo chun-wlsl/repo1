@@ -17,9 +17,9 @@ public class VerifyCodeAction  {
 	@RequestMapping("verifyCode.s")
 	public String getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
-		String vcode = VerifyCodeUtils.outputImage(response);
-		session.setAttribute("vcode", vcode);
-		return vcode;
+		String code = VerifyCodeUtils.outputImage(response);
+		session.setAttribute("code", code);
+		return code;
 	}
    
 
