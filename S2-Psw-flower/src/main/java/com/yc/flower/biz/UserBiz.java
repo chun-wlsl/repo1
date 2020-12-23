@@ -34,8 +34,7 @@ public class UserBiz {
 		if (!user.getPwd().equals(pwd)) {
 			throw new BizException("密码错误");
 		}
-		
-		String vcode=(String) session.getAttribute("code");
+     	String vcode=(String) session.getAttribute("code");
 		if (!code.equalsIgnoreCase(vcode)) {
 			throw new BizException("验证码错误");
 		}
