@@ -12,24 +12,32 @@ import com.yc.flower.bean.Cart;
 
 
 @Repository
-public class CartDao extends BaseDao{
-	
+public class CartDao extends BaseDao {
+	//查询购物车，返回商品和购物车数据
 	public List<?> queryCart(Integer uid) throws SQLException {
-		String sql = "select flower.*,cart.* from cart,flower " + "where cart.fid=product.fid and cart.uid=?";
+		String sql = "select flower.*,cart.* from cart,flower " + "where flower.fid=cart.fid and cart.uid=?";
 		List<?> list = null;
+		// list = jt.query(sql, uid);
 		System.out.println("list==" + list);
 		return list;
 	}
 
 	public void addCart(int uid, int fid, int count) throws SQLException {
-		
+		/*
+		 * String sql = "select * from cart where uid=? and pid=?"; if
+		 * (DBHelper.selectOne(sql, uid,pid) != null) { sql =
+		 * "update cart set count=count+? where uid=? and pid=?"; DBHelper.update(sql,
+		 * count, uid, pid); } else { sql = "insert into cart values(null,?,?,?)";
+		 * DBHelper.update(sql, uid, pid, count); }
+		 */
+
 		String sql = "update cart set count=count+? where uid=? and fid=?";
 		if (jt.update(sql, count, uid, fid) == 0) {
 			sql = "insert into cart values(null,?,?,?)";
 			jt.update(sql, uid, fid, count);
 		}
 	}
-	
+
 	public void deleteCart(String fid) {
 		String sql = "delete from cart where fid=?";
 
@@ -37,18 +45,21 @@ public class CartDao extends BaseDao{
 
 	}
 
+	//清除uid用户的购物车
 	public void clearCart(Integer iUid) throws SQLException {
 		String sql = "delete from cart where uid = ?";
 		jt.update(sql, iUid);
 	}
 
+	//添加购物车
 	public void insert(int uid, int fid, int count) {
 		jt.update("insert into cart values(null,?,?,?)", uid, fid, count);
 	}
 
+	//搜索用户uid的购物车
 	public List<Map<String, Object>> selectCart(Integer uid) {
 		return jt.queryForList("select * from cart a" + " left join user b on a.uid=b.uid"
-				+ " left join product c on a.fid=c.pid" + " where a.uid=?", uid);
+				+ " left join product c on a.fid=c.fid" + " where a.uid=?", uid);
 	}
 
 	private RowMapper<Cart> cartRowMapper = new RowMapper<Cart>() {
@@ -72,7 +83,7 @@ public class CartDao extends BaseDao{
 	 */
 	public Double selectTotalByUid(Integer uid) {
 		String sql = "SELECT\n" + "	sum(count * b.shop_price)\n" + "FROM\n" + "	cart a\n"
-				+ "JOIN product b ON a.fid = b.fid\n" + "WHERE\n" + "	uid = ?";
+				+ "JOIN flower b ON a.fid = b.fid\n" + "WHERE\n" + "	uid = ?";
 		return jt.queryForObject(sql, Double.class, uid);
 	}
 
@@ -88,9 +99,9 @@ public class CartDao extends BaseDao{
 	/*
 	 * 更新购物车
 	 */
-	public void upCart(int uid, int pid, int count) {
-		String sql = "update cart set count=? where uid=? and pid=?";
-		jt.update(sql, count, uid, pid);
+	public void upCart(int uid, int fid, int count) {
+		String sql = "update cart set count=? where uid=? and fid=?";
+		jt.update(sql, count, uid, fid);
 	}
-	
+
 }

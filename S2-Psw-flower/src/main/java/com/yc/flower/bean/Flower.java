@@ -9,13 +9,21 @@ public class Flower implements java.io.Serializable{
 	private Integer fid;
 	private String fname;
 	private Double marketPrice;
-	private Double discount;
+	private Double discount;//折扣
 	private Double shopPrice;
 	private String image;
-	private Integer cid;
-	private Integer isHot;
-	private Date fdate;
-	private String advice;
+	private Integer cid;//分类
+	private Integer isHot;//是否热门
+	private Date fdate;//出售日期
+	private  Integer fcount;//库存量
+	public Integer getFcount() {
+		return fcount;
+	}
+	public void setFcount(Integer fcount) {
+		this.fcount = fcount;
+	}
+
+	private String advice;//建议
 	
 	public Integer getFid() {
 		return fid;
@@ -44,7 +52,7 @@ public class Flower implements java.io.Serializable{
 	public Double getShopPrice() {
 		return shopPrice;
 	}
-	public void setShop_Price(Double shopPrice) {
+	public void setShopPrice(Double shopPrice) {
 		this.shopPrice = shopPrice;
 	}
 	public String getImage() {
@@ -80,8 +88,8 @@ public class Flower implements java.io.Serializable{
 	
 	@Override
 	public String toString() {
-		return "Flower [fid=" + fid + ", fname=" + fname + ", market_Price=" + marketPrice + ", discount=" + discount
-				+ ", shopPrice=" + shopPrice + ", image=" + image + ", cid=" + cid + ", is_hot=" + isHot + ", fdate="
+		return "Flower [fid=" + fid + ", fname=" + fname + ", marketPrice=" + marketPrice + ", discount=" + discount
+				+ ", shopPrice=" + shopPrice + ", image=" + image + ", cid=" + cid + ", isHot=" + isHot + ", fdate="
 				+ fdate + ", advice=" + advice + "]";
 	}
 	
