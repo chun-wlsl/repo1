@@ -37,6 +37,11 @@ function clearText(field)
 <link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" /> 
 <script type="text/JavaScript" src="js/slimbox2.js"></script> 
 
+<!-- 引入vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+
 </head>
 
 <body>
@@ -78,36 +83,79 @@ function clearText(field)
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
 	<div id="sidebar" class="left">
-    	<div class="sidebar_box"><span class="bottom"></span>
-            <h3>Categories</h3>   
-            <div class="content"> 
+	
+	
+    	<div class="categorylist"><span class="bottom"></span>
+            <h3>分类</h3> 
+            
+            <!-- 分类展示 -->  
+            <div > 
                 <ul class="sidebar_list">
-                    <li><a href="#">Nulla odio ipsum</a></li>
-                    <li><a href="#">Suspendisse posuere</a></li>
-                    <li><a href="#">Aliquam euismod</a></li>
-                    <li><a href="#">Curabitur ac mauris</a></li>
-                    <li><a href="#">Mauris nulla tortor</a></li>
-                    <li><a href="#">Nullam ultrices</a></li>
-                    <li><a href="#">Vivamus scelerisque</a></li>
-                    <li><a href="#">Suspendisse posuere</a></li>
-                    <li><a href="#">Quisque vel justo</a></li>
+                    <li v-for="c in category">
+                    <a href="#">{{c.cname}}</a>
+                    </li>
+                     
                 </ul>
             </div>
         </div>
-        <div class="sidebar_box"><span class="bottom"></span>
+        
+        
+       
+        <div  id="fdiscount">
+          <span class="bottom"></span>
             <h3>Weekly Special</h3>   
             <div class="content special"> 
-                <img src="images/templatemo_image_01.jpg" alt="Flowers" />
-                <a href="#">Citrus Burst Bouquet</a>
+                <img :src="flower.image"  />
+                <a href="#">{{flower.fname}}</a>
                 <p>
                 	Price:
-                    <span class="price normal_price">$160</span>&nbsp;&nbsp;
-                    <span class="price special_price">$100</span>
+                    <span class="price normal_price">${{flower.marketPrice}}</span>&nbsp;&nbsp;
+                    <span class="price special_price">${{flower.shopPrice}}</span>
                 </p>
             </div>
         </div>
+        
+        <!-- <script>
+       var v= new Vue({
+			el : "#fdiscount",
+			data :{
+				flower:{}
+			},
+			created(){
+				axios.get("queryDiscount").then(res=>{
+					this.flower = res.data;
+				});
+			}
+		})
+        
+        </script> 
+        
+        
+        
+        -->
+      
+        
     </div>
+    <!-- 左边 -->
+     <script>
+           var v3=  new Vue({
+				el : ".left",
+				data :{
+					category:[],
+					flower:{}
+				},
+				created(){
+					axios.get("queryCategory").then(res=>{
+						this.category = res.data;
+					});
+					axios.get("queryDiscount").then(res=>{
+						this.flower = res.data;
+					});
+				}
+			})
+            </script>
     
+    <!-- 商品详情 -->
     <div id="content" class="right">
       	<h2>Product Detail</h2>
         <div class="content_half left">
@@ -137,6 +185,56 @@ function clearText(field)
         	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
         </div>    
     </div>
+    
+   
+    <script type="text/javascript">
+	var v4 = new Vue({
+		el : "#content",
+		data :{
+			product:[]
+		},
+		created(){
+			axios.get("queryFlowerById&fid="+location.hash.substring(1)).then(res=>{
+				this.product = res.data;
+			})
+		},
+		methods:{
+			addCart(){
+				
+				axios.get("getLoginedUser").then(res=>{
+					
+					if( res.data && res.data.uid ){
+						//console.log(this.$refs.counts.value);
+						var params = new URLSearchParams();
+						params.append("fid",this.product.pid);
+						params.append("count",this.$refs.counts.value);
+						axios.post("",params).then(res=>{
+							/* alert(res.data); */
+							if(res.data.code == 1) {
+								location.href = "cart.html";
+							}else{
+								alert(res.data.msg);
+							}
+						}); 
+					}else {
+						alert("你尚未登录");
+						location.href = "login.html";
+					}
+					
+				});
+				
+			}
+		}
+	})
+
+</script>
+      
+      
+    
+    
+   
+    
+    
     <div class="cleaner"></div>
 </div> <!-- END of main -->
 </div> <!-- END of main wrapper -->

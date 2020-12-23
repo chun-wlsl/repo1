@@ -105,11 +105,13 @@ function clearText(field)
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
 	<div id="sidebar" class="left">
-    	<div class="sidebar_box"><span class="bottom"></span>
+	
+	
+    	<div class="categorylist"><span class="bottom"></span>
             <h3>分类</h3> 
             
             <!-- 分类展示 -->  
-            <div class="categorylist"> 
+            <div > 
                 <ul class="sidebar_list">
                     <li v-for="c in category">
                     <a href="#">{{c.cname}}</a>
@@ -117,29 +119,16 @@ function clearText(field)
                      
                 </ul>
             </div>
-             
-            <script>
-             new Vue({
-				el : ".categorylist",
-				data :{
-					category:[]
-				},
-				created(){
-					axios.get("queryCategory").then(res=>{
-						this.category = res.data;
-					});
-				}
-			})
-            </script>
-            
-            
         </div>
-         <!--折扣最低-->
-        <div class="sidebar_box"  id="fdiscount"><span class="bottom"></span>
+        
+        
+       
+        <div  id="fdiscount">
+          <span class="bottom"></span>
             <h3>Weekly Special</h3>   
             <div class="content special"> 
                 <img :src="flower.image"  />
-                <a :href="#">{{flower.fname}}</a>
+                <a href="#">{{flower.fname}}</a>
                 <p>
                 	Price:
                     <span class="price normal_price">${{flower.marketPrice}}</span>&nbsp;&nbsp;
@@ -148,8 +137,8 @@ function clearText(field)
             </div>
         </div>
         
-        <script>
-        new Vue({
+        <!-- <script>
+       var v= new Vue({
 			el : "#fdiscount",
 			data :{
 				flower:{}
@@ -161,10 +150,33 @@ function clearText(field)
 			}
 		})
         
-        </script>
+        </script> 
+        
+        
+        
+        -->
       
         
     </div>
+    <!-- 左边 -->
+     <script>
+           var v2=  new Vue({
+				el : ".left",
+				data :{
+					category:[],
+					flower:{}
+				},
+				created(){
+					axios.get("queryCategory").then(res=>{
+						this.category = res.data;
+					});
+					axios.get("queryDiscount").then(res=>{
+						this.flower = res.data;
+					});
+				}
+			})
+            </script>
+    
     
     <div id="content" class="right">
 		<h2>Welcome to Floral Shop</h2>
@@ -174,23 +186,32 @@ function clearText(field)
 		<a href="http://sc.chinaz.com/??check?uri=referer" rel="nofollow">
 		<strong>XHTML</strong></a> &amp; <a href="http://sc.chinaz.com/??css-validator/check/referer" rel="nofollow">
 		<strong>CSS</strong></a>.</p>
-       <!-- 商品展示 --> 
-       <span   id="product " v-for="f in flist" >
+       <!-- <div class="product_box">
+            <a href="productdetail.html"><img src="images/product/02.jpg" alt="flowers 2" /></a>
+            <h3>Donec Est Nisi</h3>
+          	<p class="product_price">$160</p>
+            <p class="add_to_cart">
+                <a href="productdetail.html">Detail</a>
+                <a href="shoppingcart.html">Add to Cart</a>
+            </p>
+        </div>  -->
+       
         <div  class="product_box" >
-	        
-	            <a href="productdetail.html"><img :src="f.image"  /></a>
+          <span  v-for="f in flist">
+	            <a href="productdetail.html"><img :src="f.image" alt="flowers 1" /></a>
 	      		<h3>{{f.fname}}</h3>
 	            <p class="product_price">{{f.marketPrice}}</p>
 	            <p class="add_to_cart">
 	                <a href="productdetail.html">Detail</a>
 	                <a href="shoppingcart.html">Add to Cart</a>
 	            </p>
-	         
+	       </span>
         </div> 
-        </span>       	
+            
+            	
       <script>
-      new Vue({
-			el:"#product",
+     var v1= new Vue({
+			el:".product_box",
 			data:{
 				flist:[]
 			},
