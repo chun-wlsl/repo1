@@ -35,7 +35,7 @@ public class FlowerTest {
 	@Test
      public void test1() {
     	 Flower f=new Flower();
-       f=faction.queryFlowerById(1);
+         f=faction.queryFlowerById(1);
        System.out.println(f.toString());
      }
      

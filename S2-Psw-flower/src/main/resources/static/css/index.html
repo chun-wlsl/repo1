@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title> Products, Online Shopping</title>
+<title>Home</title>
 <meta name="keywords" content="free template,  ecommerce, online shopping, store" />
-<meta name="description" content=" Products, free website template for ecommerce shopping websites." />
+<meta name="description" content="Floral Shop is free website template for ecommerce or online shopping websites. Products, Shopping Cart, FAQs and Checkout pages are included." />
 <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="css/orman.css" type="text/css" media="screen" />
@@ -33,27 +33,30 @@ function clearText(field)
 
 </script>
 
+<link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" /> 
+<script type="text/JavaScript" src="js/slimbox2.js"></script> 
+
 
 </head>
 
 <body>
 
-<div id="templatemo_wrapper_sp">
-<div id="templatemo_header_wsp">
-	<div id="templatemo_header" class="header_subpage">
+<div id="templatemo_wrapper_h">
+<div id="templatemo_header_wh">
+	<div id="templatemo_header" class="header_home">
     	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="selected">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="products.html" class="selected">Products</a>
+                <li><a href="products.html">Products</a>
                     <ul>
                         <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
                         <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
                         <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
                         <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
                         <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  </ul>
+                  	</ul>
                 </li>
                 <li><a href="checkout.html">Checkout</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -68,8 +71,32 @@ function clearText(field)
             </div>
             <br style="clear: left" />
         </div> 
-        <a href="http://sc.chinaz.com" title="sc.chinaz.com" rel="nofollow" class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="sc.chinaz.com"  /></a><!-- end of templatemo_menu -->
-        
+        <a href="http://sc.chinaz.com" title="请单击此处"  class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="请单击此处" alt="请单击此处" /></a><!-- end of templatemo_menu -->
+
+        <div class="slider-wrapper theme-orman">
+            <div class="ribbon"></div>
+            <div id="slider" class="nivoSlider">
+                <img src="images/portfolio/01.jpg" alt="slider image 1" />
+                <a href="http://sc.chinaz.com/?page/1" rel="nofollow">
+                	<img src="images/portfolio/02.jpg" alt="slider image 2" title="This is an example of a caption" />
+                </a>
+                <img src="images/portfolio/03.jpg" alt="slider image 3" />
+                <img src="images/portfolio/04.jpg" alt="slider image 4" title="#htmlcaption" />
+                <img src="images/portfolio/05.jpg" alt="slider image 5" title="#htmlcaption" />
+            </div>
+            <div id="htmlcaption" class="nivo-html-caption">
+                <strong>Example</strong> caption with <a href="http://sc.chinaz.com" rel="nofollow">a credit link</a> for <em>this slider</em>.
+            </div>
+        </div> 
+		<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.nivo.slider.pack.js"></script>
+        <script type="text/javascript">
+        $(window).load(function() {
+            $('#slider').nivoSlider({
+				controlNav:false
+			});
+        });
+        </script>
     </div> <!-- END of header -->
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
@@ -106,9 +133,10 @@ function clearText(field)
     </div>
     
     <div id="content" class="right">
-		<h2>Products</h2>
-        <p>Cras aliquam, mi nec imperdiet volutpat, ligula est consequat odio, eu auctor urna augue eu quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis bibendum nec nunc ac hendrerit. Morbi lacinia placerat diam sit amet fringilla. Integer accumsan suscipit suscipit. Mauris non nunc sit amet turpis pharetra mattis. Validate <a href="http://sc.chinaz.com/??check?uri=referer" rel="nofollow"><strong>XHTML</strong></a> &amp; <a href="http://sc.chinaz.com/??css-validator/check/referer" rel="nofollow"><strong>CSS</strong></a>.</p>
-  <div class="product_box">
+		<h2>Welcome to Floral Shop</h2>
+		<p>Floral Shop is a free template provided by <a href="http://sc.chinaz.com" rel="nofollow">templatemo</a>. Sed in suscipit risus, eget consectetur justo. Praesent lacinia, nisi quis commodo consectetur, diam magna laoreet felis, a pulvinar mauris enim in felis. Phasellus in mauris velit. In pellentesque massa in nisl auctor pellentesque. Donec fermentum convallis purus, id luctus nulla tempus in. Aliquam diam nibh, consectetur quis fringilla facilisis, egestas sed odio. Validate <a href="http://sc.chinaz.com/??check?uri=referer" rel="nofollow"><strong>XHTML</strong></a> &amp; <a href="http://sc.chinaz.com/??css-validator/check/referer" rel="nofollow"><strong>CSS</strong></a>.</p>
+        
+        <div class="product_box">
             <a href="productdetail.html"><img src="images/product/01.jpg" alt="floral set 1" /></a>
       		<h3>Ut eu feugiat</h3>
             <p class="product_price">$240</p>
@@ -181,12 +209,8 @@ function clearText(field)
                 <a href="shoppingcart.html">Add to Cart</a>
             </p>
         </div>
+        
         <div class="blank_box">
-        	<a href="#" class="button left">Previous</a> 
-            <a href="#" class="button right">Next Page</a>
-        </div>
-        <div class="cleaner h20"></div>
-    	<div class="blank_box">
         	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
         </div>    
     </div>
