@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost_3306
 Source Server Version : 50018
 Source Host           : localhost:3306
-Source Database       : s2-wls-xianhua
+Source Database       : c89-s2-wsl-flower
 
 Target Server Type    : MYSQL
 Target Server Version : 50018
 File Encoding         : 65001
 
-Date: 2020-12-23 11:02:26
+Date: 2020-12-24 20:12:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -95,6 +95,30 @@ INSERT INTO `flower` VALUES ('7', '百合', '110.00', '9.50', null, 'images/prod
 INSERT INTO `flower` VALUES ('8', '橙色百合', '130.00', '6.00', null, 'images/product/08.jpg', null, '0', '2020-12-23 19:02:27', '8', null);
 
 -- ----------------------------
+-- Table structure for msg
+-- ----------------------------
+DROP TABLE IF EXISTS `msg`;
+CREATE TABLE `msg` (
+  `mid` int(11) NOT NULL auto_increment,
+  `content` varchar(1000) default NULL,
+  `publishtime` datetime default NULL,
+  `modifytime` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `uid` int(11) default NULL,
+  `tid` int(11) default NULL,
+  PRIMARY KEY  (`mid`),
+  KEY `FK_reply_uid` (`uid`),
+  KEY `FK_reply_topicid` (`tid`),
+  CONSTRAINT `FK_topic_tid` FOREIGN KEY (`tid`) REFERENCES `topic` (`tid`),
+  CONSTRAINT `FK_user_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of msg
+-- ----------------------------
+INSERT INTO `msg` VALUES ('1', '222233333', '2018-06-25 15:57:40', '2018-06-25 15:57:40', '1', '1');
+INSERT INTO `msg` VALUES ('2', '我的饿作为123', '2018-06-25 16:42:54', '2020-12-24 19:54:31', '1', '1');
+
+-- ----------------------------
 -- Table structure for order
 -- ----------------------------
 DROP TABLE IF EXISTS `order`;
@@ -138,6 +162,41 @@ CREATE TABLE `orderitem` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for topic
+-- ----------------------------
+DROP TABLE IF EXISTS `topic`;
+CREATE TABLE `topic` (
+  `tid` int(11) NOT NULL auto_increment,
+  `title` varchar(50) default NULL,
+  `content` varchar(4000) default NULL,
+  `publishtime` datetime default NULL,
+  `modifytime` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `uid` int(11) default NULL,
+  PRIMARY KEY  (`tid`),
+  KEY `FK_topic_uid` (`uid`),
+  CONSTRAINT `FK_topic_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of topic
+-- ----------------------------
+INSERT INTO `topic` VALUES ('1', '1111', '2222222', '2018-06-25 15:56:49', '2018-06-25 15:56:49', '1');
+INSERT INTO `topic` VALUES ('2', '11111', '11111', null, null, '1');
+INSERT INTO `topic` VALUES ('3', '累了', '再试一次', '2018-06-25 21:10:44', '2018-06-25 21:10:44', '1');
+INSERT INTO `topic` VALUES ('4', 'aaa', 'aaaa', null, null, null);
+INSERT INTO `topic` VALUES ('5', '123', '1234', null, null, '1');
+INSERT INTO `topic` VALUES ('6', '123', '1234', null, null, '1');
+INSERT INTO `topic` VALUES ('7', '123', '1234', null, null, '1');
+INSERT INTO `topic` VALUES ('8', '123', '1234', null, null, '1');
+INSERT INTO `topic` VALUES ('9', '123', '1234', null, null, '1');
+INSERT INTO `topic` VALUES ('10', 'dfdfd', 'fdfdfd', null, null, '1');
+INSERT INTO `topic` VALUES ('11', 'avasdfa', 'asdfasdfa', null, null, '1');
+INSERT INTO `topic` VALUES ('12', 'vvvvv', 'asdfasf', '2018-07-02 10:31:57', '2018-07-02 10:31:57', '1');
+INSERT INTO `topic` VALUES ('13', 'ddddd', '123asd\r\n1', '2018-07-03 00:29:29', '2018-07-03 00:29:29', '1');
+INSERT INTO `topic` VALUES ('14', 'dfdfdf', 'dfdfdfdf', '2018-07-05 23:20:28', '2018-07-05 23:20:28', '1');
+INSERT INTO `topic` VALUES ('15', '的点点', '滴滴11111', '2018-07-06 16:54:09', '2020-12-24 19:50:18', null);
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -158,36 +217,4 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '小小', '123', '女', null, '123', '12', '212', '2020-12-23 10:48:15');
-
-
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for msg
--- ----------------------------
-DROP TABLE IF EXISTS `msg`;
-CREATE TABLE `msg` (
-  `mid` int(11) NOT NULL auto_increment,
-  `mname` varchar(255) default NULL,
-  `email` varchar(255) default NULL,
-  `phone` varchar(255) default NULL,
-  `content` varchar(255) default NULL,
-  `createtime` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
-  `reply` varchar(255) default NULL,
-  `replytime` datetime default NULL,
-  `uid` int(11) default NULL,
-  PRIMARY KEY  (`mid`),
-  KEY `uid` (`uid`),
-  CONSTRAINT `uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of msg
--- ----------------------------
-INSERT INTO `msg` VALUES ('1', '小小', '212', '123', '这个花枯萎了', '2020-12-24 14:58:19', null, null, '1');
-INSERT INTO `msg` VALUES ('2', '小小', '212', '123', '花不好看', '2020-12-24 15:01:50', null, null, '1');
-INSERT INTO `msg` VALUES ('3', '小小', '212', '123', '花花漂亮', '2020-12-24 15:06:20', null, null, '1');
-INSERT INTO `msg` VALUES ('4', '小小', '212', '123', '呼呼', '2020-12-24 15:06:31', null, null, '1');
-INSERT INTO `msg` VALUES ('5', '小小', '212', '123', '非常好', '2020-12-24 15:07:29', null, null, '1');
-INSERT INTO `msg` VALUES ('6', '小小', '212', '123', '很好', '2020-12-24 15:07:33', null, null, '1');
-INSERT INTO `msg` VALUES ('7', '小小', '212', '123', '不太好', '2020-12-24 15:07:47', null, null, '1');
+INSERT INTO `user` VALUES ('2', '李四', 'aaa', '男', null, '112233', '湖南省长沙市', '1111@qq.com', '2020-12-24 14:14:35');
