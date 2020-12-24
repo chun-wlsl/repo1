@@ -24,6 +24,7 @@ public class UserTest {
 		user.setName("李四");
 		user.setPwd("aaa");
 		user.setSex("男");
+		user.setAddr("湖南省长沙市");
 		user.setPhone("112233");
 		user.setEmail("1111@qq.com");
 		uAction.reg(user, null);
