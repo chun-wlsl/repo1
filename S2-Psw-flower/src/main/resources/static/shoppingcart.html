@@ -75,35 +75,81 @@ function clearText(field)
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
 	<div id="sidebar" class="left">
-    	<div class="sidebar_box"><span class="bottom"></span>
-            <h3>Categories</h3>   
-            <div class="content"> 
+	
+	
+    	<div class="categorylist"><span class="bottom"></span>
+            <h3>分类</h3> 
+            
+            <!-- 分类展示 -->  
+            <div > 
                 <ul class="sidebar_list">
-                    <li><a href="#">Nulla odio ipsum</a></li>
-                    <li><a href="#">Suspendisse posuere</a></li>
-                    <li><a href="#">Aliquam euismod</a></li>
-                    <li><a href="#">Curabitur ac mauris</a></li>
-                    <li><a href="#">Mauris nulla tortor</a></li>
-                    <li><a href="#">Nullam ultrices</a></li>
-                    <li><a href="#">Vivamus scelerisque</a></li>
-                    <li><a href="#">Suspendisse posuere</a></li>
-                    <li><a href="#">Quisque vel justo</a></li>
+                
+                    <li v-for="c in category">
+                    <a :href="'clist.html#'+c.cid">{{c.cname}}</a>
+                    </li>
+                     
                 </ul>
             </div>
         </div>
-        <div class="sidebar_box"><span class="bottom"></span>
-            <h3>Weekly Special</h3>   
-            <div class="content special"> 
-                <img src="images/templatemo_image_01.jpg" alt="Flowers" />
-                <a href="#">Citrus Burst Bouquet</a>
+        
+        
+
+        <div  id="fdiscount">
+          <span class="bottom"></span>
+            <h2 align="center">每周特价</h2>   
+            <div class="content special">
+            <a :href="'productdetail.html#'+flower.fid"> 
+                <img :src="flower.image"  />
+            </a>
+            {{flower.fname}}
                 <p>
                 	Price:
-                    <span class="price normal_price">$160</span>&nbsp;&nbsp;
-                    <span class="price special_price">$100</span>
+                    <span class="price normal_price">${{flower.marketPrice}}</span>&nbsp;&nbsp;
+                    <span class="price special_price">${{flower.shopPrice}}</span>
                 </p>
             </div>
         </div>
+        
+        <!-- <script>
+       var v= new Vue({
+			el : "#fdiscount",
+			data :{
+				flower:{}
+			},
+			created(){
+				axios.get("queryDiscount").then(res=>{
+					this.flower = res.data;
+				});
+			}
+		})
+        
+        </script> 
+        
+        
+        
+        -->
+      
+        
     </div>
+    <!-- 左边 -->
+     <script>
+           var v2=  new Vue({
+				el : ".left",
+				data :{
+					category:[],
+					flower:{}
+				},
+				created(){
+					axios.get("queryCategory").then(res=>{
+						this.category = res.data;
+					});
+					axios.get("queryDiscount").then(res=>{
+						this.flower = res.data;
+					});
+				}
+			})
+            </script>
+    
     
     <div id="content" class="right">
     	<h2>Shopping Cart</h2>

@@ -60,26 +60,22 @@ function clearText(field)
 						Templates</a>
 				</div>
 				<div id="templatemo_menu" class="ddsmoothmenu">
-					<ul>
-						<li><a href="index.html">主页</a></li>
-						<li><a href="about.html">About</a></li>
-						<li><a href="products.html">商品</a>
-							<ul>
-								<li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub
-										Page One</a></li>
-								<li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub
-										Page Two</a></li>
-								<li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub
-										Page Three</a></li>
-								<li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub
-										Page Four</a></li>
-								<li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub
-										Page Five</a></li>
-							</ul></li>
-						<li><a href="checkout.html">Checkout</a></li>
-						<li><a href="contact.html">Contact</a></li>
-						<li><a href="faqs.html">FAQs</a></li>
-					</ul>
+					 <ul>
+                <li><a href="index.html" class="selected">主页</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="clist.html#1">分类商品</a>
+                    <ul>
+                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
+                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
+                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
+                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
+                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
+                  	</ul>
+                </li>
+                <li><a href="checkout.html">支付</a></li>
+                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="faqs.html">常见问题FAQs</a></li>
+            </ul>
 					<div id="templatemo_search">
 						<form action="#" method="get">
 							<input type="text" value="Site Search" name="keyword"
@@ -113,7 +109,10 @@ function clearText(field)
 						<!-- 分类展示 -->
 						<div>
 							<ul class="sidebar_list">
-								<li v-for="c in category"><a href="#">{{c.cname}}</a></li>
+								<li v-for="c in category">
+								 <a :href="'clist.html#'+c.cid">
+								 {{c.cname}}</a>
+								 </li>
 
 							</ul>
 						</div>
@@ -125,7 +124,10 @@ function clearText(field)
 						<span class="bottom"></span>
 						<h1 align="center">每周特价</h1>
 						<div class="content special">
-							<img :src="flower.image" /> <a href="#">{{flower.fname}}</a>
+							<a :href="'productdetail.html#'+flower.fid"> 
+							<img :src="flower.image" />
+							</a>
+							{{flower.fname}}
 							<p>
 								Price: <span class="price normal_price">${{flower.marketPrice}}</span>&nbsp;&nbsp;
 								<span class="price special_price">${{flower.shopPrice}}</span>
