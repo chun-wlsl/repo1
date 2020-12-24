@@ -198,7 +198,7 @@ function clearText(field)
 							</tr>
 						</table>
 						<div class="cleaner h20"></div>
-						<a href="shoppingcart.html" class="button">添加购物车</a>
+						<a :href="'shoppingcart.html#'+"  @click="addCart(product.fid)"  class="button">添加购物车</a>
 					</div>
 					<div class="cleaner h40"></div>
 
@@ -240,9 +240,9 @@ function clearText(field)
 							if( res.data && res.data.uid ){
 								//console.log(this.$refs.counts.value);
 								var params = new URLSearchParams();
-								params.append("fid",this.product.pid);
+								params.append("fid",this.product.fid);
 								params.append("count",this.$refs.counts.value);
-								axios.post(" ",params).then(res=>{
+								axios.post("addCart",params).then(res=>{
 									/* alert(res.data); */
 									if(res.data.code == 1) {
 										location.href = "cart.html";

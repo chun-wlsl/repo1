@@ -28,7 +28,7 @@ public class CartAction {
 	 * @return
 	 * @throws SQLException
 	 */
-	@RequestMapping(path = "cart.s", params = "op=addCart")
+	@RequestMapping("addCart")
 	public Result addCart(int fid, int count, HttpSession session) throws SQLException {
 		// 获取当前的登录的用户
 		User user = (User) session.getAttribute("loginedUser");
