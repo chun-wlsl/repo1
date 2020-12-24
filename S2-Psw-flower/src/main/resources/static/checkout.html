@@ -14,7 +14,9 @@
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/ddsmoothmenu.js"></script>
-
+<!-- 引入vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script type="text/javascript">
 
 ddsmoothmenu.init({
@@ -152,39 +154,142 @@ function clearText(field)
     
     <div id="content" class="right">
     	<h2>Checkout</h2>
-        
-		<h3>BILLING DETAILS</h3>
-        
-            <div class="content_half left form_field">
-				Full Name (must be the same as on credit card)
-                <input name="fullname" type="text" id="fullname" maxlength="40" />
-                Address:
-      			<input name="address" type="text" id="address" maxlength="40" />
-                City:
-                <input name="city" type="text" id="city" maxlength="40" />
-                Country:
-                <input name="country" type="text" id="country" maxlength="40" />
-            </div>
-            
-            <div class="content_half right form_field">
-            	Email:
-			  <input name="email" type="text" id="email" maxlength="40" />
-                Phone:<br />
-                <input name="phone" type="text" id="phone" maxlength="40" />
-                <span>Please, specify your reachable phone number to call you for a verification.</span>
-            </div>
-            
-            <div class="cleaner h40"></div>
-            
-            <h3>SHOPPING CARD</h3>
-            <h4>TOTAL: <strong>$560</strong></h4>
-			<p><input name="terms" type="checkbox" id="terms" />
-		    I have read and accept the <a href="#">Terms of Use</a>. Validate <a href="http://sc.chinaz.com/??check?uri=referer" rel="nofollow"><strong>XHTML</strong></a> &amp; <a href="http://sc.chinaz.com/??css-validator/check/referer" rel="nofollow"><strong>CSS</strong></a>.</p>
-            <p><a href="#"><img src="images/1311260370_paypal-straight.png" alt="paypal" align="middle" /></a>&nbsp;(recommended if you have a PayPal account. Fastest way to complete your order.)</p>
-            <p><a href="#"><img src="images/flagship.jpg" alt="Flagship" align="middle" /></a>&nbsp;(free shipping for orders above $500)</p>
-            <div class="blank_box">
-        	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
-        	</div>    
+       <div class="span24" id="payform">
+		
+			<div class="step step1">
+				<ul>
+					<li  ><h3>生成订单成功</h3></li>
+					<li  >订单号:73</li>
+				</ul>
+			</div>
+		
+				<table>
+					<tbody>
+					<tr>
+						<th>图片</th>
+						<th>商品</th>
+						<th>价格</th>
+						<th>数量</th>
+						<th>小计</th>
+					</tr>
+					
+					<tr v-for="p in plist">
+						<td width="60">
+							<img :src="p.image"/>
+						</td>
+						<td>
+							<a target="_blank">{{p.pname}}</a>
+						</td>
+						<td>
+							{{p.shop_price}}
+						</td>
+						<td class="quantity" width="60">
+							{{p.count}}				
+						</td>
+						<td width="140">
+							<span class="subtotal">￥{{p.shop_price * p.count}}</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+				<dl id="giftItems" class="hidden" style="display: none;">
+				</dl>
+				<div class="total">
+					<em id="promotion"></em>
+					商品金额: <strong id="effectivePrice">￥{{sum}}元</strong>
+				</div>
+			<form id="orderForm" action="msg.html" method="post">
+				<input type="hidden" name="order.oid" value="73"/>
+				<div class="span24">
+					<p>
+							收货地址：<input name="order.addr" type="text" v-model="addr" style="width:350px" />
+								<br />
+							收货人&nbsp;&nbsp;&nbsp;：<input name="order.name" type="text" v-model="name" style="width:150px" />
+								<br /> 
+							联系方式：<input name="order.phone" type="text" v-model="phone" style="width:150px" />
+
+						</p>
+						<hr />
+						<p>
+							选择银行：<br/>
+							<input type="radio" name="pd_FrpId" value="ICBC-NET-B2C" checked="checked"/>工商银行
+							<img src="bank_img/icbc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="pd_FrpId" value="BOC-NET-B2C"/>中国银行
+							<img src="bank_img/bc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<br/>
+							<input type="radio" name="pd_FrpId" value="ABC-NET-B2C"/>农业银行
+							<img src="bank_img/abc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							
+							<input type="radio" name="pd_FrpId" value="BOCO-NET-B2C"/>交通银行
+							<img src="bank_img/bcc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<br/>
+							<input type="radio" name="pd_FrpId" value="PINGANBANK-NET"/>平安银行
+							<img src="bank_img/pingan.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="pd_FrpId" value="CCB-NET-B2C"/>建设银行
+							<img src="bank_img/ccb.bmp" align="middle"/>
+							<br/>
+							<input type="radio" name="pd_FrpId" value="CEB-NET-B2C"/>光大银行
+							<img src="bank_img/guangda.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="pd_FrpId" value="CMBCHINA-NET-B2C"/>招商银行
+							<img src="bank_img/cmb.bmp" align="middle"/>
+						</p>
+						<hr />
+						<p style="text-align:right">
+							<a >
+								<img src="images/finalbutton.gif" width="204" height="51" border="0" @click="Order()"/>
+							</a>
+						</p>
+				</div>
+			</form>
+		</div>
+		<!-- 
+		<script type="text/javascript">
+			var v1 = new Vue({
+				el :"#payform",
+				data :{
+					plist:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						if( res.data && res.data.uid ){
+							//console.log(this.$refs.counts.value);
+							axios.get("cart.s?op=queryCart").then(res=>{
+								this.plist = res.data;
+							});
+						}else {
+							alert("你尚未登录");
+							location.href = "login.html";
+						}
+					});
+				},
+				computed:{
+					sum(){
+						var sum = 0;
+						for(var i in this.plist){
+					           sum+=this.plist[i].shop_price*this.plist[i].count;
+					       }
+					    return sum;
+					}
+				},
+				methods:{
+					Order(){
+						if(confirm("确认提交?")){
+							var params = new URLSearchParams();
+							params.append("name",this.name);
+							params.append("addr",this.addr);
+							params.append("phone",this.phone);
+							axios.post("order.s",params).then(res=>{
+								alert(res.data.msg);
+								location.href = "olist.html";
+							})
+						}
+					}
+				}
+			})
+		
+		</script>
+       
+         -->
         
     </div>
     

@@ -51,36 +51,37 @@ function clearText(field)
         <div id="templatemo_menu" class="ddsmoothmenu">
             <ul>
                 <li><a href="index.html" class="selected">主页</a></li>
+               
+                <li><a href="clist.html#1">商品分类</a></li> 
                 <li><a href="about.html">关于</a></li>
-                <li><a href="clist.html#1">分类商品</a>
-                    <ul>
-                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  	</ul>
-                </li>
                 <li><a href="checkout.html">支付</a></li>
                 <li><a href="contact.html">联系我们</a></li>
-                <li><a href="faqs.html">常见问题FAQs</a></li>
+                <li><a href="faqs.html">常见问题解答</a></li>
+                <li id="headerLogin" class="headerLogin"
+				style="display: list-item;"><a href="olist.html">我的订单</a></li>
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null">{{user.name}}</a>|
+				</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
             </ul>
-            <div id="templatemo_search">
-                <form action="#" method="get">
-                  	<input type="text" value="Site Search" name="keyword" id="keyword" title="keyword" 
-                  			onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                  	<input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn" />
-                </form>
-            </div>
+           
             <br style="clear: left" />
         </div> 
         <a href="http://sc.chinaz.com" title="请单击此处"  class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="请单击此处" alt="请单击此处" /></a><!-- end of templatemo_menu -->
 
-        <div class="slider-wrapper theme-orman">
+        <div class="slider-wrapper theme-orman"  >
             <div class="ribbon"></div>
+            
             <div id="slider" class="nivoSlider">
                 <img src="images/portfolio/01.jpg" alt="slider image 1" />
-                <a href="http://sc.chinaz.com/?page/1" rel="nofollow">
+                <a href="" rel="nofollow">
                 	<img src="images/portfolio/02.jpg" alt="slider image 2" title="This is an example of a caption" />
                 </a>
                 <img src="images/portfolio/03.jpg" alt="slider image 3" />
@@ -88,7 +89,7 @@ function clearText(field)
                 <img src="images/portfolio/05.jpg" alt="slider image 5" title="#htmlcaption" />
             </div>
             <div id="htmlcaption" class="nivo-html-caption">
-                <strong>Example</strong> caption with <a href="http://sc.chinaz.com" rel="nofollow">a credit link</a> for <em>this slider</em>.
+               
             </div>
         </div> 
 		<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
@@ -101,6 +102,38 @@ function clearText(field)
         });
         </script>
     </div> <!-- END of header -->
+    
+    <script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
@@ -193,30 +226,37 @@ function clearText(field)
                 <a href="shoppingcart.html">Add to Cart</a>
             </p>
         </div>  -->
-       
+        <span  v-for="f in flist">
         <div  class="product_box"  style="width: 165px">
-          <span  v-for="f in flist">
+          
 	            <a :href="'productdetail.html#'+f.fid">
 	            <img :src="f.image" alt="flowers 1" />
 	            </a>
 	      		<h3>{{f.fname}}</h3>
-	            <p class="product_price">{{f.marketPrice}}</p>
+	            <p class="product_price">￥{{f.marketPrice}}</p>
 	            <p class="add_to_cart">
-	                <a :href="'productdetail.html#'+f.fid">Detail</a>
-	                <a href="shoppingcart.html">Add to Cart</a>
+	                <a :href="'productdetail.html#'+f.fid">详情</a>
+	                <a href="shoppingcart.html">添加购物车</a>
 	            </p>
-	       </span>
+	       
         </div> 
-            
+         </span>    
             	
+    
+        
+        <div class="blank_box">
+        	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
+        </div>    
+    </div>
+    
       <script>
      var v1= new Vue({
-			el:".product_box",
+			el:"#content",
 			data:{
 				flist:[]
 			},
 			created(){
-				axios.get("queryHot").then(res=>{
+				axios.get("queryProduct").then(res=>{
 					this.flist = res.data;
 				})
 			}
@@ -227,11 +267,6 @@ function clearText(field)
       
       
       </script>
-        
-        <div class="blank_box">
-        	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
-        </div>    
-    </div>
     <div class="cleaner"></div>
 </div> <!-- END of main -->
 </div> <!-- END of main wrapper -->
