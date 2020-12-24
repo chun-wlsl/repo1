@@ -178,7 +178,7 @@ function clearText(field)
 							<img :src="p.image"/>
 						</td>
 						<td>
-							<a target="_blank">{{p.pname}}</a>
+							<a target="_blank">{{p.fname}}</a>
 						</td>
 						<td>
 							{{p.shop_price}}
@@ -196,7 +196,7 @@ function clearText(field)
 				</dl>
 				<div class="total">
 					<em id="promotion"></em>
-					商品金额: <strong id="effectivePrice">￥{{sum}}元</strong>
+					商品金额: <strong id="effectivePrice">￥{{total}}元</strong>
 				</div>
 			<form id="orderForm" action="msg.html" method="post">
 				<input type="hidden" name="order.oid" value="73"/>
@@ -242,7 +242,7 @@ function clearText(field)
 				</div>
 			</form>
 		</div>
-		<!-- 
+		 
 		<script type="text/javascript">
 			var v1 = new Vue({
 				el :"#payform",
@@ -263,12 +263,12 @@ function clearText(field)
 					});
 				},
 				computed:{
-					sum(){
-						var sum = 0;
+					total(){
+						var total = 0;
 						for(var i in this.plist){
-					           sum+=this.plist[i].shop_price*this.plist[i].count;
+					           total+=this.plist[i].shop_price*this.plist[i].count;
 					       }
-					    return sum;
+					    return total;
 					}
 				},
 				methods:{
@@ -280,7 +280,7 @@ function clearText(field)
 							params.append("phone",this.phone);
 							axios.post("order.s",params).then(res=>{
 								alert(res.data.msg);
-								location.href = "olist.html";
+								location.href = "checkout.html";
 							})
 						}
 					}
@@ -289,7 +289,7 @@ function clearText(field)
 		
 		</script>
        
-         -->
+        
         
     </div>
     
