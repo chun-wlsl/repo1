@@ -176,7 +176,9 @@ function clearText(field)
             </script>
 
 				<!-- 商品详情 -->
+		
 				<div id="content" class="right">
+				
 					<h1>商品详情</h1>
 					<div class="content_half left">
 						<a rel="lightbox"  href="images/product/image_01_l.jpg"><img
@@ -198,7 +200,7 @@ function clearText(field)
 							</tr>
 						</table>
 						<div class="cleaner h20"></div>
-						<a :href="'shoppingcart.html#'+"  @click="addCart(product.fid)"  class="button">添加购物车</a>
+						<a href="cart.html" @click="addCart(product.fid)"  class="button">添加购物车</a>
 					</div>
 					<div class="cleaner h40"></div>
 
@@ -218,9 +220,9 @@ function clearText(field)
 						<a href="#"><img src="images/free_shipping.jpg"
 							alt="Free Shipping" /></a>
 					</div>
-				</div>
+			
 
-
+</div>	
 				<script type="text/javascript">
 				var v4 = new Vue({
 				el : "#content",

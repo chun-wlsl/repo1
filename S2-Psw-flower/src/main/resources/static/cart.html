@@ -44,40 +44,98 @@ function clearText(field)
 
 <div id="templatemo_wrapper_sp">
 <div id="templatemo_header_wsp">
-	<div id="templatemo_header" class="header_subpage">
+	<div id="templatemo_header" class="header_home">
     	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="products.html">Products</a>
-                    <ul>
-                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  	</ul>
-                </li>
-                <li><a href="checkout.html">Checkout</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="index.html" class="selected">主页</a></li>
+               
+                <li><a href="clist.html#1">商品分类</a></li> 
+                <li><a href="about.html">关于</a></li>
+                <li><a href="checkout.html">支付</a></li>
+                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="faqs.html">常见问题解答</a></li>
+                <li id="headerLogin" class="headerLogin"
+				style="display: list-item;"><a href="olist.html">我的订单</a></li>
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null">{{user.name}}</a>|
+				</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
             </ul>
-            <div id="templatemo_search">
-                <form action="#" method="get">
-                  	<input type="text" value="Site Search" name="keyword" id="keyword" title="keyword" 
-                  			onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                  	<input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn" />
-                </form>
-            </div>
+           
             <br style="clear: left" />
         </div> 
-        <a href="http://sc.chinaz.com" title="图像"  class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="图像"  /></a><!-- end of templatemo_menu -->
+        <a href="http://sc.chinaz.com" title="请单击此处"  class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="请单击此处" alt="请单击此处" /></a><!-- end of templatemo_menu -->
 
+        <div class="slider-wrapper theme-orman"  >
+            <div class="ribbon"></div>
+            
+            <div id="slider" class="nivoSlider">
+                <img src="images/portfolio/01.jpg" alt="slider image 1" />
+                <a href="" rel="nofollow">
+                	<img src="images/portfolio/02.jpg" alt="slider image 2" title="This is an example of a caption" />
+                </a>
+                <img src="images/portfolio/03.jpg" alt="slider image 3" />
+                <img src="images/portfolio/04.jpg" alt="slider image 4" title="#htmlcaption" />
+                <img src="images/portfolio/05.jpg" alt="slider image 5" title="#htmlcaption" />
+            </div>
+            <div id="htmlcaption" class="nivo-html-caption">
+               
+            </div>
+        </div> 
+		<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.nivo.slider.pack.js"></script>
+        <script type="text/javascript">
+        $(window).load(function() {
+            $('#slider').nivoSlider({
+				controlNav:false
+			});
+        });
+        </script>
     </div> <!-- END of header -->
+    
+    <script type="text/javascript">
+			var v5= new Vue({
+				el:".header_home",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main" >
+
 	<div id="sidebar" class="left">
 	
 	
@@ -156,29 +214,22 @@ function clearText(field)
     
     
     <div  class="right" >
-    	<h2>Shopping Cart</h2>
+    
+    	<h2>购物车</h2>
 		<table width="700" border="0" cellpadding="5" cellspacing="0">
           	<tr bgcolor="#395015">
-                <th width="168" align="left">Item</th> 
-                <th width="188" align="left">Description</th> 
-                <th width="60" align="center">Quantity</th> 
-                <th width="80" align="right">Price</th> 
-                <th width="80" align="right">Total</th> 
+                <th width="168" align="left">图片</th> 
+                <th width="188" align="left">名字</th> 
+                <th width="60" align="center">数量</th> 
+                <th width="80" align="right">价格</th> 
+                <th width="80" align="right">商品总价</th> 
                 <th width="64"> </th>
           	</tr>
           	
             <tr bgcolor="#41581B" v-for="p in plist">
                 <td><img :src="p.image" alt="flower image 1" /></td> 
-                <td>{{p.fname}}<</td> 
-                <td align="center">
-              
-                
-                <td name="quantity1" id="quantity1" size="6" maxlength="2" /> 
-                
-				
-						{{p.count}}
-				
-                </td></td>
+                <td>{{p.fname}}</td> 
+                <td class="quantity" width="60">{{p.count}}</td>
                 
                 <!--   
                 <button @click="addP(p,-1)">-</button>
@@ -189,8 +240,8 @@ function clearText(field)
                 <td align="right">￥{{p.shop_price}}</td> 
                 <td align="right">￥{{p.shop_price*p.count}}</td>
                 <td align="center"> 
-                <a href="#" @click="deleteCart(p.fid)">
-                <img src="images/remove.png" alt="remove" /><br />Remove</a> 
+                <a href="cart.html" @click="deleteCart(p.fid)">
+                <img src="images/remove.png" alt="remove" /><br />删除</a> 
                 </td>
             </tr>
            
@@ -201,6 +252,8 @@ function clearText(field)
                 <td> </td>
             </tr>
         </table>
+        
+      
 		<div class="cleaner h20"></div>
         <div class="right"><a href="checkout.html" class="button">checkout</a></div>
         <div class="cleaner h20"></div>
@@ -208,18 +261,9 @@ function clearText(field)
         	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
         </div>    
     </div>
-    
-    
-    
-    
-    
-    <div class="cleaner"></div>
-</div> <!-- END of main -->
-
-
-<script type="text/javascript">
+    <script >
 			var v11 = new Vue({
-				el :"#templatemo_main",
+				el :".right",
 				data :{
 					plist:[]
 				},
@@ -263,6 +307,15 @@ function clearText(field)
 			})
 		
 		</script>
+    
+    
+    
+    
+    
+    <div class="cleaner"></div>
+</div> <!-- END of main -->
+
+
 
 
 </div> <!-- END of main wrapper -->
