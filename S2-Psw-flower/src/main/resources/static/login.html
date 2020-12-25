@@ -34,7 +34,7 @@
                         	el:"#loginForm",
                         	data:{
                         		username:"",
-								password:"",
+								password:""
                         	},
                         	methods:{
                         		login(){
@@ -43,12 +43,20 @@
     								params.append("password",this.password);
     								axios.post("login.s",params).then(res=>{
     									alert(res.data.msg);
+<<<<<<< HEAD
     						
     									if(res.data.code==0){
     										location.href="register.html";
+=======
+    									if(res.data.code==1){
+    										location.href="index.html";
+>>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
     									}
     									
+<<<<<<< HEAD
     									location.href="index.html";
+=======
+>>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
     								}).catch(error=>{
     									alert("系统错误，请联系管理员");
     								})

@@ -29,4 +29,11 @@ public class UserTest {
 		user.setEmail("1111@qq.com");
 		uAction.reg(user, null);
 	}
+	
+	
+	@Test
+	public void test3() {
+	   int i=uAction.queryAll();
+	   System.out.println("总用户数："+i);
+	}
 }

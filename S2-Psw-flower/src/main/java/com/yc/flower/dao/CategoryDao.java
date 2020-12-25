@@ -33,6 +33,7 @@ public class CategoryDao extends BaseDao{
 			c.setIntro(rs.getString("intro"));
 			return c;
 		}
+<<<<<<< HEAD
 	};
 
 	public void insert(Category f) {
@@ -44,4 +45,19 @@ public class CategoryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		
 	} 
+=======
+	}; 
+	
+	
+	public int  insertCategory(Category c) {
+		
+		String sql="insert into category vaules (null,?,?) ";
+		
+		return jt.update(sql,
+				c.getCname(),
+				c.getIntro()
+				);
+	}
+	
+>>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
 }
