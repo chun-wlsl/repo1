@@ -34,7 +34,7 @@
                         	el:"#loginForm",
                         	data:{
                         		username:"",
-								password:"",
+								password:""
                         	},
                         	methods:{
                         		login(){
@@ -43,11 +43,10 @@
     								params.append("password",this.password);
     								axios.post("login.s",params).then(res=>{
     									alert(res.data.msg);
-    						
     									if(res.data.code==1){
     										location.href="index.html";
     									}
-    									location.href="register.html"
+    									
     								}).catch(error=>{
     									alert("系统错误，请联系管理员");
     								})

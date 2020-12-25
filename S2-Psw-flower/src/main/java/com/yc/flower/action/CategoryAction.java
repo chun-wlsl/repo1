@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Category;
+import com.yc.flower.bean.Result;
 import com.yc.flower.dao.CategoryDao;
 
 @RestController
@@ -22,4 +23,12 @@ public class CategoryAction {
 	   return cdao. queryCategory();
 	}
 	
+	
+	//新增商品分类
+	@RequestMapping("insertCategory")
+	public Result insertCategory(Category c) {
+		cdao.insertCategory(c);
+		return Result.success("商品分类添加成功!");
+		
+	}
 }
