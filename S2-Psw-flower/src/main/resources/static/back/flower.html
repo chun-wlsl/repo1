@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>鲜花管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<style type="text/css">
+input{
+	width:200px
+}
+</style>
+
+<script type="text/javascript">
+//图片字段的格式化方法
+function fmtImg(value, row, index){
+	return "<img height='100px' src='../"+value+"'>";
+}
+
+//出版日期字段的格式化方法
+function fmtDate(date){
+	var x = date.getFullYear();
+	var y = date.getMonth()+1;
+	var z = date.getDate();
+	return x+"-"+y+"-"+z;
+}
+
+function query(){
+	$('#dg').datagrid('load',{
+		fname: $("#fname").textbox('getValue'),
+		cid: $("#cid").textbox('getValue'),
+		isHot: $("#isHot").checkbox('getValue'),
+	});
+}
+
+//操作字段的格式化方法
+function fmtOp(value, row, index){
+	return "<button onclick='edit("+index+")'>修改</button>";
+}
+
+//打开修改窗口
+function edit(index){
+	$("#dd").dialog('open');
+	//index 有值就是修改表格中的某一行记录，否则是新增
+	//下标从0开始，0是false
+	//edit不传参 index为undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		rows[index].isHot = rows[index].is_hot;
+		rows[index].marketPrice = rows[index].market_price;
+		rows[index].shopPrice = rows[index].shop_price;
+		upImg.src = "../" + rows[index].image;
+		$("#ff").form('load',rows[index]);
+	}else{
+		$("#ff").form('clear');
+	}
+	
+}
+
+function save(){
+	//easyui 的表单的ajax提交方式
+	$('#ff').form('submit',{
+		url : '../',
+		onSubmit: function(param){
+			//扩展请求参数
+			param = "save";
+		},
+		success : res=>{
+			//原有的 res==> 消息，现在的  res==> json对象{code, msg, data}
+			//easyui的res需要手动转换
+			res = JSON.parse(res);
+			alert(res.msg);
+			if(res.code == 1){
+				//关闭窗口
+				$('#dd').dialog('close');
+				//刷新表格
+				$('#dg').datagrid('reload');
+			}
+			//否则什么都不做
+		}
+	});
+}
+
+function upload(newValue, oldValue){
+	//url = ""，表单提交时，地址为空，默认以当前页面的请求地址发出请求
+	var url = "../UploadServlet";
+	/**
+	products/upload/1.jpg
+	
+	product.html:85 Uncaught TypeError: 
+		Failed to construct 'FormData': 
+			parameter 1 is not of type 'HTMLFormElement'.是String对象
+	*/
+	var fd = new FormData(ff);
+	//ajax的res自动转换
+	axios.post(url, fd).then(res=>{
+		alert(res.data.msg);
+		if(res.data.code){
+			//第一个是axios封装的从服务器返回的数据，是一个data对象
+			//第二个是我们自己的data 也就是 Reault.java文件中的data
+			//upImg是原生的HTML控件对象
+			if(res.data.data.indexOf("/") != 0){
+				//不以 / 开头的图片
+				upImg.src = "../" + res.data.data;
+			}else{
+				//以 / 开头的图片( 上传的图片 )
+				upImg.src = res.data.data;
+			}
+			//tbImg是easyui的控件对象
+			$("#tbImg").textbox('setValue', res.data.data);
+		}
+	});
+}
+</script>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:50px">
+			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
+			<input class="easyui-textbox" label="名称：" style="width:200px" id="fname">
+			<input class="easyui-combobox" label="分类：" style="width:200px" id="cid"
+				data-options="url:'../queryCategory', valueField:'id', textField:'cname'">
+			<input class="easyui-checkbox" label="热卖：" style="width:20px" id="isHot" value=1>
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-search'"
+				onclick="query()">查询</a>
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-add'"
+				onclick="edit()">添加</a>
+		</div>
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
+			<table class="easyui-datagrid" id="dg"
+					data-options="
+						url:'../queryAllProduct',
+						method:'get',
+						border:false,
+						singleSelect:true,
+						fit:true,
+						fitColumns:true,
+						pagination:true">
+				<thead>
+					<tr>
+						<th data-options="field:'fid', width:100">编号</th>
+						<th data-options="field:'fname', width:100">花名</th>
+						<th data-options="field:'marketPrice', width:100">商城价</th>
+						<th data-options="field:'discount', width:100">折扣</th>
+						<th data-options="field:'shopPrice', width:100">销售价</th>
+						<th data-options="field:'image', width:100, formatter:fmtImg, align:'center'">图片</th>
+						<th data-options="field:'cid', width:100">种类</th>
+						<th data-options="field:'isHot', width:50">热卖</th>
+						<th data-options="field:'fdate', width:100">上架日期</th>
+						<th data-options="field:'fcount', width:100">库存</th>
+						<th data-options="field:'advice', width:100">建议</th>
+						<!--  -->
+						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+	<!-- 图书编辑窗口 -->
+	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
+		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
+		<form id="ff">
+			<input class="easyui-textbox" name="fid" label="编号"><br> 
+			<input class="easyui-textbox" name="fname" label="花名"><br> 
+			<input class="easyui-numberbox" name="marketPrice" label="商城价"><br> 
+			<input class="easyui-numberbox" name="shopPrice" label="销售价"><br> 
+			<input class="easyui-textbox" name="image" label="图片" id=tbImg><br>
+			<input class="easyui-filebox" label="选择" name="file" id="file"
+				data-options="onChange:upload"><br>
+			<input class="easyui-combobox" name="cid" label="种类" 
+				data-options="url:'../queryCategory', valueField:'id', textField:'cname'"><br> 
+			<input class="easyui-textbox" name="isHot" label="热卖"><br>
+			<input class="easyui-textbox" name="fcount" label="库存"><br>			
+			<input class="easyui-textbox" name="advice" label="建议"><br>
+			<img alt="" src="" height="100px" id="upImg"
+				onclick="filebox_file_id_1.click()">
+		</form>
+	</div>
+	<div id="bb">
+		<a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+		<a href="#" class="easyui-linkbutton">取消</a>
+	</div>
+</body>
+</html>

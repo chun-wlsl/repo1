@@ -48,21 +48,22 @@ function clearText(field)
     	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
             <ul>
-                <li><a href="index.html">家</a></li>
+                <li><a href="index.html">主页</a></li>
+               
+                <li><a href="clist.html#1">商品分类</a></li> 
                 <li><a href="about.html">关于</a></li>
-           		<li><a href="products.html">鲜花展示</a>
-                    <ul>
-                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  </ul>
-                </li>
-                <li><a href="checkout.html">查看订单</a></li>
+                <li><a href="checkout.html">支付</a></li>
                 <li><a href="contact.html" class="selected">联系我们</a></li>
-                <li><a href="faqs.html">常见问题</a></li>
+                <li><a href="faqs.html">常见问题解答</a></li>
+                <li id="headerLogin" class="headerLogin" style="display: list-item;"><a href="olist.html">我的订单</a></li>
+               
+                <li id="headerLogin" class="headerLogin" style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null">{{user.name}}</a>|
+				</li>
+				<li id="headerRegister" class="headerRegister" style="display: list-item;"><a @click="logout()">退出</a>|</li>
             </ul>
+           
             <div id="templatemo_search">
                 <form action="#" method="get">
                   	<input type="text" value="Site Search" name="keyword" id="keyword" title="keyword" 
@@ -75,6 +76,32 @@ function clearText(field)
         <a href="http://sc.chinaz.com" title="免费的图像搜索"  class="site_repeat" ><img src="images/top_repeat.png" title="免费的图像搜索" alt="免费的图像搜索" /></a><!-- end of templatemo_menu -->
 
     </div> <!-- END of header -->
+    <script type="text/javascript">
+    var v5= new Vue({
+		el:"#templatemo_header",
+		data:{
+			user:{},
+	        flo:[]
+		},
+		created(){
+			axios.get("getLoginedUser").then(res=>{
+				this.user = res.data;
+			});
+		},
+		methods:{
+			logout(){
+				if(confirm("确定要退出登录?")){
+					axios.get("out.s").then(res=>{
+						alert(res.data.msg);
+						location.href = "index.html";
+					});
+				}
+			}
+		}
+	})
+    </script>
+    
+    
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
@@ -155,6 +182,7 @@ function clearText(field)
                     <div class="cleaner h10"></div>
                     <input type="button" @click="addMsg()" class="submit_btn left" name="submit" id="submit" value="发送" />
                     <input type="reset" class="submit_btn submit_right" name="reset" id="reset" value="重置" />
+                    <a href="topic.html">留言板</a>
 				</div>
                 <script type="text/javascript">
                 var vue3 = new Vue({

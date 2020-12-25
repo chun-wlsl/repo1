@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>后台主页</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	
+	
+</script>
+</head>
+<body>
+	<div id="layout" class="easyui-layout" fit="true" style="visibility:hidden;">>
+		<div data-options="region:'north'" style="height:100px">
+			<img src="img/logo.png" class="logo" style="width:100px"/>
+			<div class="top-btns">
+				<span>欢迎您，管理员</span>
+				<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
+				<select class="easyui-combobox" data-options="editable:false">
+					<option value="0" selected="selected">中文</option>
+					<option value="1">English</option>
+				</select>
+			</div>
+		</div>
+		
+		<div data-options="region:'south',split:true," style="height:50px;">某某后台管理系统 V1.0</div>
+		
+		<div class="easyui-accordion" data-options="region:'west',split:true" title="菜单区" style="width:200px;">
+			<div class="easyui-accordion" fit="true" id="navmenu">
+				<div title="基础数据维护" data-options="iconCls:'icon-ok'">
+					<ul class="navmenu">
+						<li class="active"><a href="#">首页</a></li>	
+						<li><a href="#" data-url="books.html">图书管理</a></li>
+						<li><a href="#" data-url="">指标库列表</a></li>
+					</ul>
+				</div>
+			
+				<div title="物流信息查询" data-options="iconCls:'icon-ok'" style="padding:10px;">
+				</div>
+				<div title="财务报表" data-options="iconCls:'icon-ok'" style="padding:10px;">
+				</div>
+			</div>
+		</div>
+		<div id="tt" class="easyui-tabs" data-options="region:'center',title:'功能区',iconCls:'icon-ok',fit:true">
+			<div title="Home" style="padding:10px;">
+				jQuery easyui framework help you build your web page easily.
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+			$(function() {
+				//添加新的Tab页
+				$("#navmenu").on("click", "a[data-url]", function(e) {
+					e.preventDefault();
+					var tabTitle = $(this).text();
+					var tabUrl = $(this).data("url");
+					
+					if($("#tt").tabs("exists", tabTitle)) { //判断该Tab页是否已经存在
+						$("#tt").tabs("select", tabTitle);
+					}else {
+						$("#tt").tabs("add", {
+							title: tabTitle,
+							href: tabUrl,
+							closable: true
+						});
+					}
+					$("#navmenu .active").removeClass("active");
+					$(this).parent().addClass("active");
+				});
+				
+				//解决闪屏的问题
+				window.setTimeout(function() {
+					$("#layout").css("visibility", "visible");
+				}, 800);
+			});
+		</script>
+</body>
+</html>

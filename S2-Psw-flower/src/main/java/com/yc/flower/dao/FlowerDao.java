@@ -88,6 +88,13 @@ public class FlowerDao extends BaseDao{
 				return f;
 			}
 		};
+
+
+		//查找所有的商品
+		public List<Flower> selectAllFlower() {
+			String sql = "select * from flower where 1=1";
+			return jt.query(sql, flowerRowMapper);
+		}
 		
 		
 		

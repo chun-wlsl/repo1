@@ -62,4 +62,9 @@ public class FlowerAction {
 		}
 	}
    
+   	//查找所有的商品
+   	@RequestMapping("queryAllProduct")
+	public List<Flower> queryAllProduct(){
+		return fdao.selectAllFlower();
+	}
 }
