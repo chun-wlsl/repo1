@@ -19,9 +19,7 @@ input{
 
 function query(){
 	$('#dg').datagrid('load',{
-		fname: $("#fname").textbox('getValue'),
-		cid: $("#cid").textbox('getValue'),
-		//isHot: $("#isHot").checkbox('getValue')
+		cname: $("#cname").textbox('getValue'),
 	});
 }
 
@@ -77,6 +75,7 @@ function save(){
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'north'" style="height:50px">
 			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
+			<input class="easyui-textbox" label="名称：" style="width:200px" id="cname">
 			<a id="btn" href="#" class="easyui-linkbutton"
 				data-options="iconCls:'icon-search'"
 				onclick="query()">查询</a>
@@ -87,7 +86,7 @@ function save(){
 		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
 			<table class="easyui-datagrid" id="dg"
 					data-options="
-						url:'../queryAllProduct',
+						url:'../queryCategory',
 						method:'get',
 						border:false,
 						singleSelect:true,
@@ -111,7 +110,7 @@ function save(){
 	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
 		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
 		<form id="ff" style="margin:0 auto;width: 200px;">
-			<input class="easyui-textbox" name="cname" label="鲜花种类名称"><br> 
+			<input class="easyui-textbox" name="cname" label="种类名称"><br> 
 			<input class="easyui-textbox" name="intro" label="介绍"><br>
 		</form>
 	</div>
