@@ -44,7 +44,10 @@
     								axios.post("login.s",params).then(res=>{
     									alert(res.data.msg);
     						
-    									location.href="index.html";
+    									if(res.data.code==1){
+    										location.href="index.html";
+    									}
+    									location.href="register.html"
     								}).catch(error=>{
     									alert("系统错误，请联系管理员");
     								})

@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Home</title>
-<meta name="keywords" content="free template,  ecommerce, online shopping, store" />
-<meta name="description" content="Floral Shop is free website template for ecommerce or online shopping websites. Products, Shopping Cart, FAQs and Checkout pages are included." />
-<link rel="stylesheet" href="templatemo_style.css" type="text/css" />
+<title> Shopping Cart</title>
+<meta name="keywords" content="free template, shopping cart, floral, ecommerce, online, store" />
+<meta name="description" content="Floral, Shopping Cart, free template for ecommerce websites." />
+<link href="templatemo_style.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="css/orman.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
@@ -14,6 +14,10 @@
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/ddsmoothmenu.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
 
 <script type="text/javascript">
 
@@ -33,19 +37,13 @@ function clearText(field)
 
 </script>
 
-<link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" /> 
-<script type="text/JavaScript" src="js/slimbox2.js"></script> 
-<!-- 引入vue -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
-
 
 </head>
 
 <body>
 
-<div id="templatemo_wrapper_h">
-<div id="templatemo_header_wh">
+<div id="templatemo_wrapper_sp">
+<div id="templatemo_header_wsp">
 	<div id="templatemo_header" class="header_home">
     	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
@@ -105,7 +103,7 @@ function clearText(field)
     
     <script type="text/javascript">
 			var v5= new Vue({
-				el:"#templatemo_header",
+				el:".header_home",
 				data:{
 					user:{},
 			        flo:[]
@@ -136,7 +134,8 @@ function clearText(field)
 		</script>
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
-<div id="templatemo_main">
+<div id="templatemo_main" >
+
 	<div id="sidebar" class="left">
 	
 	
@@ -214,61 +213,111 @@ function clearText(field)
             </script>
     
     
-    <div id="content" class="right">
-		<h2>欢迎来到绿艺鲜花</h2>
-	
-       <!-- <div class="product_box">
-            <a href="productdetail.html"><img src="images/product/02.jpg" alt="flowers 2" /></a>
-            <h3>Donec Est Nisi</h3>
-          	<p class="product_price">$160</p>
-            <p class="add_to_cart">
-                <a href="productdetail.html">Detail</a>
-                <a href="shoppingcart.html">Add to Cart</a>
-            </p>
-        </div>  -->
-        <span  v-for="f in flist">
-        <div  class="product_box"  style="width: 165px">
-          
-	            <a :href="'productdetail.html#'+f.fid">
-	            <img :src="f.image" alt="flowers 1" />
-	            </a>
-	      		<h3>{{f.fname}}</h3>
-	            <p class="product_price">￥{{f.marketPrice}}</p>
-	            <p class="add_to_cart">
-	                <a :href="'productdetail.html#'+f.fid">详情</a>
-	                <a href="shoppingcart.html">添加购物车</a>
-	            </p>
-	       
-        </div> 
-         </span>    
-            	
+    <div  class="right" >
     
+    	<h2>购物车</h2>
+		<table width="700" border="0" cellpadding="5" cellspacing="0">
+          	<tr bgcolor="#395015">
+                <th width="168" align="left">图片</th> 
+                <th width="188" align="left">名字</th> 
+                <th width="60" align="center">数量</th> 
+                <th width="80" align="right">价格</th> 
+                <th width="80" align="right">商品总价</th> 
+                <th width="64"> </th>
+          	</tr>
+          	
+            <tr bgcolor="#41581B" v-for="p in plist">
+                <td><img :src="p.image" alt="flower image 1" /></td> 
+                <td>{{p.fname}}</td> 
+                <td class="quantity" width="60">{{p.count}}</td>
+                
+                <!--   
+                <button @click="addP(p,-1)">-</button>
+						{{p.count}}
+				<button @click="addP(p,1)">+</button> -->
         
+                
+                <td align="right">￥{{p.shop_price}}</td> 
+                <td align="right">￥{{p.shop_price*p.count}}</td>
+                <td align="center"> 
+                <a href="cart.html" @click="deleteCart(p.fid)">
+                <img src="images/remove.png" alt="remove" /><br />删除</a> 
+                </td>
+            </tr>
+           
+      <tr bgcolor="#41581B">
+                <td colspan="3">Have you modified item quantities? Please <a href="shoppingcart.html"><strong>Update</strong></a> the Cart.&nbsp;&nbsp;</td>
+                <td align="right"><h4>All Total:</h4></td>
+                <td align="right"><h4>￥{{total}}</h4></td>
+                <td> </td>
+            </tr>
+        </table>
+        
+      
+		<div class="cleaner h20"></div>
+        <div class="right"><a href="checkout.html" class="button">checkout</a></div>
+        <div class="cleaner h20"></div>
         <div class="blank_box">
         	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
         </div>    
     </div>
+    <script >
+			var v11 = new Vue({
+				el :".right",
+				data :{
+					plist:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						if( res.data && res.data.uid ){
+							axios.get("cart.s?op=queryCart").then(res=>{
+								this.plist = res.data;
+							});
+						}else {
+							alert("你尚未登录");
+							location.href = "login.html";
+						}
+					});
+				},
+				computed:{
+					total(){
+						var total = 0;
+						for(var i in this.plist){
+					           total+=this.plist[i].shop_price*this.plist[i].count
+					       }
+					    return total;
+					}
+				},
+				methods:{
+					deleteCart(fid){
+						if(confirm("确定删除该商品?")){
+							axios.get("cart.s?op=deleteCart&fid="+fid).then(res=>{
+								alert(res.data.msg);
+							})
+						}
+					},
+					clearCart(){
+						if(confirm("确定要清空购物车?")){
+							axios.get("cart.s?op=clearCart").then(res=>{
+								alert(res.data.msg);
+							})
+						}
+					}
+				}
+			})
+		
+		</script>
     
-      <script>
-     var v1= new Vue({
-			el:"#content",
-			data:{
-				flist:[]
-			},
-			created(){
-				axios.get("queryProduct").then(res=>{
-					this.flist = res.data;
-				})
-			}
-		})
-      
-      
-      
-      
-      
-      </script>
+    
+    
+    
+    
     <div class="cleaner"></div>
 </div> <!-- END of main -->
+
+
+
+
 </div> <!-- END of main wrapper -->
 
 <div id="templatemo_footer_wrapper">
@@ -279,7 +328,7 @@ function clearText(field)
         <a href="#"><img src="images/1311260374_visa-straight.png" alt="Visa" /></a>
     </div>
 	<div class="footer_right">
-		<p>Copyright &copy; 2014.Company name All rights reserved.</p>
+		<p>Copyright &copy; 2014.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/?moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
 	</div>
     <div class="cleaner"></div>
 </div> <!-- END of footer -->

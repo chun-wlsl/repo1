@@ -23,13 +23,6 @@ public class CartDao extends BaseDao {
 	}
 
 	public void addCart(int uid, int fid, int count) throws SQLException {
-		/*
-		 * String sql = "select * from cart where uid=? and pid=?"; if
-		 * (DBHelper.selectOne(sql, uid,pid) != null) { sql =
-		 * "update cart set count=count+? where uid=? and pid=?"; DBHelper.update(sql,
-		 * count, uid, pid); } else { sql = "insert into cart values(null,?,?,?)";
-		 * DBHelper.update(sql, uid, pid, count); }
-		 */
 
 		String sql = "update cart set count=count+? where uid=? and fid=?";
 		if (jt.update(sql, count, uid, fid) == 0) {
@@ -38,12 +31,18 @@ public class CartDao extends BaseDao {
 		}
 	}
 
-	public void deleteCart(String fid) {
+	//个别
+	public void deleteCart(Integer fid) {
 		String sql = "delete from cart where fid=?";
-
 		jt.update(sql, fid);
 
 	}
+	
+	
+	/**public void deleteByUid(Integer uid) {
+		jt.update("delete from cart where uid=?", uid);
+	}
+*/
 
 	//清除uid用户的购物车
 	public void clearCart(Integer iUid) throws SQLException {
@@ -59,7 +58,7 @@ public class CartDao extends BaseDao {
 	//搜索用户uid的购物车
 	public List<Map<String, Object>> selectCart(Integer uid) {
 		return jt.queryForList("select * from cart a" + " left join user b on a.uid=b.uid"
-				+ " left join product c on a.fid=c.fid" + " where a.uid=?", uid);
+				+ " left join flower c on a.fid=c.fid" + " where a.uid=?", uid);
 	}
 
 	private RowMapper<Cart> cartRowMapper = new RowMapper<Cart>() {
@@ -92,10 +91,9 @@ public class CartDao extends BaseDao {
 	 * 
 	 * @param uid
 	 */
-	public void deleteByUid(Integer uid) {
-		jt.update("delete from cart where uid=?", uid);
-	}
-
+	
+	
+	
 	/*
 	 * 更新购物车
 	 */

@@ -1,5 +1,7 @@
 package com.yc.flower.biz;
 
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class OrderBiz {
 	private OrderDao odao;
 	
 	@Transactional
-	public void pay(Order order) throws BizException{
+	public void pay(Order order) throws BizException, SQLException{
 
 		// 验证输入值
 		Utils.checkNull(order.getAddr(), "请填写收货地址");
@@ -41,7 +43,7 @@ public class OrderBiz {
 		order.setOid(oid);
 		odao.insertItems(order);
 		// 清空购物车 cart ==> uid
-		cdao.deleteByUid(order.getUid());
+		cdao.clearCart(order.getUid());
 
 	}
 	
