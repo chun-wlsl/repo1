@@ -52,11 +52,11 @@ public class OrderDao extends BaseDao{
 				"	NULL,\n" +
 				"	a.count,\n" +
 				"	a.count * b.shop_price,\n" +
-				"	a.pid,\n" +
+				"	a.fid,\n" +
 				"	?\n" +
 				"FROM\n" +
 				"	cart a\n" +
-				"JOIN flower b ON a.pid = b.pid\n" +
+				"JOIN flower b ON a.fid = b.fid\n" +
 				"WHERE\n" +
 				"	a.uid = ?";
 		jt.update(sql, order.getOid(), order.getUid());
@@ -65,7 +65,7 @@ public class OrderDao extends BaseDao{
 	public List<Map<String,Object>> selectOrders(Integer uid) {
 		return jt.queryForList("select * from order a "
 				+ "left join orderitem b on a.oid=b.oid"
-				+ " left join flower c on b.pid=c.pid "
+				+ " left join flower c on b.fid=c.fid "
 				+ "where a.uid=?", uid);
 	}
 }

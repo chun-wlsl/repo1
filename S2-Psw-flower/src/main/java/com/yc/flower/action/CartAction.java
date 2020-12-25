@@ -32,6 +32,8 @@ public class CartAction {
 	public Result addCart(int fid, int count, HttpSession session) throws SQLException {
 		// 获取当前的登录的用户
 		User user = (User) session.getAttribute("loginedUser");
+		System.out.println("fid:"+fid);
+		System.out.println("count:"+count);
 		// 添加购物车记录, 注意:这里没有判断,是否有添加过商品,请自行移植
 		cdao.addCart(user.getUid(), fid, count);
 		// 返回结果
@@ -81,7 +83,9 @@ public class CartAction {
 	public void deleteCart(int fid,HttpSession session) {
 		User user = (User) session.getAttribute("loginedUser");
 		System.out.println("删除的商品id"+fid);
+		
 		cdao.deleteCart(fid);
+		
 		
 		
 	}

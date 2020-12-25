@@ -45,12 +45,12 @@ public class UserAction {
 	
 	
 	@RequestMapping("reg")
-	public Result reg(User user,HttpSession session) throws Exception {
+	public Result reg(User user,String code,HttpSession session) throws Exception {
 		try {
-			//String svcode=(String) session.getAttribute("vcode");
-			//if (!vcode.equalsIgnoreCase(svcode)) {
-			//	throw new BizException("验证码错误");
-			//}
+			String svcode=(String) session.getAttribute("code");
+			if (!code.equalsIgnoreCase(svcode)) {
+			throw new BizException("验证码错误");
+			}
 			ubiz.register(user);
 			return new Result(1,"注册成功");
 		} catch (BizException e) {

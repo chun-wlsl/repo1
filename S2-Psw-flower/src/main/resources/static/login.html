@@ -14,7 +14,7 @@
 </head>
 <body class="login_bj" >
 <div class="zhuce_body">
-	<div class="logo"><a href="#"><img src="images/logo.png" width="114" height="54" border="0"></a></div>
+	<div class="logo"><p style="color:PowderBlue; font-size: 50px;width:200px">绿艺鲜花欢迎你!</p></div>
     <div class="zhuce_kong login_kuang">
     	<div class="zc">
         	<div class="bj_bai">
@@ -35,19 +35,22 @@
                         	data:{
                         		username:"",
 								password:"",
+								//vcode:"",
+								//imgsrc:"verifyCode.s?a="
                         	},
                         	methods:{
                         		login(){
                             		var params = new URLSearchParams();
     								params.append("username",this.username);
     								params.append("password",this.password);
+    								//params.append("vcode",this.vcode);
     								axios.post("login.s",params).then(res=>{
     									alert(res.data.msg);
     						
     									if(res.data.code==1){
     										location.href="index.html";
     									}
-    									location.href="register.html"
+    									
     								}).catch(error=>{
     									alert("系统错误，请联系管理员");
     								})
@@ -64,11 +67,11 @@
                 <a href="#" class="zhuce_qq">QQ注册</a>
                 <a href="#" class="zhuce_wb">微博注册</a>
                 <a href="#" class="zhuce_wx">微信注册</a>
-                <p>已有账号？<a href="#">立即登录</a></p>
+                <p>没有账号？<a href="register.html">立即注册</a></p>
             .
             </div>
         </div>
-        <P>Diyhe.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;欢迎您定制盒子模型</P>
+        <P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;绿艺鲜花店欢迎你</P>
     </div>
 
 </div>

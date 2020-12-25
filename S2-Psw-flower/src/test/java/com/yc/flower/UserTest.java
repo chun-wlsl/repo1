@@ -27,6 +27,6 @@ public class UserTest {
 		user.setAddr("湖南省长沙市");
 		user.setPhone("112233");
 		user.setEmail("1111@qq.com");
-		uAction.reg(user, null);
+		uAction.reg(user,null, null);
 	}
 }

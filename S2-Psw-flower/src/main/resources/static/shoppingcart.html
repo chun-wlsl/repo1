@@ -85,20 +85,38 @@ function clearText(field)
             <h3>分类</h3> 
             
             <!-- 分类展示 -->  
-            <div > 
+            <div id="nav"> 
                 <ul class="sidebar_list">
                 
                     <li v-for="c in category">
-                    <a :href="'clist.html#'+c.cid">{{c.cname}}</a>
+                    <!-- :href="'clist.html#'+c.cid" -->
+                    
+                    	<a >{{c.cname}}</a>
                     </li>
                      
                 </ul>
             </div>
         </div>
-        
+        <script type="">
+			new Vue({
+				el:"#nav",
+				data:{
+					category:[]
+				},
+				created(){
+					axios.get("queryCategory").then(res=>{
+						this.category = res.data;
+					});
+
+				}
+
+
+			})
+
+	</script>
         
 
-        <div  id="fdiscount">
+       <!--  <div  id="fdiscount">
           <span class="bottom"></span>
             <h2 align="center">每周特价</h2>   
             <div class="content special">
@@ -108,37 +126,19 @@ function clearText(field)
             {{flower.fname}}
                 <p>
                 	Price:
-                    <span class="price normal_price">${{flower.marketPrice}}</span>&nbsp;&nbsp;
-                    <span class="price special_price">${{flower.shopPrice}}</span>
+                    <span class="price normal_price">{{flower.marketPrice}}</span>&nbsp;&nbsp;
+                    <span class="price special_price">{{flower.shopPrice}}</span>
                 </p>
             </div>
-        </div>
-        
-        <!-- <script>
-       var v= new Vue({
-			el : "#fdiscount",
-			data :{
-				flower:{}
-			},
-			created(){
-				axios.get("queryDiscount").then(res=>{
-					this.flower = res.data;
-				});
-			}
-		})
-        
-        </script> 
-        
-        
-        
-        -->
+        </div> -->
+       
       
         
     </div>
     <!-- 左边 -->
-     <script>
+   <!--  <script>
            var v2=  new Vue({
-				el : ".left",
+				el : "#sidebar",
 				data :{
 					category:[],
 					flower:{}
@@ -152,10 +152,10 @@ function clearText(field)
 					});
 				}
 			})
-            </script>
+      </script>
+     -->
     
-    
-    <div  class="right" >
+   <div  class="right" >
     	<h2>Shopping Cart</h2>
 		<table width="700" border="0" cellpadding="5" cellspacing="0">
           	<tr bgcolor="#395015">
@@ -169,7 +169,7 @@ function clearText(field)
           	
             <tr bgcolor="#41581B" v-for="p in plist">
                 <td><img :src="p.image" alt="flower image 1" /></td> 
-                <td>{{p.fname}}<</td> 
+                <td>{{p.fname}}</td> 
                 <td align="center">
               
                 
@@ -189,7 +189,7 @@ function clearText(field)
                 <td align="right">￥{{p.shop_price}}</td> 
                 <td align="right">￥{{p.shop_price*p.count}}</td>
                 <td align="center"> 
-                <a href="#" @click="deleteCart(p.fid)">
+                <a  @click="deleteCart(p.fid)"  href="#">
                 <img src="images/remove.png" alt="remove" /><br />Remove</a> 
                 </td>
             </tr>
@@ -209,17 +209,11 @@ function clearText(field)
         </div>    
     </div>
     
+  
     
-    
-    
-    
-    <div class="cleaner"></div>
-</div> <!-- END of main -->
-
-
 <script type="text/javascript">
 			var v11 = new Vue({
-				el :"#templatemo_main",
+				el :".right",
 				data :{
 					plist:[]
 				},
@@ -249,6 +243,7 @@ function clearText(field)
 						if(confirm("确定删除该商品?")){
 							axios.get("cart.s?op=deleteCart&fid="+fid).then(res=>{
 								alert(res.data.msg);
+								location.href="shoppingcart.html";
 							})
 						}
 					},
@@ -264,6 +259,10 @@ function clearText(field)
 		
 		</script>
 
+    
+    
+    <div class="cleaner"></div>
+</div> <!-- END of main -->
 
 </div> <!-- END of main wrapper -->
 

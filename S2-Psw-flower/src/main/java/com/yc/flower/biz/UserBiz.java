@@ -1,6 +1,7 @@
 package com.yc.flower.biz;
 
 import javax.annotation.Resource;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
@@ -37,15 +38,11 @@ public class UserBiz {
 			throw new BizException("密码错误");
 		}
 		
-
-     	String vcode=(String) session.getAttribute("code");
-
-		
-		/*String vcode=(String) session.getAttribute("code");
->>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
-		if (!code.equalsIgnoreCase(vcode)) {
-			throw new BizException("验证码错误");
-		}*/
+		//@SuppressWarnings("null")
+		//String svcode = (String) session.getAttribute("vcode");
+		//if(!vcode.equalsIgnoreCase(svcode)) {
+			//throw new BizException("验证码错误");
+		//}
 		return user;
 	}
 
@@ -59,6 +56,7 @@ public class UserBiz {
 		Utils.checkNull(user.getPhone(), "电话号码不能为空");
 		Utils.checkNull(user.getAddr(), "居住地址不能为空");
 		Utils.checkNull(user.getEmail(),"邮箱地址不能为空");
+		//Utils.checkNull(user.getCode(),"验证码不能为空");
 		
 		
 		//同名验证
@@ -74,13 +72,15 @@ public class UserBiz {
 		}
 	}
 
+	
+	
 	//验证码
-	public String sendCode(String name) {
+	public String sendVcode(String name) {
 		User user =udao.selectByName(name);
 		//随机生成验证码
-		String code=""+System.currentTimeMillis();
-		code=code.substring(code.length()-4);
-		mbiz.sendSimpleMail(user.getEmail(), "密码重置验证码","请使用"+code+"验证码来设置验证码");
-		return code;
+		String vcode=""+System.currentTimeMillis();
+		vcode=vcode.substring(vcode.length()-4);
+		mbiz.sendSimpleMail(user.getEmail(), "密码重置验证码","请使用"+vcode+"验证码来设置验证码");
+		return vcode;
 	}
 }

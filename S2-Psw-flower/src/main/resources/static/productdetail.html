@@ -194,11 +194,11 @@ function clearText(field)
 							</tr>
 							<tr>
 								<td>数量</td>
-								<td><input type="text" value="1" size="6" maxlength="10" /></td>
+								<td><input type="text" ref="counts" value="1" size="6" maxlength="10" /></td>
 							</tr>
 						</table>
 						<div class="cleaner h20"></div>
-						<a :href="'shoppingcart.html#'+"  @click="addCart(product.fid)"  class="button">添加购物车</a>
+						<button  @click="addCart()"  class="button">添加购物车</button>
 					</div>
 					<div class="cleaner h40"></div>
 
@@ -225,7 +225,7 @@ function clearText(field)
 				var v4 = new Vue({
 				el : "#content",
 				data :{
-					product:[]
+					product:{}
 				},
 				created(){
 					axios.get("queryFlowerById?fid="+location.hash.substring(1)).then(res=>{
@@ -234,10 +234,11 @@ function clearText(field)
 				},
 				methods:{
 					addCart(){
-						
+					
 						axios.get("getLoginedUser").then(res=>{
 							
 							if( res.data && res.data.uid ){
+								
 								//console.log(this.$refs.counts.value);
 								var params = new URLSearchParams();
 								params.append("fid",this.product.fid);
@@ -245,7 +246,7 @@ function clearText(field)
 								axios.post("addCart",params).then(res=>{
 									/* alert(res.data); */
 									if(res.data.code == 1) {
-										location.href = "cart.html";
+										location.href = "shoppingcart.html";
 									}else{
 										alert(res.data.msg);
 									}

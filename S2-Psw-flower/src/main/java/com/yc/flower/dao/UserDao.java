@@ -43,11 +43,12 @@ public class UserDao extends BaseDao{
 	};
 
 	public void insert(User user) {
-		String sql="insert into user values(null,?,?,?,null,?,?,?,now())";
+		String sql="insert into user values(null,?,?,?,?,?,?,?,now())";
 		jt.update(sql,
 				user.getName(),
 				user.getPwd(),
 				user.getSex(),
+				user.getCode(),
 				user.getPhone(),
 				user.getAddr(),
 				user.getEmail());
