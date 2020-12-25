@@ -9,8 +9,31 @@
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
-	
-	
+var data = [{
+    iconCls: 'icon-sum',
+    state: 'open',
+    children: [{
+        text: '鲜花管理',
+        url:'flower.html'
+    },{
+        text: '鲜花种类管理',
+        url:'category.html'
+    },{
+        text: '订单管理',
+        url:'order.html'
+    }]
+}];
+function selectMenu(Item){
+	if(	$('#tt').tabs('exists',Item.text)){
+		$('#tt').tabs('select',Item.text)
+	}else{
+		$('#tt').tabs('add',{
+			title: Item.text,
+			selected: true,
+			content:"<iframe src=' "+Item.url+"' style='width:100%;height:100%;border:opx'></iframe>"
+		});
+	}
+}	
 </script>
 </head>
 <body>
@@ -31,12 +54,8 @@
 		
 		<div class="easyui-accordion" data-options="region:'west',split:true" title="菜单区" style="width:200px;">
 			<div class="easyui-accordion" fit="true" id="navmenu">
-				<div title="基础数据维护" data-options="iconCls:'icon-ok'">
-					<ul class="navmenu">
-						<li class="active"><a href="#">首页</a></li>	
-						<li><a href="#" data-url="books.html">图书管理</a></li>
-						<li><a href="#" data-url="">指标库列表</a></li>
-					</ul>
+				<div id="sm" class="easyui-sidemenu" title="数据维护" 
+					data-options="iconCls:'icon-ok',data:data,fit:true,onSelect:selectMenu" style="overflow:auto;padding:10px;">
 				</div>
 			
 				<div title="物流信息查询" data-options="iconCls:'icon-ok'" style="padding:10px;">
@@ -53,24 +72,6 @@
 	</div>
 	<script type="text/javascript">
 			$(function() {
-				//添加新的Tab页
-				$("#navmenu").on("click", "a[data-url]", function(e) {
-					e.preventDefault();
-					var tabTitle = $(this).text();
-					var tabUrl = $(this).data("url");
-					
-					if($("#tt").tabs("exists", tabTitle)) { //判断该Tab页是否已经存在
-						$("#tt").tabs("select", tabTitle);
-					}else {
-						$("#tt").tabs("add", {
-							title: tabTitle,
-							href: tabUrl,
-							closable: true
-						});
-					}
-					$("#navmenu .active").removeClass("active");
-					$(this).parent().addClass("active");
-				});
 				
 				//解决闪屏的问题
 				window.setTimeout(function() {

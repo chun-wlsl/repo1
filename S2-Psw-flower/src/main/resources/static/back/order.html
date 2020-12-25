@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>鲜花管理</title>
+<title>订单管理</title>
 <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<script type="text/javascript" src="easyui/jquery.min.js"></script>
@@ -132,7 +132,7 @@ function upload(newValue, oldValue){
 				data-options="iconCls:'icon-add'"
 				onclick="edit()">添加</a>
 		</div>
-		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok',">
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
 			<table class="easyui-datagrid" id="dg"
 					data-options="
 						url:'../queryAllProduct',
@@ -144,17 +144,17 @@ function upload(newValue, oldValue){
 						pagination:true">
 				<thead>
 					<tr>
-						<th data-options="field:'fid', width:100, align:'center'">编号</th>
-						<th data-options="field:'fname', width:100, align:'center'">花名</th>
-						<th data-options="field:'market_price', width:100, align:'center'">商城价</th>
-						<th data-options="field:'discount', width:100, align:'center'">折扣</th>
-						<th data-options="field:'shop_price', width:100, align:'center'">销售价</th>
+						<th data-options="field:'fid', width:100">编号</th>
+						<th data-options="field:'fname', width:100">花名</th>
+						<th data-options="field:'market_price', width:100">商城价</th>
+						<th data-options="field:'discount', width:100">折扣</th>
+						<th data-options="field:'shop_price', width:100">销售价</th>
 						<th data-options="field:'image', width:100, formatter:fmtImg, align:'center'">图片</th>
-						<th data-options="field:'cid', width:100, align:'center'">种类</th>
-						<th data-options="field:'is_hot', width:50, align:'center'">热卖</th>
-						<th data-options="field:'fdate', width:100, align:'center'">上架日期</th>
-						<th data-options="field:'fcount', width:100, align:'center'">库存</th>
-						<th data-options="field:'advice', width:100, align:'center'">建议</th>
+						<th data-options="field:'cid', width:100">种类</th>
+						<th data-options="field:'is_hot', width:50">热卖</th>
+						<th data-options="field:'fdate', width:100">上架日期</th>
+						<th data-options="field:'fcount', width:100">库存</th>
+						<th data-options="field:'advice', width:100">建议</th>
 						<!--  -->
 						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
 					</tr>

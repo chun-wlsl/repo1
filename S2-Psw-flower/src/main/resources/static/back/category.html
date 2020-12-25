@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>鲜花种类管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../js/axios.min.js"></script>
+<style type="text/css">
+input{
+	width:200px
+}
+</style>
+
+<script type="text/javascript">
+
+function query(){
+	$('#dg').datagrid('load',{
+		fname: $("#fname").textbox('getValue'),
+		cid: $("#cid").textbox('getValue'),
+		//isHot: $("#isHot").checkbox('getValue')
+	});
+}
+
+//操作字段的格式化方法
+function fmtOp(value, row, index){
+	return "<button onclick='edit("+index+")'>修改</button>";
+}
+
+//打开修改窗口
+function edit(index){
+	$("#dd").dialog('open');
+	//index 有值就是修改表格中的某一行记录，否则是新增
+	//下标从0开始，0是false
+	//edit不传参 index为undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		rows[index].cname = rows[index].cname;
+		rows[index].intro = rows[index].intro;
+		$("#ff").form('load',rows[index]);
+	}else{
+		$("#ff").form('clear');
+	}
+	
+}
+
+function save(){
+	//easyui 的表单的ajax提交方式
+	$('#ff').form('submit',{
+		url : '../flower.s',
+		onSubmit: function(param){
+			//扩展请求参数
+			param.op = "save";
+		},
+		success : res=>{
+			//原有的 res==> 消息，现在的  res==> json对象{code, msg, data}
+			//easyui的res需要手动转换
+			//res = JSON.parse(res);
+			alert(res.code);
+			if(res.code == 1){
+				//关闭窗口
+				$('#dd').dialog('close');
+				//刷新表格
+				$('#dg').datagrid('reload');
+			}
+			//否则什么都不做
+		}
+	});
+}
+
+</script>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:50px">
+			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-search'"
+				onclick="query()">查询</a>
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-add'"
+				onclick="edit()">添加</a>
+		</div>
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
+			<table class="easyui-datagrid" id="dg"
+					data-options="
+						url:'../queryAllProduct',
+						method:'get',
+						border:false,
+						singleSelect:true,
+						fit:true,
+						fitColumns:true,
+						pagination:true">
+				<thead>
+					<tr>
+						<th data-options="field:'cid', width:100">编号</th>
+						<th data-options="field:'cname', width:100">鲜花种类名称</th>
+						<th data-options="field:'intro', width:100">介绍</th>
+						<!--  -->
+						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+	<!-- 图书编辑窗口 -->
+	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
+		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
+		<form id="ff" style="margin:0 auto;width: 200px;">
+			<input class="easyui-textbox" name="cname" label="鲜花种类名称"><br> 
+			<input class="easyui-textbox" name="intro" label="介绍"><br>
+		</form>
+	</div>
+	<div id="bb">
+		<a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+		<a href="#" class="easyui-linkbutton">取消</a>
+	</div>
+</body>
+</html>

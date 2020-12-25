@@ -95,6 +95,14 @@ public class FlowerDao extends BaseDao{
 			String sql = "select * from flower where 1=1";
 			return jt.query(sql, flowerRowMapper);
 		}
+
+
+		public int update(Flower f) {
+			String sql = "update flower set fname = ?,market_price = ?,discount = ?,shop_price = ?,"
+					+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";
+			return jt.update(sql, f.getFname(),f.getMarketPrice(),f.getDiscount(),f.getShopPrice(),
+					f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getAdvice());
+		}
 		
 		
 		

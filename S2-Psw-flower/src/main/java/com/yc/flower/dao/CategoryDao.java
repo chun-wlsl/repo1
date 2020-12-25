@@ -33,5 +33,15 @@ public class CategoryDao extends BaseDao{
 			c.setIntro(rs.getString("intro"));
 			return c;
 		}
-	}; 
+	};
+
+	public void insert(Category f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void update(Category f) {
+		// TODO Auto-generated method stub
+		
+	} 
 }
