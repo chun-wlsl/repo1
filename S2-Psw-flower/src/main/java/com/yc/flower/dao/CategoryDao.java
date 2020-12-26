@@ -23,6 +23,15 @@ public class CategoryDao extends BaseDao{
 		return jt.query(sql,categoryRowMapper);
 	}
 	
+	
+	//通过cid查询一行数据
+	public Category queryByCid(int cid) {
+		String sql= "select * from category where cid= ? ";
+         return jt.query(sql, rs->{
+ 			return rs.next() ? categoryRowMapper.mapRow(rs, -1) : null;
+ 		},cid);
+	}
+	
 	RowMapper<Category> categoryRowMapper = new RowMapper<Category>() {
 
 		@Override

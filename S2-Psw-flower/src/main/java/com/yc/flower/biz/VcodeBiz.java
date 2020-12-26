@@ -2,9 +2,7 @@ package com.yc.flower.biz;
 
 import javax.annotation.Resource;
 
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 
 import com.yc.flower.bean.User;
@@ -12,7 +10,7 @@ import com.yc.flower.dao.UserDao;
 import com.yc.flower.util.Utils;
 
 @Service
-public class UserBiz {
+public class VcodeBiz {
 
 	@Resource
 	private UserDao udao;
@@ -75,13 +73,26 @@ public class UserBiz {
 
 	
 	
-	//验证码
+	//验证码重置密码
 	public String sendVcode(String name) {
 		User user =udao.selectByName(name);
 		//随机生成验证码
 		String vcode=""+System.currentTimeMillis();
 		vcode=vcode.substring(vcode.length()-4);
+		//发送邮件
 		mbiz.sendSimpleMail(user.getEmail(), "密码重置验证码","请使用"+vcode+"验证码来设置验证码");
 		return vcode;
+	}
+
+
+	//重置密码
+	public String resetPwd(String name, String vcode, String password, String sessionVcode) {
+		if (vcode.equalsIgnoreCase(sessionVcode)) {
+			udao.updatePwdByName(password, name);
+			return "密码重置成功！";
+		}else {
+			return "验证码错误！";
+		}
+		
 	}
 }

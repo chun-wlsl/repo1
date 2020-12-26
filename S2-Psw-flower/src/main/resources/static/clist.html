@@ -45,36 +45,67 @@ function clearText(field)
 <div id="templatemo_wrapper_sp">
 <div id="templatemo_header_wsp">
 	<div id="templatemo_header" class="header_subpage">
-    	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
+    	<div id="site_title"><a  rel="nofollow"></a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
-             <ul>
-                <li><a href="index.html" class="selected">主页</a></li>
-                <li><a href="about.html">关于</a></li>
-                <li><a href="clist.html#1">分类商品</a>
-                    <ul>
-                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  	</ul>
-                </li>
+            <ul>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="clist.html#1" >商品分类</a></li> 
+                <!--class="selected"  -->
+                <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
+                 <li><a href="topic.html">留言板</a></li>
                 <li><a href="contact.html">联系我们</a></li>
-                <li><a href="faqs.html">常见问题FAQs</a></li>
+               
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null">{{user.name}}</a>|
+				</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
             </ul>
-            <div id="templatemo_search">
-                <form action="#" method="get">
-                  	<input type="text" value="Site Search" name="keyword" id="keyword" title="keyword" 
-                  			onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                  	<input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn" />
-                </form>
-            </div>
+           
             <br style="clear: left" />
-        </div> 
-        <a href="http://sc.chinaz.com" title="sc.chinaz.com" rel="nofollow" class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="sc.chinaz.com"  /></a><!-- end of templatemo_menu -->
-        
+        </div>
+
+
     </div> <!-- END of header -->
+    
+     <script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
@@ -156,17 +187,19 @@ function clearText(field)
     <!-- 分类商品展示 -->
     
     <div id="content" class="right">
-		<h2>Products</h2>
+		<h2>{{cate.cname}}</h2>
+		<span>{{cate.intro}}</span>
+		<br /><br />
 	    <span v-for="p in pro">
   		<div class="product_box" >
             <a :href="'productdetail.html#'+p.fid">
-            <img :src="p.image" alt="floral set 1" />
+            <img :src="p.image"  />
             </a>
       		<h3>{{p.fname}}</h3>
             <p class="product_price">${{p.shopPrice}}</p>
             <p class="add_to_cart">
-                <a href="productdetail.html">详情</a>
-                <a href="shoppingcart.html">添加购物车</a>
+                <a :href="'productdetail.html#'+p.fid">详情</a>
+	               <a @click="addCart(p.fid)">添加购物车</a>  
             </p>
         
         </div>
@@ -183,16 +216,50 @@ function clearText(field)
         </div>    
     </div>
     
+    
+    
+    
     <script>
       var v5=new Vue({
     	  el : "#content",
 			data :{
-				pro:[]
+				pro:[],
+                 cate:{}
 			},
 			created(){
 				axios.get("queryFlowerByCid?cid="+location.hash.substring(1)).then(res=>{
 					this.pro = res.data;
+				}),
+				
+				axios.get("queryByCid?cid="+location.hash.substring(1)).then(res=>{
+					this.cate = res.data;
 				})
+			},
+			methods:{
+				addCart(fid){
+					axios.get("getLoginedUser").then(res=>{
+						
+						if( res.data && res.data.uid ){
+							
+							//console.log(this.$refs.counts.value);
+							var params = new URLSearchParams();
+							params.append("fid",fid);
+							params.append("count","1");
+							axios.post("addCart",params).then(res=>{
+								/* alert(res.data); */
+								if(res.data.code == 1) {
+									location.href = "shoppingcart.html";
+								}else{
+									alert(res.data.msg);
+								}
+							}); 
+						}else {
+							alert("你尚未登录");
+							location.href = "login.html";
+						}
+						
+					});
+				}
 			}
     	  
     	  

@@ -128,6 +128,7 @@ public class FlowerDao extends BaseDao{
 		}
 
 
+		//更新商品信息
 		public int update(Flower f) {
 			String sql = "update flower set fname = ?,market_price = ?,discount = ?,shop_price = ?,"
 					+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";

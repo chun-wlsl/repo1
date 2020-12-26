@@ -42,36 +42,67 @@ function clearText(field)
 <div id="templatemo_wrapper_sp">
 <div id="templatemo_header_wsp">
 	<div id="templatemo_header" class="header_subpage">
-    	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
+    	<div id="site_title"><a  rel="nofollow"></a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="products.html">Products</a>
-                    <ul>
-                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  	</ul>
-                </li>
-                <li><a href="checkout.html" class="selected">Checkout</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="clist.html#1" >商品分类</a></li> 
+                <!--class="selected"  -->
+                <li><a href="shoppingcart.html" >购物车</a></li>
+                <li><a href="checkout.html">支付</a></li>
+                 <li><a href="topic.html">留言板</a></li>
+                <li><a href="contact.html">联系我们</a></li>
+               
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null">{{user.name}}</a>|
+				</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
             </ul>
-            <div id="templatemo_search">
-                <form action="#" method="get">
-                  	<input type="text" value="Site Search" name="keyword" id="keyword" title="keyword" 
-                  			onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                  	<input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn" />
-                </form>
-            </div>
+           
             <br style="clear: left" />
-        </div> 
-        <a href="http://sc.chinaz.com" title="图像"  class="site_repeat" target="_blank"><img src="images/top_repeat.png" title="图像" alt="图像" /></a><!-- end of templatemo_menu -->
+        </div>
+
 
     </div> <!-- END of header -->
+    
+     <script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
@@ -153,7 +184,7 @@ function clearText(field)
     
     
     <div id="content" class="right">
-    	<h2>Checkout</h2>
+    	<h2>订单</h2>
        <div class="span24" id="payform">
 		
 			<div class="step step1">
@@ -166,28 +197,28 @@ function clearText(field)
 				<table>
 					<tbody>
 					<tr>
-						<th>图片</th>
-						<th>商品</th>
-						<th>价格</th>
-						<th>数量</th>
-						<th>小计</th>
+						<th width="100px" align="center">图片</th>
+						<th width="80px" align="center">商品</th>
+						<th width="80px" align="center">价格</th>
+						<th width="80px" align="center">数量</th>
+						<th width="100px" align="center">小计</th>
 					</tr>
 					
 					<tr v-for="p in plist">
-						<td width="60">
+						<td width="150px">
 							<img :src="p.image"/>
 						</td>
-						<td>
+						<td  width="80px"  align="center">
 							<a target="_blank">{{p.fname}}</a>
 						</td>
-						<td>
+						<td  width="80px" align="center">
 							{{p.shop_price}}
 						</td>
-						<td class="quantity" width="60">
+						<td class="quantity" width="80px" align="center">
 							{{p.count}}				
 						</td>
-						<td width="140">
-							<span class="subtotal">￥{{p.shop_price * p.count}}</span>
+						<td width="100px" align="center">
+							<span class="subtotal" style="font-size: 20px">￥{{p.shop_price * p.count}}</span>
 						</td>
 					</tr>
 				</tbody>
@@ -196,17 +227,18 @@ function clearText(field)
 				</dl>
 				<div class="total">
 					<em id="promotion"></em>
-					商品金额: <strong id="effectivePrice">￥{{total}}元</strong>
+				<h3  align="center">	商品金额: <strong id="effectivePrice"  >￥{{total}}元</strong></h3>
 				</div>
 			<form id="orderForm" action="msg.html" method="post">
 				<input type="hidden" name="order.oid" value="73"/>
 				<div class="span24">
+				<br />
 					<p>
 							收货地址：<input name="order.addr" type="text" v-model="addr" style="width:350px" />
 								<br />
-							收货人&nbsp;&nbsp;&nbsp;：<input name="order.name" type="text" v-model="name" style="width:150px" />
+							收货人&nbsp;&nbsp;&nbsp;：<input name="order.name" type="text" v-model="name" style="width:350px" />
 								<br /> 
-							联系方式：<input name="order.phone" type="text" v-model="phone" style="width:150px" />
+							联系方式：<input name="order.phone" type="text" v-model="phone" style="width:350px" />
 
 						</p>
 						<hr />
@@ -305,7 +337,6 @@ function clearText(field)
         <a href="#"><img src="images/1311260374_visa-straight.png" alt="Visa" /></a>
     </div>
 	<div class="footer_right">
-		<p>Copyright &copy; 2014.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/?moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
 	</div>
     <div class="cleaner"></div>
 </div> <!-- END of footer -->
@@ -313,6 +344,4 @@ function clearText(field)
 </div>
 
 </body>
-<script type='text/javascript' src='js/logging.js'></script>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </html>

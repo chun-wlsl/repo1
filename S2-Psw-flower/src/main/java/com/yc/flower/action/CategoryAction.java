@@ -23,6 +23,13 @@ public class CategoryAction {
 	   return cdao. queryCategory();
 	}
 	
+	//查询cid 的分类信息
+	@RequestMapping("queryByCid")
+	public Category queryByCid(int  cid) {
+	   return cdao.queryByCid(cid);
+	}
+	
+	
 	//category.html页面的保存功能
 	@RequestMapping(path="category.s",params="op=save")
 	public Result save(){
