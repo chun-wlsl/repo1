@@ -25,7 +25,7 @@ public class OrderDao extends BaseDao{
 	 * @return 
 	 */
 	public int insertOrder(Order order) {
-		String sql="insert into order values(null,?,?,?,now(),null,?,?)";
+		String sql="insert into orders values(null,?,?,?,now(),?,?,?)";
 		KeyHolder kh = new GeneratedKeyHolder();
 		jt.update(new PreparedStatementCreator() {
 			@Override
@@ -34,9 +34,9 @@ public class OrderDao extends BaseDao{
 				ps.setObject(1, order.getUid());
 				ps.setObject(2, order.getName());
 				ps.setObject(3, order.getTotal());
-                //ps.setObject(4, order.getState());
-				ps.setObject(4, order.getAddr());
-				ps.setObject(5, order.getPhone());
+                ps.setObject(4, 1);
+				ps.setObject(5, order.getAddr());
+				ps.setObject(6, order.getPhone());
 				return ps;
 			}
 			
