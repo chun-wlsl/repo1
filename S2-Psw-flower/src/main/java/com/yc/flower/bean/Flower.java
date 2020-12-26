@@ -85,12 +85,11 @@ public class Flower implements java.io.Serializable{
 	public void setAdvice(String advice) {
 		this.advice = advice;
 	}
-	
 	@Override
 	public String toString() {
 		return "Flower [fid=" + fid + ", fname=" + fname + ", marketPrice=" + marketPrice + ", discount=" + discount
 				+ ", shopPrice=" + shopPrice + ", image=" + image + ", cid=" + cid + ", isHot=" + isHot + ", fdate="
-				+ fdate + ", advice=" + advice + "]";
+				+ fdate + ", fcount=" + fcount + ", advice=" + advice + "]";
 	}
 	
 	

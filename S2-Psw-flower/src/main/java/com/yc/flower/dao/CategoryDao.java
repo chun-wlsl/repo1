@@ -54,9 +54,14 @@ public class CategoryDao extends BaseDao{
 				);
 	}
 
-	public void update(Category f) {
-		// TODO Auto-generated method stub
-		
+	public int update(Category c) {
+		String sql="update category set cname=?,intro=? where cid=? ";
+		return jt.update(sql,
+				c.getCname(),
+				c.getIntro(),
+				c.getCid()
+				);
+				
 	}
 	
 }
