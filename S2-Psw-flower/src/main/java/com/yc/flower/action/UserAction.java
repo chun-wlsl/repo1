@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
+import com.yc.flower.biz.VcodeBiz;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.UserBiz;
 import com.yc.flower.dao.UserDao;
@@ -25,6 +26,9 @@ public class UserAction {
 	
 	@Resource
 	private UserBiz ubiz;
+	
+	@Resource 
+	private VcodeBiz bbiz; 
 	
 	
 	@RequestMapping("login.s")
@@ -78,9 +82,19 @@ public class UserAction {
 	 * HttpSession SpringMVC(会自动注入一个绘画对象)
 	 * 
 	 * */
-	/*public String sendVcode(String name,HttpSession session) {
+	@RequestMapping("sendVcode")
+	public String sendVcode(String name,HttpSession session) {
 		//根据用户名发送验证短信（业务逻辑，BankBiz.sendVcode）
+		String vcode=bbiz.sendVcode(name);
 		//将验证码保存到绘画
+		session.setAttribute("vcode", vcode);
 		//通知浏览器发送成功
-	}*/
+		return "验证码邮件发送成功";
+	}
+	
+	@RequestMapping("resetPwd")
+	public String resetPwd(String name,String vcode,String password,HttpSession session) {
+		return bbiz.resetPwd(name, vcode, password, (String)session.getAttribute("vcode"));
+	}
+	
 }

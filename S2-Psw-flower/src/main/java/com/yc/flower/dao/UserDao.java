@@ -70,7 +70,9 @@ public class UserDao extends BaseDao{
 	}
 	
 	
-	/*public User selectByName(String name) {
-		
-	}*/
+	//根据用户名修改密码
+	public void updatePwdByName(String password,String name) {
+		String sql="update user set pwd=? where name=?";
+		jt.update(sql,password,name);
+	}
 }
