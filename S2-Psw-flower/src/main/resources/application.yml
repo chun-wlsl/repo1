@@ -5,9 +5,9 @@ server:
 # :    冒号加空格+配置值
 spring:
    datasource:
-      url: jdbc:mysql://127.0.0.1:3306/c89-s2-wsl-flower?useUnicode=true&characterEncoding=UTF-8
+      url: jdbc:mysql://121.5.71.67:3306/s2-wsl-flower?useUnicode=true&characterEncoding=UTF-8
       username: root
-      password: a
+      password: MyNewPass4!
       #yml支持驼峰命名法
       driver-class-name: com.mysql.jdbc.Driver
    
