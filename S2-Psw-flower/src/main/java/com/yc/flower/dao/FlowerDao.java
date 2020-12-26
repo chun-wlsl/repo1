@@ -2,7 +2,9 @@ package com.yc.flower.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -84,16 +86,45 @@ public class FlowerDao extends BaseDao{
 				f.setIsHot(rs.getInt("is_hot"));
 				f.setFdate(rs.getDate("fdate"));
 				f.setCid(rs.getInt("cid"));
+				f.setFcount(rs.getInt("fcount"));
 				f.setAdvice(rs.getString("advice"));
 				return f;
 			}
 		};
 
 
-		//查找所有的商品
-		public List<Flower> selectAllFlower() {
-			String sql = "select * from flower where 1=1";
-			return jt.query(sql, flowerRowMapper);
+		//查找所有的商品,在flower.html中使用
+		public List<?> selectAllFlower(String fname, Integer cid, Double discount, Integer fcount, String page, String rows) {
+			String where = "";
+			List<Object> params = new ArrayList<>();
+			if(fname!=null && fname.trim().isEmpty() == false) {
+				where += " and fname like ?";
+				params.add("%" + fname + "%");
+			}
+			if(cid != null) {
+				where += " and a.cid like ?";
+				params.add(cid);
+			}
+			if(discount != null ) {
+				where += " and discount like ?";
+				params.add(discount);
+			}
+			if(fcount != null ) {
+				where += " and fcount like ?";
+				params.add(fcount);
+			}
+			
+			//将字符串转为数字，方便计算
+			int ipage = Integer.parseInt(page);
+			int irows = Integer.parseInt(rows);
+			ipage = (ipage - 1) * 10;
+			String sql = "select a.*,b.cname from flower a join category b "
+					+ " on a.cid = b.cid where 1=1 "
+					+ where
+					+ " limit ? , ? ";
+			params.add(ipage);
+			params.add(irows);
+			return jt.queryForList(sql, params.toArray());
 		}
 
 
@@ -101,11 +132,41 @@ public class FlowerDao extends BaseDao{
 			String sql = "update flower set fname = ?,market_price = ?,discount = ?,shop_price = ?,"
 					+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";
 			return jt.update(sql, f.getFname(),f.getMarketPrice(),f.getDiscount(),f.getShopPrice(),
-					f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getAdvice());
+					f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getFid());
 		}
 		
-		
-		
+		// 分页的总记录数,在flower.html中使用
+		public int count(String fname, Integer cid, Double discount,Integer fcount) {
+			String where = "";
+			List<Object> params = new ArrayList<>();
+			if(fname!=null && fname.trim().isEmpty() == false) {
+				where += " and fname like ? ";
+				params.add("%" + fname + "%");
+			}
+			if(cid != null) {
+				where += " and cid like ? ";
+				params.add(cid);
+			}
+			if(discount != null ) {
+				where += " and discount like ?";
+				params.add(discount);
+			}
+			if(fcount != null ) {
+				where += " and fcount like ?";
+				params.add(fcount);
+			}
+			
+			String sql = "select null from flower where 1=1 " + where;
+			return count(sql, params.toArray());
+			
+		}
+
+		public int count(String sql, Object... params) {
+			String sql1 = "select count(*) cnt from (" + sql + ") a";
+			Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");
+			int ret = Integer.valueOf("" + cnt);
+			return ret;
+		}
 		
 		
 		

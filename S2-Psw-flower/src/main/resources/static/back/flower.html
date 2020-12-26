@@ -18,7 +18,7 @@ input{
 <script type="text/javascript">
 //图片字段的格式化方法
 function fmtImg(value, row, index){
-	return "<img height='100px' src='../"+value+"'>";
+	return "<img width='120px' height='100px' src='../"+value+"'>";
 }
 
 //出版日期字段的格式化方法
@@ -31,9 +31,10 @@ function fmtDate(date){
 
 function query(){
 	$('#dg').datagrid('load',{
-		fname: $("#fname").textbox('getValue'),
-		cid: $("#cid").textbox('getValue'),
-		//isHot: $("#isHot").checkbox('getValue')
+		fname: $("#fname1").textbox('getValue'),
+		cid: $("#cid1").textbox('getValue'),
+		discount: $("#discount1").textbox('getValue'),
+		fcount: $("#fcount1").textbox('getValue'),
 	});
 }
 
@@ -62,27 +63,54 @@ function edit(index){
 }
 
 function save(){
+	console.info("123");
+	var param = new URLSearchParams();
+	param.append("fid", $("#fid").textbox("getValue"));
+	param.append("fname", $("#fname").textbox("getValue"));
+	param.append("marketPrice", $("#marketPrice").textbox("getValue"));
+	param.append("discount", $("#discount").textbox("getValue"));
+	param.append("shopPrice", $("#shopPrice").textbox("getValue"));
+	param.append("image", $("#image").textbox("getValue"));
+	param.append("cid", $("#cid").textbox("getValue"));
+	param.append("isHot", $("#isHot").textbox("getValue"));
+	param.append("fcount", $("#fcount").textbox("getValue"));
+	param.append("advice", $("#advice").textbox("getValue"));
+	param.append("op", "save");
+	axios.post("../flower.s",param).then(res=>{
+		alert(res.data.msg);
+		if(res.data.code==1){
+			//关闭窗口
+			$('#dd').dialog('close');
+			//刷新表格
+			$('#dg').datagrid('reload');
+		}
+
+	})
 	//easyui 的表单的ajax提交方式
-	$('#ff').form('submit',{
+	/* $('#ff').form('submit',{
 		url : '../flower.s',
 		onSubmit: function(param){
 			//扩展请求参数
 			param.op = "save";
 		},
-		success : res=>{
+		success : function(result){
 			//原有的 res==> 消息，现在的  res==> json对象{code, msg, data}
 			//easyui的res需要手动转换
-			//res = JSON.parse(res);
-			alert(res.code);
-			if(res.code == 1){
-				//关闭窗口
-				$('#dd').dialog('close');
-				//刷新表格
-				$('#dg').datagrid('reload');
+			console.info(result);
+			if(result){
+				res = $.parseJSON(result);
+				alert(res.code);
+				if(res.code == 1){
+					//关闭窗口
+					$('#dd').dialog('close');
+					//刷新表格
+					$('#dg').datagrid('reload');
+				}
+					
 			}
 			//否则什么都不做
 		}
-	});
+	}); */
 }
 
 function upload(newValue, oldValue){
@@ -121,10 +149,11 @@ function upload(newValue, oldValue){
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'north'" style="height:50px">
 			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
-			<input class="easyui-textbox" label="名称：" style="width:200px" id="fname">
-			<input class="easyui-combobox" label="种类：" style="width:200px" id="cid"
+			<input class="easyui-textbox" label="名称：" style="width:200px" id="fname1">
+			<input class="easyui-combobox" label="种类：" style="width:200px" id="cid1"
 				data-options="url:'../queryCategory', valueField:'cid', textField:'cname'">
-			<input class="easyui-checkbox" label="热卖：" style="width:20px" id="isHot" value=1>
+			<input class="easyui-textbox" label="折扣：" style="width:200px" id="discount1">
+			<input class="easyui-textbox" label="库存：" style="width:200px" id="fcount1">
 			<a id="btn" href="#" class="easyui-linkbutton"
 				data-options="iconCls:'icon-search'"
 				onclick="query()">查询</a>
@@ -132,7 +161,7 @@ function upload(newValue, oldValue){
 				data-options="iconCls:'icon-add'"
 				onclick="edit()">添加</a>
 		</div>
-		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok',">
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
 			<table class="easyui-datagrid" id="dg"
 					data-options="
 						url:'../queryAllProduct',
@@ -140,21 +169,21 @@ function upload(newValue, oldValue){
 						border:false,
 						singleSelect:true,
 						fit:true,
-						fitColumns:true,
+						fitColumns:false,
 						pagination:true">
 				<thead>
 					<tr>
-						<th data-options="field:'fid', width:100, align:'center'">编号</th>
+						<th data-options="field:'fid', width:100, align:'center'">鲜花编号</th>
 						<th data-options="field:'fname', width:100, align:'center'">花名</th>
 						<th data-options="field:'market_price', width:100, align:'center'">商城价</th>
 						<th data-options="field:'discount', width:100, align:'center'">折扣</th>
 						<th data-options="field:'shop_price', width:100, align:'center'">销售价</th>
-						<th data-options="field:'image', width:100, formatter:fmtImg, align:'center'">图片</th>
-						<th data-options="field:'cid', width:100, align:'center'">种类</th>
+						<th data-options="field:'image', width:120, formatter:fmtImg, align:'center'">图片</th>
+						<th data-options="field:'cid', width:50, align:'center'">种类</th>
 						<th data-options="field:'is_hot', width:50, align:'center'">热卖</th>
-						<th data-options="field:'fdate', width:100, align:'center'">上架日期</th>
+						<th data-options="field:'fdate', width:200, align:'center'">上架日期</th>
 						<th data-options="field:'fcount', width:100, align:'center'">库存</th>
-						<th data-options="field:'advice', width:100, align:'center'">建议</th>
+						<th data-options="field:'advice', width:250, align:'center'">建议</th>
 						<!--  -->
 						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
 					</tr>
@@ -163,22 +192,23 @@ function upload(newValue, oldValue){
 		</div>
 	</div>
 	
-	<!-- 图书编辑窗口 -->
+	<!-- 编辑窗口 -->
 	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
 		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
 		<form id="ff" style="margin:0 auto;width: 200px;">
-			<input class="easyui-textbox" name="fname" label="花名"><br> 
-			<input class="easyui-textbox" name="marketPrice" label="商城价"><br> 
-			<input class="easyui-textbox" name="discount" label="折扣"><br> 
-			<input class="easyui-textbox" name="shopPrice" label="销售价"><br> 
-			<input class="easyui-textbox" name="image" label="图片" id=tbImg><br>
-			<input class="easyui-filebox" label="选择" name="file" id="file"
+			<input class="easyui-textbox" id="fid" name="fid" label="鲜花编号"><br> 
+			<input class="easyui-textbox" id="fname" name="fname" label="花名"><br> 
+			<input class="easyui-textbox" id="marketPrice" name="marketPrice" label="商城价"><br> 
+			<input class="easyui-textbox" id="discount" name="discount" label="折扣"><br> 
+			<input class="easyui-textbox" id="shopPrice" name="shopPrice" label="销售价"><br> 
+			<input class="easyui-textbox" id="image" name="image" label="图片" id=tbImg><br>
+			<input class="easyui-filebox" name="file" label="选择" id="file"
 				data-options="onChange:upload"><br>
-			<input class="easyui-combobox" name="cid" label="种类" 
+			<input class="easyui-combobox" id="cid" name="cid" label="种类" 
 				data-options="url:'../queryCategory', valueField:'cid', textField:'cname'"><br> 
-			<input class="easyui-textbox" name="isHot" label="热卖"><br>
-			<input class="easyui-textbox" name="fcount" label="库存"><br>			
-			<input class="easyui-textbox" name="advice" label="建议"><br>
+			<input class="easyui-textbox" id="isHot" name="isHot" label="热卖"><br>
+			<input class="easyui-textbox" id="fcount" name="fcount" label="库存"><br>			
+			<input class="easyui-textbox" id="advice" name="advice" label="建议"><br>
 			<img alt="" src="" height="100px" id="upImg"
 				onclick="filebox_file_id_1.click()">
 		</form>

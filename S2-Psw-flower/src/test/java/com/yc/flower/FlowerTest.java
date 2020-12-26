@@ -1,5 +1,8 @@
 package com.yc.flower;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
@@ -8,6 +11,7 @@ import org.springframework.util.Assert;
 
 import com.yc.flower.action.FlowerAction;
 import com.yc.flower.bean.Flower;
+import com.yc.flower.dao.FlowerDao;
 
 @SpringBootTest
 public class FlowerTest {
@@ -39,5 +43,16 @@ public class FlowerTest {
        System.out.println(f.toString());
      }
      
-	
+	@Test
+	public void test2() {
+		List<?> map;
+		Flower f = new Flower();
+		
+		String page="1";
+		String rows="10";
+		FlowerDao fdao = new FlowerDao();
+				
+		
+	}
+    
 }
