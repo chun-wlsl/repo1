@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>订单管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../js/axios.min.js"></script>
+<style type="text/css">
+input{
+	width:200px
+}
+</style>
+
+<script type="text/javascript">
+//出版日期字段的格式化方法
+function fmtDate(date){
+	var x = date.getFullYear();
+	var y = date.getMonth()+1;
+	var z = date.getDate();
+	return x+"-"+y+"-"+z;
+}
+
+function query(){
+	$('#dg').datagrid('load',{
+		fname: $("#fname").textbox('getValue'),
+		cid: $("#cid").textbox('getValue'),
+		//isHot: $("#isHot").checkbox('getValue')
+	});
+}
+
+//操作字段的格式化方法
+function fmtOp(value, row, index){
+	return "<button onclick='edit("+index+")'>修改</button>";
+}
+
+//打开修改窗口
+function edit(index){
+	$("#dd").dialog('open');
+	//index 有值就是修改表格中的某一行记录，否则是新增
+	//下标从0开始，0是false
+	//edit不传参 index为undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		rows[index].isHot = rows[index].is_hot;
+		rows[index].marketPrice = rows[index].market_price;
+		rows[index].shopPrice = rows[index].shop_price;
+		//upImg.src = "../" + rows[index].image;
+		$("#ff").form('load',rows[index]);
+	}else{
+		$("#ff").form('clear');
+	}
+	
+}
+
+function save(){
+	//easyui 的表单的ajax提交方式
+	$('#ff').form('submit',{
+		url : '../flower.s',
+		onSubmit: function(param){
+			//扩展请求参数
+			param.op = "save";
+		},
+		success : res=>{
+			//原有的 res==> 消息，现在的  res==> json对象{code, msg, data}
+			//easyui的res需要手动转换
+			//res = JSON.parse(res);
+			alert(res.code);
+			if(res.code == 1){
+				//关闭窗口
+				$('#dd').dialog('close');
+				//刷新表格
+				$('#dg').datagrid('reload');
+			}
+			//否则什么都不做
+		}
+	});
+}
+
+</script>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:50px">
+			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
+			<input class="easyui-textbox" label="订单编号：" style="width:200px" id="oid">
+			<input class="easyui-textbox" label="用户ID：" style="width:200px" id="uid">
+			<input class="easyui-textbox" label="用户名：" style="width:200px" id="name">
+			<input class="easyui-textbox" label="订单状态：" style="width:200px" id="state">
+			<a id="btn" href="" class="easyui-linkbutton"
+				data-options="iconCls:'icon-search'"
+				onclick="query()">查询</a>
+			<a id="btn" href="" class="easyui-linkbutton"
+				data-options="iconCls:'icon-add'"
+				onclick="edit()">添加</a>
+		</div>
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
+			<table class="easyui-datagrid" id="dg"
+					data-options="
+						url:'../queryAllProduct',
+						method:'get',
+						border:false,
+						singleSelect:true,
+						fit:true,
+						fitColumns:true,
+						pagination:true">
+				<thead>
+					<tr>
+						<th data-options="field:'oid', width:100">订单编号</th>
+						<th data-options="field:'uid', width:100">用户ID</th>
+						<th data-options="field:'name', width:100">用户名</th>
+						<th data-options="field:'total', width:100">订单总金额</th>
+						<th data-options="field:'otime', width:100">下单时间</th>
+						<th data-options="field:'state', width:100">订单状态</th>
+						<th data-options="field:'addr', width:100">收货地址</th>
+						<th data-options="field:'phone', width:100">电话</th>
+						<!--  -->
+						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+	<!-- 图书编辑窗口 -->
+	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
+		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
+		<form id="ff" style="margin:0 auto;width: 200px;">
+			<input class="easyui-textbox" name="uid" label="用户ID"><br> 
+			<input class="easyui-textbox" name="name" label="用户名"><br> 
+			<input class="easyui-textbox" name="total" label="订单总金额"><br> 
+			<input class="easyui-textbox" name="state" label="订单状态"><br>
+			<input class="easyui-textbox" name="addr" label="收货地址"><br>			
+			<input class="easyui-textbox" name="phone" label="电话"><br>
+		</form>
+	</div>
+	<div id="bb">
+		<a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+		<a href="#" class="easyui-linkbutton">取消</a>
+	</div>
+</body>
+</html>

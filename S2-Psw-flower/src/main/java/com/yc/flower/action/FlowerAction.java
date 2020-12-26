@@ -62,4 +62,26 @@ public class FlowerAction {
 		}
 	}
    
+   	//查找所有的商品
+   	@RequestMapping("queryAllProduct")
+	public List<Flower> queryAllProduct(){
+		return fdao.selectAllFlower();
+	}
+   	
+   	@RequestMapping(path="flower.s",params="op=save")
+	public Result save(){
+   		Flower f = new Flower();
+		if(f.getFname()==null||f.getFname().trim().isEmpty()) {
+			return new Result(0,"鲜花名称不能为空！");
+		}
+		if(f.getShopPrice()==null||f.getShopPrice()<=0) {
+			return new Result(0,"鲜花价格必须大于0！");
+		}
+		if(f.getFid() == null || f.getFid() == 0) {
+			fdao.insert(f);
+		} else {
+			fdao.update(f);
+		}
+		return new Result(1,"商品保存成功!");
+	}
 }

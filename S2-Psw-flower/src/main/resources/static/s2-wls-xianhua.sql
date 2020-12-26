@@ -158,3 +158,36 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '小小', '123', '女', null, '123', '12', '212', '2020-12-23 10:48:15');
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for msg
+-- ----------------------------
+DROP TABLE IF EXISTS `msg`;
+CREATE TABLE `msg` (
+  `mid` int(11) NOT NULL auto_increment,
+  `mname` varchar(255) default NULL,
+  `email` varchar(255) default NULL,
+  `phone` varchar(255) default NULL,
+  `content` varchar(255) default NULL,
+  `createtime` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `reply` varchar(255) default NULL,
+  `replytime` datetime default NULL,
+  `uid` int(11) default NULL,
+  PRIMARY KEY  (`mid`),
+  KEY `uid` (`uid`),
+  CONSTRAINT `uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of msg
+-- ----------------------------
+INSERT INTO `msg` VALUES ('1', '小小', '212', '123', '这个花枯萎了', '2020-12-24 14:58:19', null, null, '1');
+INSERT INTO `msg` VALUES ('2', '小小', '212', '123', '花不好看', '2020-12-24 15:01:50', null, null, '1');
+INSERT INTO `msg` VALUES ('3', '小小', '212', '123', '花花漂亮', '2020-12-24 15:06:20', null, null, '1');
+INSERT INTO `msg` VALUES ('4', '小小', '212', '123', '呼呼', '2020-12-24 15:06:31', null, null, '1');
+INSERT INTO `msg` VALUES ('5', '小小', '212', '123', '非常好', '2020-12-24 15:07:29', null, null, '1');
+INSERT INTO `msg` VALUES ('6', '小小', '212', '123', '很好', '2020-12-24 15:07:33', null, null, '1');
+INSERT INTO `msg` VALUES ('7', '小小', '212', '123', '不太好', '2020-12-24 15:07:47', null, null, '1');

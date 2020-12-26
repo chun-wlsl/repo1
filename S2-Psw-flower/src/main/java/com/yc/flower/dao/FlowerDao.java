@@ -20,12 +20,12 @@ public class FlowerDao extends BaseDao{
 		return jt.query(sql, flowerRowMapper);
 	}
 	
-   
    //查找类别为cid的所有商品（花）
    public List<Flower> queryFlowerByCid(int cid) {
 		String sql = "select * from flower  where cid=?";
 		return jt.query(sql, flowerRowMapper,cid);
 	}
+   
    //查找商品
    public List<Flower> selectFlower(){
 		String sql = "select * from flower where 1=1 limit 0,8";
@@ -88,6 +88,21 @@ public class FlowerDao extends BaseDao{
 				return f;
 			}
 		};
+
+
+		//查找所有的商品
+		public List<Flower> selectAllFlower() {
+			String sql = "select * from flower where 1=1";
+			return jt.query(sql, flowerRowMapper);
+		}
+
+
+		public int update(Flower f) {
+			String sql = "update flower set fname = ?,market_price = ?,discount = ?,shop_price = ?,"
+					+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";
+			return jt.update(sql, f.getFname(),f.getMarketPrice(),f.getDiscount(),f.getShopPrice(),
+					f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getAdvice());
+		}
 		
 		
 		

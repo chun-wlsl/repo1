@@ -2,6 +2,7 @@ package com.yc.flower.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,19 @@ import com.yc.flower.bean.User;
 @Repository
 public class UserDao extends BaseDao{
 
+//	//查询用户总数
+//	public int selectAllUser() {
+//		String sql="select count(uid) from user";
+//		//String sql ="select uid from user order by uid"
+//		return jt.queryForInt(sql);
+//	}
+//	
+	
+	//查询所有的用户
+	public List<User> selectAllUser(){
+		String sql="select * from user";
+		return jt.query(sql,UserRowMapper );
+	}
 	
 
 	//根据用户名查询用户
@@ -24,7 +38,7 @@ public class UserDao extends BaseDao{
 		},name);
 	}
 	
-	private RowMapper<User> UserRowMapper=new RowMapper<User>() {
+	 RowMapper<User> UserRowMapper=new RowMapper<User>() {
 		
 		@Override
 		public User mapRow(ResultSet rs,int rowNumm) throws SQLException {
@@ -42,6 +56,7 @@ public class UserDao extends BaseDao{
 		}
 	};
 
+	//添加用户
 	public void insert(User user) {
 		String sql="insert into user values(null,?,?,?,?,?,?,?,now())";
 		jt.update(sql,

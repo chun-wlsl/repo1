@@ -1,5 +1,9 @@
 package com.yc.flower.action;
 
+
+
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpSession;
@@ -57,6 +61,13 @@ public class UserAction {
 			e.printStackTrace();
 			return new Result(0,e.getMessage());
 		}
+	}
+	
+	
+	//查询总用户数
+	public int queryAll() {
+	   List<User> list=udao.selectAllUser();
+		return  list.size() ;
 	}
 	
 }

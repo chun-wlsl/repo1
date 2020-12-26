@@ -14,7 +14,7 @@ import com.yc.flower.util.Utils;
 public class FlowerBiz{
 	@Resource 
 	private FlowerDao fdao;
-	
+	//添加商品
 	@Transactional
 	public void create(Flower p) throws BizException{
 		// 验证输入
