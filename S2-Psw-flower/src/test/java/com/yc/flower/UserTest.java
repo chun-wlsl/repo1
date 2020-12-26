@@ -1,4 +1,4 @@
-package com.yc.flower;
+/*package com.yc.flower;
 import javax.annotation.Resource;
 
 
@@ -36,4 +36,4 @@ public class UserTest {
 	   int i=uAction.queryAll();
 	   System.out.println("总用户数："+i);
 	}
-}
+}*/
