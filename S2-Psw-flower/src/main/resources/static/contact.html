@@ -45,61 +45,67 @@ function clearText(field)
 <div id="templatemo_wrapper_sp">
 <div id="templatemo_header_wsp">
 	<div id="templatemo_header" class="header_subpage">
-    	<div id="site_title"><a href="http://sc.chinaz.com" rel="nofollow">Free CSS Templates</a></div>
+    	<div id="site_title"><a  rel="nofollow"></a></div>
         <div id="templatemo_menu" class="ddsmoothmenu">
             <ul>
                 <li><a href="index.html">主页</a></li>
-               
-                <li><a href="clist.html#1">商品分类</a></li> 
-                <li><a href="about.html">关于</a></li>
+                <li><a href="clist.html#1" >商品分类</a></li> 
+                <!--class="selected"  -->
+                <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                <li><a href="contact.html" class="selected">联系我们</a></li>
-                <li><a href="faqs.html">常见问题解答</a></li>
-                <li id="headerLogin" class="headerLogin" style="display: list-item;"><a href="olist.html">我的订单</a></li>
+                 <li><a href="topic.html">留言板</a></li>
+                <li><a href="contact.html">联系我们</a></li>
                
-                <li id="headerLogin" class="headerLogin" style="display: list-item;">
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
 						<a href="login.html" v-if=" user==''">登录</a>
 						<a v-if="user!=null">{{user.name}}</a>|
 				</li>
-				<li id="headerRegister" class="headerRegister" style="display: list-item;"><a @click="logout()">退出</a>|</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
             </ul>
            
-            <div id="templatemo_search">
-                <form action="#" method="get">
-                  	<input type="text" value="Site Search" name="keyword" id="keyword" title="keyword" 
-                  			onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                  	<input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn" />
-                </form>
-            </div>
             <br style="clear: left" />
-        </div> 
-        <a href="http://sc.chinaz.com" title="免费的图像搜索"  class="site_repeat" ><img src="images/top_repeat.png" title="免费的图像搜索" alt="免费的图像搜索" /></a><!-- end of templatemo_menu -->
+        </div>
+
 
     </div> <!-- END of header -->
-    <script type="text/javascript">
-    var v5= new Vue({
-		el:"#templatemo_header",
-		data:{
-			user:{},
-	        flo:[]
-		},
-		created(){
-			axios.get("getLoginedUser").then(res=>{
-				this.user = res.data;
-			});
-		},
-		methods:{
-			logout(){
-				if(confirm("确定要退出登录?")){
-					axios.get("out.s").then(res=>{
-						alert(res.data.msg);
-						location.href = "index.html";
+    
+     <script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
 					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
 				}
-			}
-		}
-	})
-    </script>
+			})
+		
+		
+		</script>
     
     
 </div> <!-- END of header wrapper -->
@@ -227,7 +233,6 @@ function clearText(field)
         <a href="#"><img src="images/1311260374_visa-straight.png" alt="Visa" /></a>
     </div>
 	<div class="footer_right">
-		<p>Copyright &copy; 2014.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/?moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
 	</div>
     <div class="cleaner"></div>
 </div> <!-- END of footer -->
@@ -235,6 +240,4 @@ function clearText(field)
 </div>
 
 </body>
-<!-- <script type='text/javascript' src='js/logging.js'></script>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div> -->
 </html>
