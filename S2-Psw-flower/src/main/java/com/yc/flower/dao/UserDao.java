@@ -68,4 +68,9 @@ public class UserDao extends BaseDao{
 				user.getAddr(),
 				user.getEmail());
 	}
+	
+	
+	/*public User selectByName(String name) {
+		
+	}*/
 }

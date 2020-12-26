@@ -70,4 +70,17 @@ public class UserAction {
 		return  list.size() ;
 	}
 	
+	
+	//验证码
+	/**
+	 * SpringMVC 接收请求参数的语法
+	 * 
+	 * HttpSession SpringMVC(会自动注入一个绘画对象)
+	 * 
+	 * */
+	/*public String sendVcode(String name,HttpSession session) {
+		//根据用户名发送验证短信（业务逻辑，BankBiz.sendVcode）
+		//将验证码保存到绘画
+		//通知浏览器发送成功
+	}*/
 }

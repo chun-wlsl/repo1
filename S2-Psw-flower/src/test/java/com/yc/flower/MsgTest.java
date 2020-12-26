@@ -1,4 +1,4 @@
-package com.yc.flower;
+/*package com.yc.flower;
 
 import javax.annotation.Resource;
 
@@ -28,4 +28,4 @@ public class MsgTest {
 		}
 		
 	}
-}
+}*/

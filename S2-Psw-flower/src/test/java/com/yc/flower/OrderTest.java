@@ -1,4 +1,4 @@
-package com.yc.flower;
+/*package com.yc.flower;
 
 import java.sql.SQLException;
 
@@ -74,4 +74,4 @@ public class OrderTest {
 			Assert.isTrue("2".equals(pb3),"数量为2!");
 		}
 	}
-}
+}*/
