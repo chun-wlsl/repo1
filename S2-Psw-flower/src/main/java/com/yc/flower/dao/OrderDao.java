@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,4 +99,75 @@ public class OrderDao extends BaseDao{
 				+ " left join flower c on b.fid=c.fid "
 				+ "where a.uid=?", uid);
 	}
+
+	public int update(Order o) {
+		String sql = "update orders set uid=?,name=?,total=?,state=?,addr=?,phone=? where oid = ?";
+		return jt.update(sql, o.getUid(), o.getName(),o.getTotal(),o.getState(),o.getAddr(),o.getPhone(), o.getOid());
+	}
+
+	//给后台使用，查找所有的商品,在flower.html中使用
+	public List<?> selectAllOrder(Integer oid, Integer uid, String name, Integer state, String page, String rows) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(name!=null && name.trim().isEmpty() == false) {
+			where += " and name like ?";
+			params.add("%" + name + "%");
+		}
+		if(uid != null) {
+			where += " and uid = ?";
+			params.add(uid);
+		}
+		if(state != null ) {
+			where += " and state = ?";
+			params.add(state);
+		}
+		if(oid != null ) {
+			where += " and oid = ?";
+			params.add(oid);
+		}
+		//将字符串转为数字，方便计算
+		int ipage = Integer.parseInt(page);
+		int irows = Integer.parseInt(rows);
+		ipage = (ipage - 1) * 10;
+		String sql = "select * from orders where 1=1 "
+				+ where
+				+ " limit ? , ? ";
+		params.add(ipage);
+		params.add(irows);
+		return jt.queryForList(sql, params.toArray());
+	}
+
+	// 给后台使用
+	public int count(Integer oid, Integer uid, String name, Integer state) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(name!=null && name.trim().isEmpty() == false) {
+			where += " and name like ?";
+			params.add("%" + name + "%");
+		}
+		if(uid != null) {
+			where += " and uid = ?";
+			params.add(uid);
+		}
+		if(state != null ) {
+			where += " and state = ?";
+			params.add(state);
+		}
+		if(oid != null ) {
+			where += " and oid = ?";
+			params.add(oid);
+		}
+		
+		String sql = "select null from orders where 1=1 " + where;
+		return count(sql, params.toArray());
+	}
+	
+	// 给后台使用
+	public int count(String sql, Object... params) {
+		String sql1 = "select count(*) cnt from (" + sql + ") a";
+		Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");
+		int ret = Integer.valueOf("" + cnt);
+		return ret;
+	}
+	
 }

@@ -93,7 +93,7 @@ public class FlowerDao extends BaseDao{
 		};
 
 
-		//查找所有的商品,在flower.html中使用
+		//给后台使用，查找所有的商品,在flower.html中使用
 		public List<?> selectAllFlower(String fname, Integer cid, Double discount, Integer fcount, String page, String rows) {
 			String where = "";
 			List<Object> params = new ArrayList<>();
@@ -102,15 +102,15 @@ public class FlowerDao extends BaseDao{
 				params.add("%" + fname + "%");
 			}
 			if(cid != null) {
-				where += " and a.cid like ?";
+				where += " and a.cid = ?";
 				params.add(cid);
 			}
 			if(discount != null ) {
-				where += " and discount like ?";
+				where += " and discount = ?";
 				params.add(discount);
 			}
 			if(fcount != null ) {
-				where += " and fcount like ?";
+				where += " and fcount = ?";
 				params.add(fcount);
 			}
 			
@@ -121,14 +121,14 @@ public class FlowerDao extends BaseDao{
 			String sql = "select a.*,b.cname from flower a join category b "
 					+ " on a.cid = b.cid where 1=1 "
 					+ where
-					+ " limit ? , ? ";
+					+ " order by a.fid asc limit ? , ? ";
 			params.add(ipage);
 			params.add(irows);
 			return jt.queryForList(sql, params.toArray());
 		}
 
 
-		//更新商品信息
+		//给后台使用，更新商品信息
 		public int update(Flower f) {
 			String sql = "update flower set fname = ?,market_price = ?,discount = ?,shop_price = ?,"
 					+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";
@@ -136,7 +136,7 @@ public class FlowerDao extends BaseDao{
 					f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getFid());
 		}
 		
-		// 分页的总记录数,在flower.html中使用
+		//给后台使用，分页的总记录数,在flower.html中使用
 		public int count(String fname, Integer cid, Double discount,Integer fcount) {
 			String where = "";
 			List<Object> params = new ArrayList<>();
@@ -145,15 +145,15 @@ public class FlowerDao extends BaseDao{
 				params.add("%" + fname + "%");
 			}
 			if(cid != null) {
-				where += " and cid like ? ";
+				where += " and cid = ? ";
 				params.add(cid);
 			}
 			if(discount != null ) {
-				where += " and discount like ?";
+				where += " and discount = ?";
 				params.add(discount);
 			}
 			if(fcount != null ) {
-				where += " and fcount like ?";
+				where += " and fcount = ?";
 				params.add(fcount);
 			}
 			
@@ -162,6 +162,7 @@ public class FlowerDao extends BaseDao{
 			
 		}
 
+		//给后台使用
 		public int count(String sql, Object... params) {
 			String sql1 = "select count(*) cnt from (" + sql + ") a";
 			Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");

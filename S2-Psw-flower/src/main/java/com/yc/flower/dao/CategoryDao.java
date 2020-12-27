@@ -5,6 +5,7 @@ package com.yc.flower.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -25,7 +26,7 @@ public class CategoryDao extends BaseDao{
 	
 	
 	//通过cid查询一行数据
-	public Category queryByCid(int cid) {
+	public Category queryByCid(Integer cid) {
 		String sql= "select * from category where cid= ? ";
          return jt.query(sql, rs->{
  			return rs.next() ? categoryRowMapper.mapRow(rs, -1) : null;
@@ -46,7 +47,7 @@ public class CategoryDao extends BaseDao{
 
 	public int  insertCategory(Category c) {
 		
-		String sql="insert into category vaules (null,?,?) ";
+		String sql="insert into category values (null,?,?) ";
 		
 		return jt.update(sql,
 				c.getCname(),
@@ -63,5 +64,62 @@ public class CategoryDao extends BaseDao{
 				);
 				
 	}
+
+
+	//给后台使用
+	public List<?> selectAllCategory(Integer cid, String cname, String intro, String page, String rows) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(cname!=null && cname.trim().isEmpty() == false) {
+			where += " and cname like ? ";
+			params.add("%" + cname + "%");
+		}
+		if(intro!=null && intro.trim().isEmpty() == false) {
+			where += " and intro like ? ";
+			params.add("%" + intro + "%");
+		}
+		if(cid != null ) {
+			where += " and cid = ? ";
+			params.add(cid);
+		}
+		
+		//将字符串转为数字，方便计算
+		int ipage = Integer.parseInt(page);
+		int irows = Integer.parseInt(rows);
+		ipage = (ipage - 1) * 10;
+		String sql = "select * from category where 1=1"
+				+ where
+				+ " limit ? , ? ";
+		params.add(ipage);
+		params.add(irows);
+		return jt.queryForList(sql, params.toArray());
+	}
 	
+	//给后台使用
+	public int count(Integer cid, String cname, String intro) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(cname!=null && cname.trim().isEmpty() == false) {
+			where += " and cname like ? ";
+			params.add("%" + cname + "%");
+		}
+		if(intro!=null && intro.trim().isEmpty() == false) {
+			where += " and intro like ? ";
+			params.add("%" + intro + "%");
+		}
+		if(cid != null ) {
+			where += " and cid = ? ";
+			params.add(cid);
+		}
+		String sql = "select null from category where 1=1 " + where;
+		return count(sql, params.toArray());
+	}
+	
+	//给后台使用
+	public int count(String sql, Object... params) {
+		String sql1 = "select count(*) cnt from (" + sql + ") a";
+		Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");
+		int ret = Integer.valueOf("" + cnt);
+		return ret;
+	}
 }

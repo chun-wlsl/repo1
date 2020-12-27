@@ -21,6 +21,9 @@ var data = [{
     },{
         text: '订单管理',
         url:'order.html'
+    },{
+        text: '用户管理',
+        url:'user.html'
     }]
 }];
 function selectMenu(Item){
@@ -33,7 +36,6 @@ function selectMenu(Item){
 			content:"<iframe src=' "+Item.url+"' style='width:100%;height:100%;border:opx'></iframe>"
 		});
 	}
-	
 }	
 </script>
 </head>
@@ -44,10 +46,6 @@ function selectMenu(Item){
 			<div class="top-btns">
 				<span>欢迎您，管理员</span>
 				<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
-				<select class="easyui-combobox" data-options="editable:false">
-					<option value="0" selected="selected">中文</option>
-					<option value="1">English</option>
-				</select>
 			</div>
 		</div>
 		

@@ -33,6 +33,7 @@ public class FlowerBiz{
 		fdao.insert(p);
 	}
 	
+	//给后台使用
 	public void save(Flower f) throws BizException {
 		Utils.checkNull(f.getFname(), "鲜花名称不能为空");
 		Utils.checkNull(f.getShopPrice(), "鲜花销售价格必须大于0");

@@ -65,7 +65,7 @@ public class FlowerAction {
 		}
 	}
    
-   	//查找所有的商品
+   	//给后台使用，查找所有的商品
    	@RequestMapping("queryAllProduct")
 	public Map<String, Object> queryAllProduct(String fname, Integer cid, Double discount,Integer fcount, String page, String rows){
    		System.out.println("fname:"+fname+"  cid:"+cid+"  discount:"+discount+"  fcount:"+fcount+"  page:"+page+"  rows:"+rows);
@@ -79,6 +79,7 @@ public class FlowerAction {
 		return data;
 	}
    	
+   	//给后台使用，flower页面的save
    	@RequestMapping(path="flower.s",params="op=save")
 	public Result save(Integer fid, String fname, Double marketPrice, Double discount, Double shopPrice,
 			 String image, Integer cid, Integer isHot,  Integer fcount, String advice){
@@ -95,7 +96,7 @@ public class FlowerAction {
 		f.setAdvice(advice);
 		try {
 			fbiz.save(f);
-			return new Result(1,"商品保存成功!");
+			return new Result(1,"鲜花保存成功!");
 		} catch (BizException e) {
 			e.printStackTrace();
 			return new Result(0,e.getMessage());
