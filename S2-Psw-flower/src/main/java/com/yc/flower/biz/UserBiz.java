@@ -84,4 +84,21 @@ public class UserBiz {
 		mbiz.sendSimpleMail(user.getEmail(), "密码重置验证码","请使用"+vcode+"验证码来设置验证码");
 		return vcode;
 	}
+
+
+	//给后台使用
+	public void save(User u) throws BizException {
+		Utils.checkNull(u.getName(), "用户名不能为空");
+		Utils.checkNull(u.getPwd(), "密码不能为空");
+		Utils.checkNull(u.getSex(), "性别不能为空");
+		Utils.checkNull(u.getPhone(), "电话号码不能为空");
+		Utils.checkNull(u.getAddr(), "居住地址不能为空");
+		Utils.checkNull(u.getEmail(),"邮箱地址不能为空");
+		
+		if(u.getUid() == null || u.getUid() == 0) {
+			udao.insert(u);
+		} else {
+			udao.update(u);
+		}
+	}
 }

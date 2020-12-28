@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,18 +26,30 @@ public class OrderDao extends BaseDao{
 	 * @return 
 	 */
 	public int insertOrder(Order order) {
+<<<<<<< HEAD
 		String sql="insert into orders values(null,?,null,?,now(),0,null,null)";
+=======
+		String sql="insert into orders values(null,?,?,?,now(),?,?,?)";
+>>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
 		KeyHolder kh = new GeneratedKeyHolder();
 		jt.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql, new String[] {"oid"});
 				ps.setObject(1, order.getUid());
+<<<<<<< HEAD
 				//ps.setObject(2, order.getName());
 				ps.setObject(2, order.getTotal());
                 //ps.setObject(4, order.getState());
 				//ps.setObject(4, order.getAddr());
 				//ps.setObject(5, order.getPhone());
+=======
+				ps.setObject(2, order.getName());
+				ps.setObject(3, order.getTotal());
+                ps.setObject(4, 1);
+				ps.setObject(5, order.getAddr());
+				ps.setObject(6, order.getPhone());
+>>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
 				return ps;
 			}
 			
@@ -44,6 +57,10 @@ public class OrderDao extends BaseDao{
 		return kh.getKey().intValue();
 		
 	}
+	
+	
+	
+	
 	
 	/**
 	 * 新增订单明细
@@ -98,6 +115,7 @@ public class OrderDao extends BaseDao{
 				+ " left join flower c on b.fid=c.fid "
 				+ "where a.state=0 and a.uid=?", uid);
 	}
+<<<<<<< HEAD
 	
 	//支付成功
 	public int checkState(Order order) {
@@ -119,5 +137,77 @@ public class OrderDao extends BaseDao{
 	}
 	
 	
+=======
+
+	public int update(Order o) {
+		String sql = "update orders set uid=?,name=?,total=?,state=?,addr=?,phone=? where oid = ?";
+		return jt.update(sql, o.getUid(), o.getName(),o.getTotal(),o.getState(),o.getAddr(),o.getPhone(), o.getOid());
+	}
+
+	//给后台使用，查找所有的商品,在flower.html中使用
+	public List<?> selectAllOrder(Integer oid, Integer uid, String name, Integer state, String page, String rows) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(name!=null && name.trim().isEmpty() == false) {
+			where += " and name like ?";
+			params.add("%" + name + "%");
+		}
+		if(uid != null) {
+			where += " and uid = ?";
+			params.add(uid);
+		}
+		if(state != null ) {
+			where += " and state = ?";
+			params.add(state);
+		}
+		if(oid != null ) {
+			where += " and oid = ?";
+			params.add(oid);
+		}
+		//将字符串转为数字，方便计算
+		int ipage = Integer.parseInt(page);
+		int irows = Integer.parseInt(rows);
+		ipage = (ipage - 1) * 10;
+		String sql = "select * from orders where 1=1 "
+				+ where
+				+ " limit ? , ? ";
+		params.add(ipage);
+		params.add(irows);
+		return jt.queryForList(sql, params.toArray());
+	}
+
+	// 给后台使用
+	public int count(Integer oid, Integer uid, String name, Integer state) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(name!=null && name.trim().isEmpty() == false) {
+			where += " and name like ?";
+			params.add("%" + name + "%");
+		}
+		if(uid != null) {
+			where += " and uid = ?";
+			params.add(uid);
+		}
+		if(state != null ) {
+			where += " and state = ?";
+			params.add(state);
+		}
+		if(oid != null ) {
+			where += " and oid = ?";
+			params.add(oid);
+		}
+		
+		String sql = "select null from orders where 1=1 " + where;
+		return count(sql, params.toArray());
+	}
+	
+	// 给后台使用
+	public int count(String sql, Object... params) {
+		String sql1 = "select count(*) cnt from (" + sql + ") a";
+		Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");
+		int ret = Integer.valueOf("" + cnt);
+		return ret;
+	}
+>>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
 	
 }

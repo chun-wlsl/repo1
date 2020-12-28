@@ -46,6 +46,21 @@ public class OrderBiz {
 		cdao.clearCart(order.getUid());
 
 	}
+
+	public void save(Order o) throws BizException {
+		Utils.checkNull(o.getUid(), "用户ID不能为空");
+		Utils.checkNull(o.getName(), "收货人姓名不能为空");
+		Utils.checkNull(o.getTotal(), "订单总金额不能为空");
+		Utils.checkNull(o.getAddr(), "收货地址不能为空");
+		Utils.checkNull(o.getPhone(), "收货人电话不能为空");
+		Utils.checkNull(o.getState(), "收货人电话不能为空");
+
+		if(o.getOid() == null || o.getOid() == 0) {
+			odao.insertOrder(o);
+		} else {
+			odao.update(o);
+		}
+	}
 	
 	
 	

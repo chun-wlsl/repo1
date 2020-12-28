@@ -21,6 +21,9 @@ var data = [{
     },{
         text: '订单管理',
         url:'order.html'
+    },{
+        text: '用户管理',
+        url:'user.html'
     }]
 }];
 function selectMenu(Item){
@@ -43,10 +46,6 @@ function selectMenu(Item){
 			<div class="top-btns">
 				<span>欢迎您，管理员</span>
 				<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
-				<select class="easyui-combobox" data-options="editable:false">
-					<option value="0" selected="selected">中文</option>
-					<option value="1">English</option>
-				</select>
 			</div>
 		</div>
 		
@@ -64,7 +63,7 @@ function selectMenu(Item){
 				</div>
 			</div>
 		</div>
-		<div id="tt" class="easyui-tabs" data-options="region:'center',title:'功能区',iconCls:'icon-ok',fit:true">
+		<div id="tt" class="easyui-tabs" data-options="region:'center',title:'功能区',iconCls:'icon-ok'">
 			<div title="Home" style="padding:10px;">
 				jQuery easyui framework help you build your web page easily.
 			</div>
@@ -72,7 +71,6 @@ function selectMenu(Item){
 	</div>
 	<script type="text/javascript">
 			$(function() {
-				
 				//解决闪屏的问题
 				window.setTimeout(function() {
 					$("#layout").css("visibility", "visible");
