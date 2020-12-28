@@ -26,7 +26,7 @@ public class FlowerDao extends BaseDao{
 		return jt.query(sql, flowerRowMapper,cid);
 	}
    
-   //查找商品
+   //查找所有商品（花）
    public List<Flower> selectFlower(){
 		String sql = "select * from flower where 1=1 limit 0,8";
 		return jt.query(sql, flowerRowMapper);
@@ -84,6 +84,7 @@ public class FlowerDao extends BaseDao{
 				f.setIsHot(rs.getInt("is_hot"));
 				f.setFdate(rs.getDate("fdate"));
 				f.setCid(rs.getInt("cid"));
+				f.setFcount(rs.getInt("fcount"));
 				f.setAdvice(rs.getString("advice"));
 				return f;
 			}
@@ -103,10 +104,18 @@ public class FlowerDao extends BaseDao{
 					+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";
 			return jt.update(sql, f.getFname(),f.getMarketPrice(),f.getDiscount(),f.getShopPrice(),
 					f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getAdvice());
+		
 		}
 		
 		
-		
+		//(前台)更改商品（花)的库存量
+		public int updateCount(int fid,int count) {
+			String sql="update flower set fcount=fcount- ? where fid=?";
+			 return jt.update(sql, count,fid);	
+		      
+			 
+			 
+		}
 		
 		
 		

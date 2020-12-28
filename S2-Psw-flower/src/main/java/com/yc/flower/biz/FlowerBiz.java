@@ -1,11 +1,15 @@
 package com.yc.flower.biz;
 
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yc.flower.bean.Cart;
 import com.yc.flower.bean.Flower;
+import com.yc.flower.dao.CartDao;
 import com.yc.flower.dao.FlowerDao;
 import com.yc.flower.util.Utils;
 
@@ -14,6 +18,8 @@ import com.yc.flower.util.Utils;
 public class FlowerBiz{
 	@Resource 
 	private FlowerDao fdao;
+	@Resource
+	private CartDao cdao;
 	//添加商品
 	@Transactional
 	public void create(Flower p) throws BizException{
@@ -31,5 +37,26 @@ public class FlowerBiz{
 		// 添加到数据库
 		fdao.insert(p);
 	}
+	
+	
+	//添加购物车，需先判断商品库存是否充足
+	public void addCart(Integer uid,int fid, int count) throws SQLException, BizException {
+		//获取商品的信息
+	    Flower f=fdao.queryFlowerById(fid);//添加购物车商品的fid(主键）
+	    System.out.println(f.toString());
+		//库存是否大于添加购物车的数量
+	     int counts=f.getFcount();
+	    if(counts>=count) {
+	    	//商品-添加购物车的数量
+	    	fdao.updateCount(count,fid);
+	    	cdao.addCart(uid, fid, count);
+	    	
+	    }else {
+	    	throw new BizException("库存不足");
+	    }
+	}
+
+
+	
 	
 }

@@ -228,8 +228,8 @@ function clearText(field)
                 <td> </td>
             </tr>
         </table>
-		<div class="cleaner h20"></div>
-        <div class="right"><a href="checkout.html" class="button">结算</a></div>
+		<div class="cleaner h20"><a href="#" class="button" @click="clearCart()">清空购物车</a></div>
+        <div class="right"><a class="button" @click="Order()">结算</a></div>
         <div class="cleaner h20"></div>
         <div class="blank_box">
         	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
@@ -278,6 +278,15 @@ function clearText(field)
 						if(confirm("确定要清空购物车?")){
 							axios.get("cart.s?op=clearCart").then(res=>{
 								alert(res.data.msg);
+							})
+						}
+					},
+					Order(){
+						if(confirm("确认提交?")){
+							var params = new URLSearchParams();
+							axios.post("order.s",params).then(res=>{
+								alert(res.data.msg);
+								location.href = "checkout.html";
 							})
 						}
 					}

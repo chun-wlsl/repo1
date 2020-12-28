@@ -118,9 +118,8 @@ function clearText(field)
             <!-- 分类展示 -->  
             <div > 
                 <ul class="sidebar_list">
-                
                     <li v-for="c in category">
-                    <a :href="'clist.html#'+c.cid">{{c.cname}}</a>
+                    <a :href="'clist.html?cid='+c.cid+'#'+c.cid">{{c.cname}}</a>
                     </li>
                      
                 </ul>
