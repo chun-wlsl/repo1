@@ -18,19 +18,20 @@ public class FlowerDao extends BaseDao{
 	
 	//查找最热商品（花）
    public List<Flower> selectHot(){
-		String sql = "select * from flower where is_hot=1 limit 0,10";
+		String sql = "select * from flower where fcount>0 and is_hot=1"
+				+ " limit 0,10";
 		return jt.query(sql, flowerRowMapper);
 	}
 	
    //查找类别为cid的所有商品（花）
    public List<Flower> queryFlowerByCid(int cid) {
-		String sql = "select * from flower  where cid=?";
+		String sql = "select * from flower  where fcount>0 and cid=?";
 		return jt.query(sql, flowerRowMapper,cid);
 	}
    
    //查找商品
    public List<Flower> selectFlower(){
-		String sql = "select * from flower where 1=1 limit 0,8";
+		String sql = "select * from flower where fcount>0 and limit 0,8";
 		return jt.query(sql, flowerRowMapper);
 	
    }
