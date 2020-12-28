@@ -71,6 +71,23 @@ public class FlowerDao extends BaseDao{
 		
 	}
 	
+	
+//	public int update(Flower f) {
+//		String sql = "update flower set fname = ?,market_price = ?,discount = ?,shop_price = ?,"
+//				+ "image = ?,cid = ?,is_hot = ?,fcount = ?,advice = ? where fid = ?";
+//		return jt.update(sql, f.getFname(),f.getMarketPrice(),f.getDiscount(),f.getShopPrice(),
+//
+//				f.getImage(),f.getCid(),f.getIsHot(),f.getFcount(),f.getAdvice(),f.getFid());
+//
+//	}
+	
+	
+	//(前台)更改商品（花)的库存量
+			public int updateCount(int fid,int count) {
+				String sql="update flower set fcount=fcount- ? where fid=?";
+				 return jt.update(sql, count,fid);	
+			}
+	
 		
 		 RowMapper<Flower> flowerRowMapper = new RowMapper<Flower>() {
 

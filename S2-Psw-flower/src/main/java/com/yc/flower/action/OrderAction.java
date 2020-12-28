@@ -1,7 +1,9 @@
 package com.yc.flower.action;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -70,6 +72,40 @@ public class OrderAction {
 		return Result.success("支付成功!");
 	}
 	
+	
+	@RequestMapping(path="orders.s",params="op=save")
+	public Result save(Integer oid, Integer uid, String name, Double total, Integer state, String addr, String phone){
+   		Order order = new Order();
+   		order.setOid(oid);
+   		order.setUid(uid);
+		order.setName(name);
+		order.setTotal(total);
+		order.setState(state);
+		order.setAddr(addr);
+		order.setPhone(phone);
+		try {
+			obiz.save(order);
+			return new Result(1,"订单保存成功!");
+		} catch (BizException e) {
+			e.printStackTrace();
+			return new Result(0,e.getMessage());
+		}
+	}
+   	
+   	//给后台使用，查找所有的商品
+   	@RequestMapping("queryAllOrders")
+	public Map<String, Object> queryAllOrders(Integer oid, Integer uid, String name, Integer state, String page, String rows){
+   		System.out.println("oid:"+oid+"  uid:"+uid+"  name:"+name+"  state:"+state+"  page:"+page+"  rows:"+rows);
+    	List<?> list = odao.selectAllOrder(oid, uid, name, state, page, rows);
+    	System.out.println("list:"+list);
+    	int total = odao.count(oid, uid, name, state);
+    	System.out.println("total:"+total);
+    	HashMap<String, Object> data = new HashMap<>();
+    	data.put("rows", list);
+    	data.put("total", total);
+		return data;
+	}
+
 	
 	
 }

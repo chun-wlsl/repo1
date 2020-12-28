@@ -26,30 +26,29 @@ public class OrderDao extends BaseDao{
 	 * @return 
 	 */
 	public int insertOrder(Order order) {
-<<<<<<< HEAD
+
 		String sql="insert into orders values(null,?,null,?,now(),0,null,null)";
-=======
-		String sql="insert into orders values(null,?,?,?,now(),?,?,?)";
->>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
+
+
 		KeyHolder kh = new GeneratedKeyHolder();
 		jt.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql, new String[] {"oid"});
 				ps.setObject(1, order.getUid());
-<<<<<<< HEAD
+
 				//ps.setObject(2, order.getName());
 				ps.setObject(2, order.getTotal());
                 //ps.setObject(4, order.getState());
 				//ps.setObject(4, order.getAddr());
 				//ps.setObject(5, order.getPhone());
-=======
-				ps.setObject(2, order.getName());
-				ps.setObject(3, order.getTotal());
-                ps.setObject(4, 1);
-				ps.setObject(5, order.getAddr());
-				ps.setObject(6, order.getPhone());
->>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
+
+				//ps.setObject(2, order.getName());
+				//ps.setObject(3, order.getTotal());
+               // ps.setObject(4, 1);
+				//ps.setObject(5, order.getAddr());
+				//ps.setObject(6, order.getPhone());
+
 				return ps;
 			}
 			
@@ -115,7 +114,6 @@ public class OrderDao extends BaseDao{
 				+ " left join flower c on b.fid=c.fid "
 				+ "where a.state=0 and a.uid=?", uid);
 	}
-<<<<<<< HEAD
 	
 	//支付成功
 	public int checkState(Order order) {
@@ -137,7 +135,7 @@ public class OrderDao extends BaseDao{
 	}
 	
 	
-=======
+
 
 	public int update(Order o) {
 		String sql = "update orders set uid=?,name=?,total=?,state=?,addr=?,phone=? where oid = ?";
@@ -208,6 +206,6 @@ public class OrderDao extends BaseDao{
 		int ret = Integer.valueOf("" + cnt);
 		return ret;
 	}
->>>>>>> branch 'main' of https://github.com/chun-wlsl/repo1.git
+
 	
 }

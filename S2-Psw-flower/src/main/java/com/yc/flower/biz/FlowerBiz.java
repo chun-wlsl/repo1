@@ -56,7 +56,19 @@ public class FlowerBiz{
 	    }
 	}
 
-
+	public void save(Flower f) throws BizException {
+		Utils.checkNull(f.getFname(), "鲜花名称不能为空");
+		Utils.checkNull(f.getShopPrice(), "鲜花销售价格必须大于0");
+		Utils.checkNull(f.getDiscount(), "商品折扣不能为空");
+		Utils.checkNull(f.getMarketPrice(), "鲜花商城价格必须大于0");
+		Utils.checkNull(f.getFcount(), "商品库存量不能为空");
+		Utils.checkNull(f.getIsHot(), "商品是否热门不能为空");
+		if(f.getFid() == null || f.getFid() == 0) {
+			fdao.insert(f);
+		} else {
+			fdao.update(f);
+		}
+	}
 	
 	
 }
