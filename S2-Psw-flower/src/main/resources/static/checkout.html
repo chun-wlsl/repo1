@@ -131,7 +131,7 @@ function clearText(field)
             <h2 align="center">每周特价</h2>   
             <div class="content special">
             <a :href="'productdetail.html#'+flower.fid"> 
-                <img :src="flower.image"  />
+                <img :src="flower.image"   style="width:165px;height:120px;"/>
             </a>
             {{flower.fname}}
                 <p>
@@ -206,7 +206,7 @@ function clearText(field)
 					
 					<tr v-for="p in plist">
 						<td width="150px">
-							<img :src="p.image"/>
+							<img :src="p.image" style="width:165px;height:120px;"/>
 						</td>
 						<td  width="80px"  align="center">
 							<a target="_blank">{{p.fname}}</a>
