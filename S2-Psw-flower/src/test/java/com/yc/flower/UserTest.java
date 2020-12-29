@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.yc.flower.action.UserAction;
 import com.yc.flower.bean.Administrator;
 import com.yc.flower.bean.User;
+import com.yc.flower.biz.AdministratorBiz;
+import com.yc.flower.biz.BizException;
 import com.yc.flower.dao.AdministratorDao;
 
 @SpringBootTest
@@ -40,10 +42,11 @@ public class UserTest {
 	}
 	
 	@Test
-	public void test4() {
-		AdministratorDao adao = new AdministratorDao();
+	public void test4() throws BizException {
+		AdministratorBiz adao = new AdministratorBiz();
 		String aname = "admin";
-		System.out.println("aname是：" + aname);
-		System.out.println("结果是：" + adao.selectByAnameAndApwd(aname));
+		String apwd = "a";
+		System.out.println("aname是：" + aname + " apwd:" +apwd);
+		System.out.println("结果是：" + adao.login(aname, apwd));
 	}
 }
