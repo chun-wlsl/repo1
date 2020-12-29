@@ -55,36 +55,27 @@ function clearText(field)
 	<div id="templatemo_wrapper_sp">
 		<div id="templatemo_header_wsp">
 			<div id="templatemo_header" class="header_subpage">
-				<div id="site_title">
-					<a href="http://sc.chinaz.com" rel="nofollow">Free CSS
-						Templates</a>
-				</div>
+				<div id="site_title"><a  rel="nofollow"></a></div>
 				<div id="templatemo_menu" class="ddsmoothmenu">
 					 <ul>
-                <li><a href="index.html" class="selected">主页</a></li>
-                <li><a href="about.html">关于</a></li>
-                <li><a href="clist.html#1">分类商品</a>
-                    <ul>
-                        <li><a href="http://sc.chinaz.com/?page/1" rel="nofollow">Sub Page One</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/2" rel="nofollow">Sub Page Two</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/3" rel="nofollow">Sub Page Three</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/4" rel="nofollow">Sub Page Four</a></li>
-                        <li><a href="http://sc.chinaz.com/?page/5" rel="nofollow">Sub Page Five</a></li>
-                  	</ul>
-                </li>
-                <li><a href="checkout.html">支付</a></li>
-                <li><a href="contact.html">联系我们</a></li>
-                <li><a href="faqs.html">常见问题FAQs</a></li>
-            </ul>
-					<div id="templatemo_search">
-						<form action="#" method="get">
-							<input type="text" value="Site Search" name="keyword"
-								id="keyword" title="keyword" onfocus="clearText(this)"
-								onblur="clearText(this)" class="txt_field" /> <input
-								type="submit" name="Search" value="" alt="Search"
-								id="searchbutton" title="Search" class="sub_btn" />
-						</form>
-					</div>
+					 	<li><a href="index.html">主页</a></li>
+                		<li><a href="clist.html#1" >商品分类</a></li> 
+                		<!--class="selected"  -->
+                		<li><a href="shoppingcart.html" >购物车</a></li>
+                		<li><a href="checkout.html">支付</a></li>
+                		<li><a href="topic.html">留言板</a></li>
+               			<li><a href="contact.html">联系我们</a></li>
+                		<li id="headerLogin" class="headerLogin" style="display: list-item;">
+							<a href="login.html" v-if=" user==''">登录</a>
+							<!--<a  v-if="user!=null"><a  href="myself.html">{{user.name}}</a></a>|  -->
+							<a v-if="user!=null" href="myself.html">{{user.name}}</a>
+						</li>
+				
+						<li id="headerRegister" class="headerRegister" style="display: list-item;">
+							<a @click="logout()">退出</a>|
+						</li>
+            		</ul>
+					
 					<br style="clear: left" />
 				</div>
 				<a href="http://cn.hiresimage.com"
@@ -95,6 +86,31 @@ function clearText(field)
 
 			</div>
 			<!-- END of header -->
+			<script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{}
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 		</div>
 		<!-- END of header wrapper -->
 		<div id="templatemo_main_wrapper">
@@ -178,14 +194,16 @@ function clearText(field)
 				<!-- 商品详情 -->
 				<div id="content" class="right">
 					<h1>商品详情</h1>
+					<h3>{{product.fname}}</h3>
 					<div class="content_half left">
-						<a rel="lightbox"  href="images/product/image_01_l.jpg"><img
-							:src="product.image" alt="yellow flowers" /></a>
+						<a rel="lightbox"  href="images/product/image_01_l.jpg">
+							<img :src="product.image" alt="yellow flowers" style="width:250px;height:200px;"/>
+						</a>
 					</div>
 					<div class="content_half right">
 						<table>
 							<tr>
-								<td width="130">销售价:</td>
+								<td width="50">销售价:</td>
 								<td width="84" class="price special_price">${{product.shopPrice}}</td>
 							</tr>
 							<tr>
@@ -213,6 +231,33 @@ function clearText(field)
 							rel="nofollow"> <strong>CSS</strong></a>.
 							 -->
 					</p>
+					<div>
+						<br />
+						<h4>评论</h4>
+						<table width="92%" border="2" align="center" cellpadding="4" cellspacing="1" >
+							<tbody v-for="m in mlist">
+								<tr>
+									<td>
+										<span>发布者: {{m.name}}</span>
+										<span style="float:right;">发布时间: {{m.publishtime}}</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<table width="100%" cellspacing="1" cellpadding="8">
+											<tbody>
+												<tr>
+													<td><span><strong>{{m.content}}</strong></span></td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<br />
+						<h4><a :href="'contact.html#'+product.fid" color="black">留言</a></h4>
+					</div>
 					<div class="cleaner h40"></div>
 					<div class="blank_box">
 						<a href="#"><img src="images/free_shipping.jpg"
@@ -225,12 +270,17 @@ function clearText(field)
 				var v4 = new Vue({
 				el : "#content",
 				data :{
-					product:{}
+					product:{},
+					mlist : {}
 				},
 				created(){
+					var fid=location.hash.substring(1);
 					axios.get("queryFlowerById?fid="+location.hash.substring(1)).then(res=>{
 						this.product = res.data;
-					})
+					});
+					axios.get("queryMsgByfid?fid="+location.hash.substring(1)).then(res=>{
+						this.mlist = res.data;
+					});
 				},
 				methods:{
 					addCart(){
