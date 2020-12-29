@@ -1,4 +1,6 @@
-/*package com.yc.flower;
+package com.yc.flower;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -8,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.yc.flower.bean.Msg;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.MsgBiz;
+import com.yc.flower.dao.MsgDao;
 
 @SpringBootTest
 public class MsgTest {
@@ -28,4 +31,14 @@ public class MsgTest {
 		}
 		
 	}
-}*/
+	
+	@Test
+	public void test2() {
+		MsgDao mdao = new MsgDao();
+		Integer fid = 1;
+		List<?> list = mdao.queryMsgByfid(fid);
+		for(Object o : list) {
+			System.out.println(o);
+		}
+	}
+}

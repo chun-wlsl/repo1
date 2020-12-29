@@ -53,8 +53,8 @@ function clearText(field)
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                 <li><a href="topic.html">留言板</a></li>
-                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="topic.html">留言板</a></li>
+               	<li><a href="contact.html">联系我们</a></li>
                
                
                 <li id="headerLogin" class="headerLogin"
@@ -86,10 +86,6 @@ function clearText(field)
 					axios.get("getLoginedUser").then(res=>{
 						this.user = res.data;
 					});
-					axios.get("queryHot").then(res=>{
-					this.flist = res.data;
-				});
-					
 					
 				},
 				methods:{

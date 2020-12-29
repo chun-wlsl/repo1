@@ -10,26 +10,37 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+<style>
+.show {
+display: block;
+}
+</style>
 </head>
 <body class="login_bj" >
 <div class="zhuce_body">
 	<div class="logo"><p style="color:PowderBlue; font-size: 50px;width:200px">绿艺鲜花欢迎你!</p></div>
     <div class="zhuce_kong login_kuang">
     	<div class="zc">
-        	<div class="bj_bai">
-            <h3>登录</h3>
-       	  	  <form action="login.html" method="post" id="loginForm">
-                <input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
-                <input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码">
-                <div>
-               		<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
-                </div>
-                <input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
-                
-                </form>
-                
-                <script type="text/javascript">
+    	
+        	<div class="bj_bai tab" id="tl">
+        		<table>
+					<tr>
+						<td id="tab1"><button>用户登录</button></td>
+						<td id="tab2"><button>管理员登录</button></td>
+					</tr>
+				</table>
+            	<div class="tab1">
+            		<form action="login.html" method="post" id="loginForm">
+               			<input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
+                		<input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码">
+                		<div>
+               				<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
+                		</div>
+                		<input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
+                	</form>
+                	<script type="text/javascript">
                         new Vue({
                         	el:"#loginForm",
                         	data:{
@@ -63,9 +74,67 @@
                         	
                         })
                 
-                </script>
+                	</script>
+            	</div>
+       	  		
+       	  		<div class="tab2">
+       	  			<form action="login.html" method="post" id="loginForm1">
+                		<input v-model="aname" name="username" type="text" class="kuang_txt" placeholder="管理员用户名">
+                		<input v-model="apwd" name="password" type="password" class="kuang_txt" placeholder="密码">
+                		<div>
+               				<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
+                		</div>
+                		<input @click="login1()" name="登录" type="button" class="btn_zhuce" value="登录">
+                	</form>
+                	<script type="text/javascript">
+                        new Vue({
+                        	el:"#loginForm1",
+                        	data:{
+                        		aname:"",
+								apwd:""
+                        	},
+                        	methods:{
+                        		login1(){
+                            		var params = new URLSearchParams();
+    								params.append("aname",this.aname);
+    								params.append("apwd",this.apwd);
+    								axios.post("login1.s",params).then(res=>{
+    									alert(res.data.msg);
+    									if(res.data.code==1){
+    										location.href="/back/bIndex.html";
+    									}
+    								}).catch(error=>{
+    									alert("系统错误，请联系管理员");
+    								})
+                            	}
+                        	}
+                        	
+                        })
                 
+                	</script>
+       	  		</div>
             </div>
+        	
+        	<script>
+        	$(document).ready(function() {
+        		/********* tab setting *********/
+        		$(".tab td:first").addClass("current");
+        		$(".tab div:not(:first)").hide();
+
+        		/********* tab event *********/
+        		$(".tab td").click(function() {
+        			$(".tab td").removeClass("current");
+        			$(this).addClass("current");
+        			$(".tab div").hide();
+        			$("." + $(this).attr("id")).fadeIn('slow');
+        		});
+
+        		$("#linkFSS").click(function() {
+        			$("#tab7").click();
+        		});
+
+        	});
+        	</script>
         	<div class="bj_right">
             	<p>使用以下账号直接登录</p>
                 <a href="#" class="zhuce_qq">QQ注册</a>

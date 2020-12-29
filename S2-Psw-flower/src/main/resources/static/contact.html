@@ -53,8 +53,8 @@ function clearText(field)
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                 <li><a href="topic.html">留言板</a></li>
-                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="topic.html">留言板</a></li>
+               	<li><a href="contact.html">联系我们</a></li>
                
                
                 <li id="headerLogin" class="headerLogin"
@@ -86,10 +86,6 @@ function clearText(field)
 					axios.get("getLoginedUser").then(res=>{
 						this.user = res.data;
 					});
-					axios.get("queryHot").then(res=>{
-					this.flist = res.data;
-				});
-					
 					
 				},
 				methods:{
@@ -128,27 +124,41 @@ function clearText(field)
                 </ul>
             </div>
         </div>
-        <div class="sidebar_box"><span class="bottom"></span>
-            <h3>Weekly Special</h3>   
-            <div class="content special"> 
-                <img src="images/templatemo_image_01.jpg" alt="Flowers" />
-                <a href="#">Citrus Burst Bouquet</a>
-                <p>
-                	Price:
-                    <span class="price normal_price">$160</span>&nbsp;&nbsp;
-                    <span class="price special_price">$100</span>
-                </p>
-            </div>
-        </div>
+        <div id="fdiscount">
+			<span class="bottom"></span>
+			<h1 align="center">每周特价</h1>
+			<div class="content special">
+				<a :href="'productdetail.html#'+flower.fid"> 
+					<img :src="flower.image"  style="width:165px;height:120px;"/>
+				</a>
+				{{flower.fname}}
+				<p>
+					Price: <span class="price normal_price">${{flower.marketPrice}}</span>&nbsp;&nbsp;
+					<span class="price special_price">${{flower.shopPrice}}</span>
+				</p>
+			</div>
+		</div>
+		<script>
+		var v3=  new Vue({
+			el : "#fdiscount",
+			data :{
+				flower:{}
+			},
+			created(){
+				axios.get("queryDiscount").then(res=>{
+					this.flower = res.data;
+				});
+			}
+		})
+        </script>
     </div>
     
     <div id="content" class="right">
 		<h2>留言</h2>
         <div class="cleaner h40"></div>
         <div>
-           <form method="post" name="contact" action="#">
+           <form id="fcontent" method="post" name="contact" action="#">
            		<div id="col131" class="col col13">
-                
                     <label for="name">名称:</label> <br />
               		<input v-model="user.name" name="name" type="text" type="text" readonly value="name" class="input_field" id="name" maxlength="40"/> <br />
                 	<div class="cleaner h10"></div>
@@ -158,61 +168,69 @@ function clearText(field)
                     <label for="phone">电话:</label>  <br />
         			<input v-model="user.phone" name="phone" type="text" type="text" readonly value="phone" class="input_field" id="phone" maxlength="20" /> <br />
                 	<div class="cleaner h10"></div>
-                	
 			 	</div>
-                <script type="text/javascript">
-                var vue1 = new Vue({
-                	el : "#col131",
-                	data : {
-                		user : {
-                			name : "",
-                			email : "",
-                			phone : ""
-                		}
-                	},
-                	created(){
-                		axios.get("getLoginedUser").then(res=>{
-                			if(res.data && res.data.uid){
-                				this.user = res.data;
-                			} else {
-                				alert("你还没有登录");
-                				location.href = "login.html";
-                			}
-        				});
-                	}
-                });
-        		</script>
                 <div id="col231" class="col col23 no_margin_right">
-                    <label for="message">留言:</label> <br />
-               	  	<textarea v-model="content" id="message" name="message" rows="0" cols="0" class="required" style="width:420px;height:100px"></textarea>
+                    <label for="name">鲜花编号:</label> <br />
+              		<input v-model="flower.fid" name="name" type="text" type="text" readonly value="name" class="input_field" id="name" maxlength="40"/> <br />
+                	<label for="name">鲜花名称:</label> <br />
+              		<input v-model="flower.fname" name="name" type="text" type="text" readonly value="name" class="input_field" id="name" maxlength="40"/> <br />
+                	<label for="message">留言:</label> <br />
+                    <textarea v-model="content" id="message" name="message" rows="0" cols="0" class="required" style="width:420px;height:100px"></textarea>
                     <div class="cleaner h10"></div>
                     <input type="button" @click="addMsg()" class="submit_btn left" name="submit" id="submit" value="发送" />
                     <input type="reset" class="submit_btn submit_right" name="reset" id="reset" value="重置" />
-                    <a href="topic.html">留言板</a>
-				</div>
-                <script type="text/javascript">
-                var vue3 = new Vue({
-                	el : "#col231",
-                	data : {
-                		content : ""
-                	},
-                	methods : {
-                		addMsg(){
-                			var params = new URLSearchParams();
-                			params.append("content",this.content);
-               			  	axios.post("addMsg",params).then(res=>{
-               					alert(res.data.msg);
-               					if(res.data){
-               						location.href = "topic.html";
-               					}
-               					
-               			  	});
-                		}
-                	}
-                });
-                </script>
-                
+                </div>
             </form>
+            <script type="text/javascript">
+            var vue3 = new Vue({
+            	el : "#fcontent",
+            	data : {
+            		user : {
+            			name : "",
+            			email : "",
+            			phone : ""
+            		},
+            		content : "",
+            		flower : {}
+            	},
+            	created(){
+            		axios.get("getLoginedUser").then(res=>{
+            			if(res.data && res.data.uid){
+            				this.user = res.data;
+            				if(location.hash.substring(1)>0){
+            					axios.get("queryFlowerById?fid="+location.hash.substring(1)).then(res=>{
+                					this.flower = res.data;
+                				});
+            				}else{
+            					alert("你还没有选择鲜花");
+            					location.href = "index.html";
+            				}
+            			} else {
+            				alert("你还没有登录");
+            				location.href = "login.html";
+            			}
+    				});
+            	},
+            	methods : {
+            		addMsg(){
+            			var params = new URLSearchParams();
+            			params.append("content",this.content);
+            			params.append("uid",this.user.uid);
+            			params.append("fid",this.flower.fid);
+           			  	axios.post("addMsg",params).then(res=>{
+           					alert(res.data.msg);
+           					if(res.data.code == 1){
+           						location.href = "topic.html";
+           					}else{
+           						location.href = "index.html";
+           					}
+           					
+           			  	});
+            		}
+            	}
+            });
+            
+            </script>
         </div>
         
         <div class="cleaner h40"></div>        

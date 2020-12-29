@@ -19,7 +19,7 @@ public class FlowerDao extends BaseDao{
 	//查找最热商品（花）
    public List<Flower> selectHot(){
 		String sql = "select * from flower where fcount>0 and is_hot=1"
-				+ " limit 0,10";
+				+ " limit 0,8";
 		return jt.query(sql, flowerRowMapper);
 	}
 	
@@ -85,7 +85,7 @@ public class FlowerDao extends BaseDao{
 	
 	//(前台)更改商品（花)的库存量
 			public int updateCount(int fid,int count) {
-				String sql="update flower set fcount=fcount- ? where fid=?";
+				String sql="update flower set fcount=fcount- ? where fid=? and fcount>0";
 				 return jt.update(sql, count,fid);	
 			}
 	
@@ -186,6 +186,11 @@ public class FlowerDao extends BaseDao{
 			Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");
 			int ret = Integer.valueOf("" + cnt);
 			return ret;
+		}
+
+		public List<Flower> queryNewProduct() {
+			String sql = "select * from flower where fcount>0 ORDER BY fdate desc limit 0,8";
+			return jt.query(sql, flowerRowMapper);
 		}
 		
 		
