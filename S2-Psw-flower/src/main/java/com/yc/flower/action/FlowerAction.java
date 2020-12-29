@@ -104,4 +104,10 @@ public class FlowerAction {
 		}
 		
 	}
+   	
+   	//查找最新商品
+    @RequestMapping("queryNewProduct")
+ 	public List<Flower> queryNewProduct(){
+ 		return fdao.queryNewProduct();
+ 	}
 }
