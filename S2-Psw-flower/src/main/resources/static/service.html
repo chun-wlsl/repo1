@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>个人中心</title>
+<title>在线客服</title>
 <meta name="keywords" content="free template, contact,  ecommerce" />
 <meta name="description" content=" Contact Form, Location Maps, Addresses, free template for ecommerce websites." />
 <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
@@ -60,7 +60,7 @@ function clearText(field)
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
 						<a href="login.html" v-if=" user==''">登录</a>
-						<a v-if="user!=null">{{user.name}}</a>|
+						<a v-if="user!=null" href="myself.html">{{user.name}}</a>|
 				</li>
 				
 				<li id="headerRegister" class="headerRegister"
@@ -96,7 +96,7 @@ function clearText(field)
 					logout(){
 						if(confirm("确定要退出登录?")){
 							axios.get("out.s").then(res=>{
-								alert(res.data.msg);5
+								alert(res.data.msg);
 								location.href = "index.html";
 							});
 						}
@@ -113,17 +113,18 @@ function clearText(field)
 <div id="templatemo_main">
 	<div id="sidebar" class="left">
     	<div class="sidebar_box"><span class="bottom"></span>
-            <h3>花店分类</h3>   
+            <h3>鲜花用途</h3>   
             <div class="content"> 
                 <ul class="sidebar_list">
-                    <li><a href="#">鲜花</a></li>
-                    <li><a href="#">永生花</a></li>
-                    <li><a href="#">巧克力</a></li>
-                    <li><a href="#">礼品</a></li>
-                    <li><a href="#">花瓶</a></li>
-                    <li><a href="#">花盒</a></li>
-                    <li><a href="#">花语大全</a></li>
-                    <li><a href="#">绿植</a></li>
+                    <li><a href="#">爱情鲜花</a></li>
+                    <li><a href="#">生日鲜花</a></li>
+                    <li><a href="#">友情鲜花</a></li>
+                    <li><a href="#">问候长辈</a></li>
+                    <li><a href="#">探病慰问</a></li>
+                    <li><a href="#">道歉鲜花</a></li>
+                    <li><a href="#">祝贺鲜花</a></li>
+                    <li><a href="#">婚庆鲜花</a></li>
+                    <li><a href="#">商务鲜花</a></li>
                 </ul>
             </div>
         </div>
@@ -142,80 +143,16 @@ function clearText(field)
     </div>
     
     <div id="content" class="right">
-		<h2>个人中心</h2>
+		<h2>在线客服</h2>
         <div class="cleaner h40"></div>
         <div>
            <form method="post" name="contact" action="#">
            		<div id="col131" class="col col13">
                 
-                
-                    <label for="name">名称:</label> <br />
-              		<input v-model="user.name" name="name" type="text" class="input_field" id="name" maxlength="40"/> <br />
-                	<div class="cleaner h10"></div>
-                	<label for="pwd">密码:</label> <br />
-              		<input v-model="user.pwd" name="pwd" type="text" class="input_field" id="pwd" maxlength="40"/> <br />
-                	<div class="cleaner h10"></div>
-                	<label for="name">性别:</label> <br />
-              		<input v-model="user.sex" name="sex" type="text" class="input_field" id="sex" maxlength="40"/> <br />
-                	<div class="cleaner h10"></div>
-                    <label for="email">Email:</label>  <br />
-          			<input v-model="user.email" name="email" type="text" class="required input_field" id="email" maxlength="40" /> <br />
-                	<div class="cleaner h10"></div>
-                    <label for="phone">电话:</label>  <br />
-        			<input v-model="user.phone" name="phone" type="text" class="input_field" id="phone" maxlength="20" /> <br />
-                	<div class="cleaner h10"></div>
-                	<label for="addr">地址:</label> <br />
-                	<input v-model="user.addr" name="addr" type="text" class="input_field" id="addr" maxlength="20" /> <br />
-                	<div class="cleaner h10"></div>
-                	<input @click="reUser" name="修改" type="button" class="btn_zhuce" value="修改" />
-			 	</div>
-			 	
-                <script type="text/javascript">
-                var vue1 = new Vue({
-                	el : "#col131",
-                	data : {
-                		user:{
-                			name : "",
-                			pwd : "",
-                			sex : "",
-                			email : "",
-                			phone : "",
-                			addr : ""
-                		}
-                		
-                	},
-                	created(){
-                		axios.get("getLoginedUser").then(res=>{
-                			if(res.data && res.data.uid){
-                				this.user = res.data;
-                			} else {
-                				alert("你还没有登录");
-                				location.href = "login.html";
-                			}
-        				});
-                	},
-                	methods:{
-                		reUser(){
-                			if(confirm("确定要修改个人信息吗?")){
-                				var name=this.user.name;
-                				var pwd=this.user.pwd;
-                				var sex=this.user.sex;
-                				var email=this.user.email;
-                				var phone=this.user.phone;
-                				var addr=this.user.addr;
- 								//path="reUser.s",params = "op=reU"
-    							 axios.get("reUser.s?op=reU&name="+name+"&pwd="+pwd+"&email="+email+"&phone="+phone+"&sex="+sex+"&addr="+addr).then(res=>{
-    								alert(res.data.msg);
-    								location.href = "myself.html";
-    							}); 
-                				
-    						}
-                		}
-                	}
+                   
                 	
-                });
-        		</script>
-          
+			 	</div>
+                
                 
             </form>
         </div>
