@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.yc.flower.bean.Flower;
 import com.yc.flower.bean.User;
 @Repository
 public class UserDao extends BaseDao{
@@ -76,6 +77,22 @@ public class UserDao extends BaseDao{
 		String sql="update user set pwd=? where name=?";
 		jt.update(sql,password,name);
 	}
+	
+	//用户更新个人信息
+	public int updateUser(User user) {
+		String sql = "update user set name = ?,pwd = ?,sex =? ,phone = ? ,addr = ?,email =?" +
+				" where uid =?";
+		return jt.update(sql, 
+				user.getName(),
+				user.getPwd(),
+				user.getSex(),
+				user.getPhone(),
+				user.getAddr(),
+				user.getEmail(),
+				user.getUid());
+	}
+	
+
 
 	//给后台使用
 	public int update(User u) {
@@ -139,4 +156,5 @@ public class UserDao extends BaseDao{
 		int ret = Integer.valueOf("" + cnt);
 		return ret;
 	}
+
 }

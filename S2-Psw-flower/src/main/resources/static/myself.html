@@ -96,7 +96,7 @@ function clearText(field)
 					logout(){
 						if(confirm("确定要退出登录?")){
 							axios.get("out.s").then(res=>{
-								alert(res.data.msg);
+								alert(res.data.msg);5
 								location.href = "index.html";
 							});
 						}
@@ -143,32 +143,47 @@ function clearText(field)
     </div>
     
     <div id="content" class="right">
-		<h2>留言</h2>
+		<h2>个人中心</h2>
         <div class="cleaner h40"></div>
         <div>
            <form method="post" name="contact" action="#">
            		<div id="col131" class="col col13">
                 
+                
                     <label for="name">名称:</label> <br />
-              		<input v-model="user.name" name="name" type="text" type="text" readonly value="name" class="input_field" id="name" maxlength="40"/> <br />
+              		<input v-model="user.name" name="name" type="text" class="input_field" id="name" maxlength="40"/> <br />
+                	<div class="cleaner h10"></div>
+                	<label for="pwd">密码:</label> <br />
+              		<input v-model="user.pwd" name="pwd" type="text" class="input_field" id="pwd" maxlength="40"/> <br />
+                	<div class="cleaner h10"></div>
+                	<label for="name">性别:</label> <br />
+              		<input v-model="user.sex" name="sex" type="text" class="input_field" id="sex" maxlength="40"/> <br />
                 	<div class="cleaner h10"></div>
                     <label for="email">Email:</label>  <br />
-          			<input v-model="user.email" name="email" type="text" type="text" readonly value="email" class="required input_field" id="email" maxlength="40" /> <br />
+          			<input v-model="user.email" name="email" type="text" class="required input_field" id="email" maxlength="40" /> <br />
                 	<div class="cleaner h10"></div>
                     <label for="phone">电话:</label>  <br />
-        			<input v-model="user.phone" name="phone" type="text" type="text" readonly value="phone" class="input_field" id="phone" maxlength="20" /> <br />
+        			<input v-model="user.phone" name="phone" type="text" class="input_field" id="phone" maxlength="20" /> <br />
                 	<div class="cleaner h10"></div>
-                	
+                	<label for="addr">地址:</label> <br />
+                	<input v-model="user.addr" name="addr" type="text" class="input_field" id="addr" maxlength="20" /> <br />
+                	<div class="cleaner h10"></div>
+                	<input @click="reUser" name="修改" type="button" class="btn_zhuce" value="修改" />
 			 	</div>
+			 	
                 <script type="text/javascript">
                 var vue1 = new Vue({
                 	el : "#col131",
                 	data : {
-                		user : {
+                		user:{
                 			name : "",
+                			pwd : "",
+                			sex : "",
                 			email : "",
-                			phone : ""
+                			phone : "",
+                			addr : ""
                 		}
+                		
                 	},
                 	created(){
                 		axios.get("getLoginedUser").then(res=>{
@@ -179,38 +194,29 @@ function clearText(field)
                 				location.href = "login.html";
                 			}
         				});
-                	}
-                });
-        		</script>
-                <div id="col231" class="col col23 no_margin_right">
-                    <label for="message">留言:</label> <br />
-               	  	<textarea v-model="content" id="message" name="message" rows="0" cols="0" class="required" style="width:420px;height:100px"></textarea>
-                    <div class="cleaner h10"></div>
-                    <input type="button" @click="addMsg()" class="submit_btn left" name="submit" id="submit" value="发送" />
-                    <input type="reset" class="submit_btn submit_right" name="reset" id="reset" value="重置" />
-                    <a href="topic.html">留言板</a>
-				</div>
-                <script type="text/javascript">
-                var vue3 = new Vue({
-                	el : "#col231",
-                	data : {
-                		content : ""
                 	},
-                	methods : {
-                		addMsg(){
-                			var params = new URLSearchParams();
-                			params.append("content",this.content);
-               			  	axios.post("addMsg",params).then(res=>{
-               					alert(res.data.msg);
-               					if(res.data){
-               						location.href = "topic.html";
-               					}
-               					
-               			  	});
+                	methods:{
+                		reUser(){
+                			if(confirm("确定要修改个人信息吗?")){
+                				var name=this.user.name;
+                				var pwd=this.user.pwd;
+                				var sex=this.user.sex;
+                				var email=this.user.email;
+                				var phone=this.user.phone;
+                				var addr=this.user.addr;
+ 								//path="reUser.s",params = "op=reU"
+    							 axios.get("reUser.s?op=reU&name="+name+"&pwd="+pwd+"&email="+email+"&phone="+phone+"&sex="+sex+"&addr="+addr).then(res=>{
+    								alert(res.data.msg);
+    								location.href = "myself.html";
+    							}); 
+                				
+    						}
                 		}
                 	}
+                	
                 });
-                </script>
+        		</script>
+          
                 
             </form>
         </div>
