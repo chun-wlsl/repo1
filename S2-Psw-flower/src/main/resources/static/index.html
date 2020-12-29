@@ -62,7 +62,8 @@ function clearText(field)
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
 						<a href="login.html" v-if=" user==''">登录</a>
-						<a v-if="user!=null">{{user.name}}</a>|
+						<!--<a  v-if="user!=null"><a  href="myself.html">{{user.name}}</a></a>|  -->
+						<a v-if="user!=null" href="myself.html">{{user.name}}</a>
 				</li>
 				
 				<li id="headerRegister" class="headerRegister"

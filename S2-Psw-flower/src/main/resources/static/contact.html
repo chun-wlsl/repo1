@@ -150,13 +150,13 @@ function clearText(field)
            		<div id="col131" class="col col13">
                 
                     <label for="name">名称:</label> <br />
-              		<input v-model="user.name" name="name" type="text" class="input_field" id="name" maxlength="40"/> <br />
+              		<input v-model="user.name" name="name" type="text" type="text" readonly value="name" class="input_field" id="name" maxlength="40"/> <br />
                 	<div class="cleaner h10"></div>
                     <label for="email">Email:</label>  <br />
-          			<input v-model="user.email" name="email" type="text" class="required input_field" id="email" maxlength="40" /> <br />
+          			<input v-model="user.email" name="email" type="text" type="text" readonly value="email" class="required input_field" id="email" maxlength="40" /> <br />
                 	<div class="cleaner h10"></div>
                     <label for="phone">电话:</label>  <br />
-        			<input v-model="user.phone" name="phone" type="text" class="input_field" id="phone" maxlength="20" /> <br />
+        			<input v-model="user.phone" name="phone" type="text" type="text" readonly value="phone" class="input_field" id="phone" maxlength="20" /> <br />
                 	<div class="cleaner h10"></div>
                 	
 			 	</div>
