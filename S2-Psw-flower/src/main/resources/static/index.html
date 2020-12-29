@@ -194,19 +194,15 @@ function clearText(field)
     
     
     <div id="content" class="right">
-  
-    <font style="font-size: 40pt; filter:shadow(color=red); width:100%;color:white   ; line-height:150%; font-family:华文彩云">
-    <b>欢迎来到绿艺鲜花店</b>
-    </font><br>
-
- 
-     <h3><font style="color:#FFBB77">热销商品</font></h3>
-
+    	<font style="font-size: 40pt; filter:shadow(color=red); width:100%;color:white   ; line-height:150%; font-family:华文彩云">
+    		<b>欢迎来到绿艺鲜花店</b>
+    	</font><br>
+    	<h3><font style="color:#FFBB77">热销商品</font></h3>
         <div  v-for="f in flist">
-        <div  class="product_box"  style="width: 165px">
+        	<div  class="product_box"  style="width: 165px;">
           
 	            <a :href="'productdetail.html#'+f.fid">
-	            <img :src="f.image" alt="flowers 1" style="width: 165px" />
+	            <img :src="f.image" alt="flowers 1" style="width: 165px;height:120px;" />
 	            </a>
 	      		<h3>{{f.fname}}</h3>
 	      		
@@ -218,12 +214,11 @@ function clearText(field)
 	              <!--   <button  @click="addCart(f.fid)"  class="button">添加购物车</button>-->
 	            </p>
 	       
-        </div> 
-         </div>    
-         </div>
+        	</div> 
+        </div>
         <h3>最新商品</h3>
-        <div  v-for="l in list">
-        <div  class="product_box"  style="width: 165px">
+		<div  v-for="l in list">
+        	<div  class="product_box"  style="width: 165px;">
           
 	            <a :href="'productdetail.html#'+l.fid">
 	            <img :src="l.image" alt="flowers 1" style="width: 165px;height:120px;" />
@@ -238,8 +233,11 @@ function clearText(field)
 	              	<!--   <button  @click="addCart(f.fid)"  class="button">添加购物车</button>-->
 	            </p>
 	       
-        </div> 
+        	</div> 
         </div>
+            
+         </div>
+        
     
         
         <div class="blank_box">

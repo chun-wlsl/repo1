@@ -27,17 +27,16 @@ display: block;
         	<div class="bj_bai tab" id="tl">
         		<table>
 					<tr>
-						<td id="tab1"><button>用户登录</button></td>
-						<td id="tab2"><button>管理员登录</button></td>
+						<td id="tab1"><button width="50px">用户登录</button></td>
+						<td id="tab2"><button width="50px">管理员登录</button></td>
 					</tr>
 				</table>
             	<div class="tab1">
             		<form action="login.html" method="post" id="loginForm">
                			<input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
-                		<input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码">
-                		<div>
-               				<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
-                		</div>
+                		<input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码"><br>
+                		<a href="resetPwd.html">忘记密码？</a><br>
+               			<input name="" type="checkbox" value="" checked >记住我 <br>
                 		<input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
                 	</form>
                 	<script type="text/javascript">
@@ -80,10 +79,9 @@ display: block;
        	  		<div class="tab2">
        	  			<form action="login.html" method="post" id="loginForm1">
                 		<input v-model="aname" name="username" type="text" class="kuang_txt" placeholder="管理员用户名">
-                		<input v-model="apwd" name="password" type="password" class="kuang_txt" placeholder="密码">
-                		<div>
-               				<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
-                		</div>
+                		<input v-model="apwd" name="password" type="password" class="kuang_txt" placeholder="密码"><br>
+                		<a href="resetPwd.html">忘记密码？</a><br>
+               			<input name="" type="checkbox" value="" checked >记住我 <br>
                 		<input @click="login1()" name="登录" type="button" class="btn_zhuce" value="登录">
                 	</form>
                 	<script type="text/javascript">
