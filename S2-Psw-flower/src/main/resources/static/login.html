@@ -17,19 +17,37 @@
 	<div class="logo"><p style="color:PowderBlue; font-size: 50px;width:200px">绿艺鲜花欢迎你!</p></div>
     <div class="zhuce_kong login_kuang">
     	<div class="zc">
-        	<div class="bj_bai">
-            <h3>登录</h3>
-       	  	  <form action="login.html" method="post" id="loginForm">
-                <input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
-                <input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码">
-                <div>
-               		<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
-                </div>
-                <input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
-                
-                </form>
-                
-                <script type="text/javascript">
+    		<script type="text/javascript">
+    		function etabit(btn) {
+    	    	 var idname = new String(btn.id);
+    	    	 var s = idname.indexOf("_");
+    	    	 var e = idname.lastIndexOf("_") + 1;
+    	    	 var tabName = idname.substr(0, s);
+    	    	 var id = parseInt(idname.substr(e, 1));
+    	    	 var tabNumber = btn.parentNode.children.length;
+    	    	 for (i = 0; i < tabNumber; i++) {
+    	    		 document.getElementById(tabName + "_div_" + i).style.display = "none";
+    	    		 document.getElementById(tabName + "_btn_" + i).className = "";
+    	    	 }
+    	    	 document.getElementById(tabName + "_div_" + id).style.display = "block";
+    	    	 btn.className = "curr";
+    		};
+    		</script>
+        	<div class="bj_bai" id="tl">
+        		<ul id="tab"> 
+        			<li class="curr" id="tab1_btn_0" onmouseover="etabit(this)">用户登录(点这里)</li> 
+        			<li id="tab1_btn_1" onmouseover="etabit(this)">管理员登录(点这里)</li> 
+       			</ul>
+            	<div id="tab1_div_0">
+            		<form action="login.html" method="post" id="loginForm">
+               			<input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
+                		<input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码">
+                		<div>
+               				<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
+                		</div>
+                		<input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
+                	</form>
+                	<script type="text/javascript">
                         new Vue({
                         	el:"#loginForm",
                         	data:{
@@ -63,8 +81,54 @@
                         	
                         })
                 
-                </script>
+                	</script>
+            	</div>
+       	  		<div id="tab1_div_1" class="tbox" style="display: none">
+       	  			<form action="login.html" method="post" id="loginForm1">
+                		<input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
+                		<input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码">
+                		<div>
+               				<a href="resetPwd.html">忘记密码？</a><input name="" type="checkbox" value="" checked><span>记住我</span> 
+                		</div>
+                		<input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
                 
+                	</form>
+                	<script type="text/javascript">
+                        new Vue({
+                        	el:"#loginForm1",
+                        	data:{
+                        		username:"",
+								password:""
+                        	},
+                        	methods:{
+                        		login(){
+                            		var params = new URLSearchParams();
+    								params.append("username",this.username);
+    								params.append("password",this.password);
+    								axios.post("login.s",params).then(res=>{
+    									alert(res.data.msg);
+
+    						
+    									if(res.data.code==0){
+    										location.href="register.html";
+    									}
+    									if(res.data.code==1){
+    										location.href="index.html";
+
+    									}
+    				
+    									location.href="index.html";
+
+    								}).catch(error=>{
+    									alert("系统错误，请联系管理员");
+    								})
+                            	}
+                        	}
+                        	
+                        })
+                
+                	</script>
+       	  		</div>
             </div>
         	<div class="bj_right">
             	<p>使用以下账号直接登录</p>
