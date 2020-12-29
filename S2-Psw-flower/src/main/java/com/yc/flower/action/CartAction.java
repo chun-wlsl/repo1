@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
+import com.yc.flower.biz.BizException;
+import com.yc.flower.biz.FlowerBiz;
 import com.yc.flower.dao.CartDao;
 
 @RestController
@@ -18,6 +20,9 @@ public class CartAction {
 
 	@Resource
 	private CartDao cdao;
+	
+	@Resource
+	private FlowerBiz fbiz;
 	
 	/**
 	 * 添加购物车
@@ -27,17 +32,31 @@ public class CartAction {
 	 * @param session 会话对象
 	 * @return
 	 * @throws SQLException
+	 * @throws BizException 
 	 */
 	@RequestMapping("addCart")
-	public Result addCart(int fid, int count, HttpSession session) throws SQLException {
+	public Result addCart(int fid, int count, HttpSession session) {
 		// 获取当前的登录的用户
 		User user = (User) session.getAttribute("loginedUser");
 		System.out.println("fid:"+fid);
 		System.out.println("count:"+count);
 		// 添加购物车记录, 注意:这里没有判断,是否有添加过商品,请自行移植
-		cdao.addCart(user.getUid(), fid, count);
-		// 返回结果
-		return Result.success("添加购物车成功!");
+				try {
+					fbiz.addCart(user.getUid(), fid, count);
+					return Result.success("添加购物车成功!");
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return Result.failure("系统错误，请联系管理员！");
+				} catch (BizException e) {
+					
+					e.printStackTrace();
+					return Result.failure(e.getMessage());
+				}
+			
+			// 返回结果
+			
+		
+		
 	}
 	
 	
@@ -53,7 +72,7 @@ public class CartAction {
 		return cdao.selectCart(user.getUid());
 	}
 	
-	
+	//更新购物车
 	@RequestMapping(path = "cart.s", params = "op=upCart")
 	public Result upCart(int fid, int count, HttpSession session) {
 		User user = (User) session.getAttribute("loginedUser");

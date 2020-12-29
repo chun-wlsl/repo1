@@ -16,19 +16,25 @@ input{
 </style>
 
 <script type="text/javascript">
-//出版日期字段的格式化方法
-function fmtDate(date){
-	var x = date.getFullYear();
-	var y = date.getMonth()+1;
-	var z = date.getDate();
-	return x+"-"+y+"-"+z;
+//日期字段的格式化方法
+function fmtDate(value, row, index){
+	var date = new Date(value); //获取当前单元格的数据日期
+	var year = date.getFullYear();//取xx年
+	var month = date.getMonth() + 1;//取xx月
+	var day = date.getDate();//取xx日
+	var hour = date.getHours();//取xx时
+	var minute = date.getMinutes();//取xx分
+	var second = date.getSeconds();//取xx秒
+	return year + '年' + month + '月' + day + '日 ' + hour + '时' + minute + '分' + second + '秒';
 }
+
 
 function query(){
 	$('#dg').datagrid('load',{
-		fname: $("#fname").textbox('getValue'),
-		cid: $("#cid").textbox('getValue'),
-		//isHot: $("#isHot").checkbox('getValue')
+		oid: $("#oid1").textbox('getValue'),
+		uid: $("#uid1").textbox('getValue'),
+		name: $("#name1").textbox('getValue'),
+		state: $("#state1").textbox('getValue'),
 	});
 }
 
@@ -37,7 +43,7 @@ function fmtOp(value, row, index){
 	return "<button onclick='edit("+index+")'>修改</button>";
 }
 
-//打开修改窗口
+//打开添加窗口
 function edit(index){
 	$("#dd").dialog('open');
 	//index 有值就是修改表格中的某一行记录，否则是新增
@@ -45,10 +51,9 @@ function edit(index){
 	//edit不传参 index为undefined
 	if(index != undefined){
 		var rows = $('#dg').datagrid("getRows");
-		rows[index].isHot = rows[index].is_hot;
-		rows[index].marketPrice = rows[index].market_price;
-		rows[index].shopPrice = rows[index].shop_price;
-		//upImg.src = "../" + rows[index].image;
+		rows[index].uid = rows[index].uid;
+		rows[index].oid = rows[index].oid;
+		rows[index].total = rows[index].total;
 		$("#ff").form('load',rows[index]);
 	}else{
 		$("#ff").form('clear');
@@ -57,50 +62,68 @@ function edit(index){
 }
 
 function save(){
-	//easyui 的表单的ajax提交方式
-	$('#ff').form('submit',{
-		url : '../flower.s',
-		onSubmit: function(param){
-			//扩展请求参数
-			param.op = "save";
-		},
-		success : res=>{
-			//原有的 res==> 消息，现在的  res==> json对象{code, msg, data}
-			//easyui的res需要手动转换
-			//res = JSON.parse(res);
-			alert(res.code);
-			if(res.code == 1){
-				//关闭窗口
-				$('#dd').dialog('close');
-				//刷新表格
-				$('#dg').datagrid('reload');
-			}
-			//否则什么都不做
+	var param = new URLSearchParams();
+	param.append("oid", $("#oid").textbox("getValue"));
+	param.append("uid", $("#uid").textbox("getValue"));
+	param.append("name", $("#name").textbox("getValue"));
+	param.append("total", $("#total").textbox("getValue"));
+	param.append("state", $("#state").textbox("getValue"));
+	param.append("addr", $("#addr").textbox("getValue"));
+	param.append("phone", $("#phone").textbox("getValue"));
+	param.append("op", "save");
+	axios.post("../orders.s",param).then(res=>{
+		alert(res.data.msg);
+		if(res.data.code==1){
+			//关闭窗口
+			$('#dd').dialog('close');
+			//刷新表格
+			$('#dg').datagrid('reload');
 		}
+
 	});
 }
 
+function getState(value,row,index) {
+	var res ='';
+    switch (value){
+        case 0:
+            res = '<font style="color:red;">未支付</font>';
+            break;
+        case 1:
+            res = '<font style="color:yellow;">支付成功</font>';
+            break;
+        case 2:
+            res = '<font style="color:green;">未收货</font>';
+            break;
+        case 3:
+            res = '已收货';
+            break;
+        default:
+            break;
+    }
+    return res;
+}
 </script>
 </head>
 <body>
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'north'" style="height:50px">
 			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
-			<input class="easyui-textbox" label="订单编号：" style="width:200px" id="oid">
-			<input class="easyui-textbox" label="用户ID：" style="width:200px" id="uid">
-			<input class="easyui-textbox" label="用户名：" style="width:200px" id="name">
-			<input class="easyui-textbox" label="订单状态：" style="width:200px" id="state">
-			<a id="btn" href="" class="easyui-linkbutton"
+			<input class="easyui-textbox" label="订单编号：" style="width:200px" id="oid1">
+			<input class="easyui-textbox" label="用户ID：" style="width:200px" id="uid1">
+			<input class="easyui-textbox" label="用户名：" style="width:200px" id="name1">
+			<input class="easyui-textbox" label="订单状态：" style="width:200px" id="state1">
+			<a id="btn" href="#" class="easyui-linkbutton"
 				data-options="iconCls:'icon-search'"
 				onclick="query()">查询</a>
-			<a id="btn" href="" class="easyui-linkbutton"
+			<a id="btn" href="#" class="easyui-linkbutton"
 				data-options="iconCls:'icon-add'"
 				onclick="edit()">添加</a>
 		</div>
 		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
 			<table class="easyui-datagrid" id="dg"
 					data-options="
-						url:'../queryAllProduct',
+						url:'../queryAllOrders',
 						method:'get',
 						border:false,
 						singleSelect:true,
@@ -109,14 +132,14 @@ function save(){
 						pagination:true">
 				<thead>
 					<tr>
-						<th data-options="field:'oid', width:100">订单编号</th>
-						<th data-options="field:'uid', width:100">用户ID</th>
-						<th data-options="field:'name', width:100">用户名</th>
-						<th data-options="field:'total', width:100">订单总金额</th>
-						<th data-options="field:'otime', width:100">下单时间</th>
-						<th data-options="field:'state', width:100">订单状态</th>
-						<th data-options="field:'addr', width:100">收货地址</th>
-						<th data-options="field:'phone', width:100">电话</th>
+						<th data-options="field:'oid', width:100, align:'center'">订单编号</th>
+						<th data-options="field:'uid', width:100, align:'center'">用户ID</th>
+						<th data-options="field:'name', width:100, align:'center'">用户名</th>
+						<th data-options="field:'total', width:100, align:'center'">订单总金额</th>
+						<th data-options="field:'otime', width:150, align:'center', formatter:fmtDate">下单时间</th>
+						<th data-options="field:'state', width:100, align:'center', formatter:getState">订单状态</th>
+						<th data-options="field:'addr', width:100, align:'center'">收货地址</th>
+						<th data-options="field:'phone', width:100, align:'center'">电话</th>
 						<!--  -->
 						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
 					</tr>
@@ -129,12 +152,13 @@ function save(){
 	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
 		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
 		<form id="ff" style="margin:0 auto;width: 200px;">
-			<input class="easyui-textbox" name="uid" label="用户ID"><br> 
-			<input class="easyui-textbox" name="name" label="用户名"><br> 
-			<input class="easyui-textbox" name="total" label="订单总金额"><br> 
-			<input class="easyui-textbox" name="state" label="订单状态"><br>
-			<input class="easyui-textbox" name="addr" label="收货地址"><br>			
-			<input class="easyui-textbox" name="phone" label="电话"><br>
+			<input class="easyui-textbox" id="oid" name="oid" label="订单编号"><br> 
+			<input class="easyui-textbox" id="uid" name="uid" label="用户ID"><br> 
+			<input class="easyui-textbox" id="name" name="name" label="用户名"><br> 
+			<input class="easyui-textbox" id="total" name="total" label="订单总金额"><br> 
+			<input class="easyui-textbox" id="state" name="state" label="订单状态"><br>
+			<input class="easyui-textbox" id="addr" name="addr" label="收货地址"><br>			
+			<input class="easyui-textbox" id="phone" name="phone" label="电话"><br>
 		</form>
 	</div>
 	<div id="bb">

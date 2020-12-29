@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../js/axios.min.js"></script>
+<style type="text/css">
+input{
+	width:200px
+}
+</style>
+
+<script type="text/javascript">
+//图片字段的格式化方法
+function fmtImg(value, row, index){
+	return "<img width='120px' height='100px' src='../"+value+"'>";
+}
+
+//日期字段的格式化方法
+function fmtDate(value, row, index){
+	var date = new Date(value); //获取当前单元格的数据日期
+	var year = date.getFullYear();//取xx年
+	var month = date.getMonth() + 1;//取xx月
+	var day = date.getDate();//取xx日
+	var hour = date.getHours();//取xx时
+	var minute = date.getMinutes();//取xx分
+	var second = date.getSeconds();//取xx秒
+	return year + '年' + month + '月' + day + '日 ' + hour + '时' + minute + '分' + second + '秒';
+}
+
+function query(){
+	$('#dg').datagrid('load',{
+		uid: $("#uid1").textbox('getValue'),
+		name: $("#name1").textbox('getValue'),
+		sex: $("#sex1").textbox('getValue'),
+	});
+}
+
+//操作字段的格式化方法
+function fmtOp(value, row, index){
+	return "<button onclick='edit("+index+")'>修改</button>";
+}
+
+//打开修改窗口
+function edit(index){
+	$("#dd").dialog('open');
+	//index 有值就是修改表格中的某一行记录，否则是新增
+	//下标从0开始，0是false
+	//edit不传参 index为undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		$("#ff").form('load',rows[index]);
+	}else{
+		$("#ff").form('clear');
+	}
+	
+}
+
+function save(){
+	var param = new URLSearchParams();
+	param.append("uid", $("#uid").textbox("getValue"));
+	param.append("name", $("#name").textbox("getValue"));
+	param.append("pwd", $("#pwd").textbox("getValue"));
+	param.append("sex", $("#sex").textbox("getValue"));
+	param.append("phone", $("#phone").textbox("getValue"));
+	param.append("addr", $("#addr").textbox("getValue"));
+	param.append("email", $("#email").textbox("getValue"));
+	param.append("op", "save");
+	axios.post("../user.s",param).then(res=>{
+		alert(res.data.msg);
+		if(res.data.code==1){
+			//关闭窗口
+			$('#dd').dialog('close');
+			//刷新表格
+			$('#dg').datagrid('reload');
+		}
+	});
+}
+
+</script>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:50px">
+			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
+			<input class="easyui-textbox" label="用户ID：" style="width:200px" id="uid1">
+			<input class="easyui-textbox" label="用户名：" style="width:200px" id="name1">
+			<input class="easyui-textbox" label="性别：" style="width:200px" id="sex1">
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-search'"
+				onclick="query()">查询</a>
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-add'"
+				onclick="edit()">添加</a>
+		</div>
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
+			<table class="easyui-datagrid" id="dg"
+					data-options="
+						url:'../queryAllUser',
+						method:'get',
+						border:false,
+						singleSelect:true,
+						fit:true,
+						fitColumns:true,
+						pagination:true">
+				<thead>
+					<tr>	
+						<th data-options="field:'uid', width:50, align:'center'">用户ID</th>
+						<th data-options="field:'name', width:100, align:'center'">用户名</th>
+						<th data-options="field:'pwd', width:100, align:'center'">密码</th>
+						<th data-options="field:'sex', width:100, align:'center'">性别</th>
+						<th data-options="field:'phone', width:100, align:'center'">电话号码</th>
+						<th data-options="field:'addr', width:100, align:'center'">地址</th>
+						<th data-options="field:'email', width:100, align:'center'">邮箱</th>
+						<th data-options="field:'utime', width:200, align:'center', formatter:fmtDate">注册时间</th>
+						<!--  -->
+						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+	<!-- 编辑窗口 -->
+	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:500px;" 
+		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
+		<form id="ff" style="margin:0 auto;width: 200px;">
+			<input class="easyui-textbox" id="uid" name="uid" label="用户ID"><br> 
+			<input class="easyui-textbox" id="name" name="name" label="用户名"><br> 
+			<input class="easyui-textbox" id="pwd" name="pwd" label="密码"><br> 
+			<input class="easyui-textbox" id="sex" name="sex" label="性别"><br> 
+			<input class="easyui-textbox" id="phone" name="phone" label="电话号码"><br> 
+			<input class="easyui-textbox" id="addr" name="addr" label="地址"><br>
+			<input class="easyui-textbox" id="email" name="email" label="邮箱"><br>			
+		</form>
+	</div>
+	<div id="bb">
+		<a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+		<a href="#" class="easyui-linkbutton">取消</a>
+	</div>
+</body>
+</html>

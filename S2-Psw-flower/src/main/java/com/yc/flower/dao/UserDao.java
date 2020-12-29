@@ -2,6 +2,7 @@ package com.yc.flower.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -91,4 +92,69 @@ public class UserDao extends BaseDao{
 				user.getUid());
 	}
 	
+
+
+	//给后台使用
+	public int update(User u) {
+		String sql="update user set name=?,pwd=?,sex=?,phone=?,addr=?,email=? where uid=?";
+		return jt.update(sql, u.getName(), u.getPwd(), u.getSex(),u.getPhone(),u.getAddr(),u.getEmail(),u.getUid());
+	}
+
+	//给后台使用
+	public int count(Integer uid, String name, String sex) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(name!=null && name.trim().isEmpty() == false) {
+			where += " and name like ?";
+			params.add("%" + name + "%");
+		}
+		if(sex!=null && sex.trim().isEmpty() == false) {
+			where += " and sex like ?";
+			params.add("%" + sex + "%");
+		}
+		if(uid != null) {
+			where += " and uid = ?";
+			params.add(uid);
+		}
+		String sql = "select null from user where 1=1 " + where;
+		return count(sql, params.toArray());
+	}
+
+	//给后台使用
+	public List<?> queryAllUser(Integer uid, String name, String sex, String page, String rows) {
+		String where = "";
+		List<Object> params = new ArrayList<>();
+		if(name!=null && name.trim().isEmpty() == false) {
+			where += " and name like ?";
+			params.add("%" + name + "%");
+		}
+		if(sex!=null && sex.trim().isEmpty() == false) {
+			where += " and sex like ?";
+			params.add("%" + sex + "%");
+		}
+		if(uid != null) {
+			where += " and uid = ?";
+			params.add(uid);
+		}
+		
+		//将字符串转为数字，方便计算
+		int ipage = Integer.parseInt(page);
+		int irows = Integer.parseInt(rows);
+		ipage = (ipage - 1) * 10;
+		String sql = "select * from user where 1=1 "
+				+ where
+				+ " limit ? , ? ";
+		params.add(ipage);
+		params.add(irows);
+		return jt.queryForList(sql, params.toArray());
+	}
+	
+	// 给后台使用
+	public int count(String sql, Object... params) {
+		String sql1 = "select count(*) cnt from (" + sql + ") a";
+		Object cnt = jt.queryForList(sql1, params).get(0).get("cnt");
+		int ret = Integer.valueOf("" + cnt);
+		return ret;
+	}
+
 }

@@ -118,9 +118,8 @@ function clearText(field)
             <!-- 分类展示 -->  
             <div > 
                 <ul class="sidebar_list">
-                
                     <li v-for="c in category">
-                    <a :href="'clist.html#'+c.cid">{{c.cname}}</a>
+                    <a :href="'clist.html?cid='+c.cid+'#'+c.cid">{{c.cname}}</a>
                     </li>
                      
                 </ul>
@@ -132,7 +131,7 @@ function clearText(field)
             <h2 align="center">每周特价</h2>   
             <div class="content special"> 
                 <a :href="'productdetail.html#'+flower.fid">
-                 <img :src="flower.image"  />
+                 <img :src="flower.image"  style="width:165px;height:120px;"/>
                  </a>
                 
                 {{flower.fname}}
@@ -191,9 +190,9 @@ function clearText(field)
 		<span>{{cate.intro}}</span>
 		<br /><br />
 	    <span v-for="p in pro">
-  		<div class="product_box" >
+  		<div class="product_box"  style="width: 165px">
             <a :href="'productdetail.html#'+p.fid">
-            <img :src="p.image"  />
+            <img :src="p.image" style="width:165px;height:130px;"/>
             </a>
       		<h3>{{p.fname}}</h3>
             <p class="product_price">${{p.shopPrice}}</p>

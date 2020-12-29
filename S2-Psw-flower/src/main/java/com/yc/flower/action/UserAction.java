@@ -2,7 +2,10 @@ package com.yc.flower.action;
 
 
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import javax.annotation.Resource;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yc.flower.bean.Flower;
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
 import com.yc.flower.biz.VcodeBiz;
@@ -120,4 +124,40 @@ public class UserAction {
 		}
 	}
 	
+
+	//给后台使用，查找所有的
+   	@RequestMapping("queryAllUser")
+	public Map<String, Object> queryAllUser(Integer uid, String name, String sex, String page, String rows){
+   		System.out.println("uid:"+uid+"  name:"+name+"  sex:"+sex+"  page:"+page+"  rows:"+rows);
+    	List<?> list = udao.queryAllUser(uid, name, sex, page, rows);
+    	System.out.println("list:"+list);
+    	int total = udao.count(uid, name, sex);
+    	System.out.println("total:"+total);
+    	HashMap<String, Object> data = new HashMap<>();
+    	data.put("rows", list);
+    	data.put("total", total);
+		return data;
+	}
+   	
+   	//给后台使用，flower页面的save
+   	@RequestMapping(path="user.s",params="op=save")
+	public Result save(Integer uid, String name, String pwd, String sex, String phone, String addr, String email){
+   		User user = new User();
+   		user.setUid(uid);
+		user.setName(name);
+		user.setPwd(pwd);
+		user.setSex(sex);
+		user.setPhone(phone);
+		user.setAddr(addr);
+		user.setEmail(email);
+		try {
+			ubiz.save(user);
+			return new Result(1,"用户保存成功!");
+		} catch (BizException e) {
+			e.printStackTrace();
+			return new Result(0,e.getMessage());
+		}
+		
+	}
+
 }
