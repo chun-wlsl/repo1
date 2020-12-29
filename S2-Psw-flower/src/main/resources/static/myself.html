@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Contact</title>
+<meta name="keywords" content="free template, contact,  ecommerce" />
+<meta name="description" content=" Contact Form, Location Maps, Addresses, free template for ecommerce websites." />
+<link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="css/orman.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
+
+<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/ddsmoothmenu.js"></script>
+
+<!-- 引入vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+<script type="text/javascript">
+
+ddsmoothmenu.init({
+	mainmenuid: "templatemo_menu", //menu DIV id
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	classname: 'ddsmoothmenu', //class added to menu's outer DIV
+	//customtheme: ["#1c5a80", "#18374a"],
+	contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+})
+
+function clearText(field)
+{
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+
+</script>
+
+
+</head>
+
+<body>
+
+<div id="templatemo_wrapper_sp">
+<div id="templatemo_header_wsp">
+	<div id="templatemo_header" class="header_subpage">
+    	<div id="site_title"><a  rel="nofollow"></a></div>
+        <div id="templatemo_menu" class="ddsmoothmenu">
+            <ul>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="clist.html#1" >商品分类</a></li> 
+                <!--class="selected"  -->
+                <li><a href="shoppingcart.html" >购物车</a></li>
+                <li><a href="checkout.html">支付</a></li>
+                 <li><a href="topic.html">留言板</a></li>
+                <li><a href="contact.html">联系我们</a></li>
+               
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null">{{user.name}}</a>|
+				</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
+            </ul>
+           
+            <br style="clear: left" />
+        </div>
+
+
+    </div> <!-- END of header -->
+    
+     <script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);5
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
+    
+    
+</div> <!-- END of header wrapper -->
+<div id="templatemo_main_wrapper">
+<div id="templatemo_main">
+	<div id="sidebar" class="left">
+    	<div class="sidebar_box"><span class="bottom"></span>
+            <h3>分类</h3>   
+            <div class="content"> 
+                <ul class="sidebar_list">
+                    <li><a href="#">不恨他</a></li>
+                    <li><a href="#">推荐套</a></li>
+                    <li><a href="#">最新性能</a></li>
+                    <li><a href="#">毛里斯聊天</a></li>
+                    <li><a href="#">零温度</a></li>
+                    <li><a href="#">没有篮球</a></li>
+                    <li><a href="#">标题</a></li>
+                    <li><a href="#">推荐套</a></li>
+                    <li><a href="#">每个或只是</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar_box"><span class="bottom"></span>
+            <h3>Weekly Special</h3>   
+            <div class="content special"> 
+                <img src="images/templatemo_image_01.jpg" alt="Flowers" />
+                <a href="#">Citrus Burst Bouquet</a>
+                <p>
+                	Price:
+                    <span class="price normal_price">$160</span>&nbsp;&nbsp;
+                    <span class="price special_price">$100</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="content" class="right">
+		<h2>个人中心</h2>
+        <div class="cleaner h40"></div>
+        <div>
+           <form method="post" name="contact" action="#">
+           		<div id="col131" class="col col13">
+                
+                
+                    <label for="name">名称:</label> <br />
+              		<input v-model="user.name" name="name" type="text" class="input_field" id="name" maxlength="40"/> <br />
+                	<div class="cleaner h10"></div>
+                	<label for="pwd">密码:</label> <br />
+              		<input v-model="user.pwd" name="pwd" type="text" class="input_field" id="pwd" maxlength="40"/> <br />
+                	<div class="cleaner h10"></div>
+                	<label for="name">性别:</label> <br />
+              		<input v-model="user.sex" name="sex" type="text" class="input_field" id="sex" maxlength="40"/> <br />
+                	<div class="cleaner h10"></div>
+                    <label for="email">Email:</label>  <br />
+          			<input v-model="user.email" name="email" type="text" class="required input_field" id="email" maxlength="40" /> <br />
+                	<div class="cleaner h10"></div>
+                    <label for="phone">电话:</label>  <br />
+        			<input v-model="user.phone" name="phone" type="text" class="input_field" id="phone" maxlength="20" /> <br />
+                	<div class="cleaner h10"></div>
+                	<label for="addr">地址:</label> <br />
+                	<input v-model="user.addr" name="addr" type="text" class="input_field" id="addr" maxlength="20" /> <br />
+                	<div class="cleaner h10"></div>
+                	<input @click="reUser" name="修改" type="button" class="btn_zhuce" value="修改" />
+			 	</div>
+			 	
+                <script type="text/javascript">
+                var vue1 = new Vue({
+                	el : "#col131",
+                	data : {
+                		user:{
+                			name : "",
+                			pwd : "",
+                			sex : "",
+                			email : "",
+                			phone : "",
+                			addr : ""
+                		}
+                		
+                	},
+                	created(){
+                		axios.get("getLoginedUser").then(res=>{
+                			if(res.data && res.data.uid){
+                				this.user = res.data;
+                			} else {
+                				alert("你还没有登录");
+                				location.href = "login.html";
+                			}
+        				});
+                	},
+                	methods:{
+                		reUser(){
+                			if(confirm("确定要修改个人信息吗?")){
+                				var name=this.user.name;
+                				var pwd=this.user.pwd;
+                				var sex=this.user.sex;
+                				var email=this.user.email;
+                				var phone=this.user.phone;
+                				var addr=this.user.addr;
+ 								//path="reUser.s",params = "op=reU"
+    							 axios.get("reUser.s?op=reU&name="+name+"&pwd="+pwd+"&email="+email+"&phone="+phone+"&sex="+sex+"&addr="+addr).then(res=>{
+    								alert(res.data.msg);
+    								location.href = "myself.html";
+    							}); 
+                				
+    						}
+                		}
+                	}
+                	
+                });
+        		</script>
+          
+                
+            </form>
+        </div>
+        
+        <div class="cleaner h40"></div>        
+        <div class="blank_box">
+        	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
+        </div>  
+        <div class="cleaner"></div>  
+    </div>
+    <div class="cleaner"></div>
+</div> <!-- END of main -->
+</div> <!-- END of main wrapper -->
+
+<div id="templatemo_footer_wrapper">
+<div id="templatemo_footer">
+	<div class="footer_left">
+    	<a href="#"><img src="images/1311260370_paypal-straight.png" alt="Paypal" /></a>
+        <a href="#"><img src="images/1311260374_mastercard-straight.png" alt="Master" /></a>
+        <a href="#"><img src="images/1311260374_visa-straight.png" alt="Visa" /></a>
+    </div>
+	<div class="footer_right">
+	</div>
+    <div class="cleaner"></div>
+</div> <!-- END of footer -->
+</div> <!-- END of footer wrapper -->
+</div>
+
+</body>
+</html>

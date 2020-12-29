@@ -4,6 +4,7 @@ package com.yc.flower.action;
 
 import java.util.List;
 
+
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpSession;
@@ -95,6 +96,28 @@ public class UserAction {
 	@RequestMapping("resetPwd")
 	public String resetPwd(String name,String vcode,String password,HttpSession session) {
 		return bbiz.resetPwd(name, vcode, password, (String)session.getAttribute("vcode"));
+	}
+	
+	//path = "cart.s", params = "op=deleteCart"
+	@RequestMapping(path="reUser.s",params = "op=reU")
+	public Result reUser(HttpSession session,String name,String pwd,String sex,String phone,String addr,String email) throws Exception {
+	
+		User user =(User) session.getAttribute("loginedUser");
+		
+		user.setName(name);
+		user.setPwd(pwd);
+		user.setSex(sex);
+		user.setPhone(phone);
+		user.setAddr(addr);
+		user.setEmail(email);
+		System.out.println(user.toString());
+		try {
+			ubiz.reUser(user);
+			return new Result(1,"修改成功！");
+		}catch (BizException e) {
+			e.printStackTrace();
+			return new Result(0,e.getMessage());
+		}
 	}
 	
 }
