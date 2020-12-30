@@ -33,6 +33,7 @@ public class CategoryDao extends BaseDao{
  		},cid);
 	}
 	
+	
 	RowMapper<Category> categoryRowMapper = new RowMapper<Category>() {
 
 		@Override
