@@ -200,13 +200,14 @@ public class OrderAction {
 	
    	//更新订单成功(checkout.html中的check方法）
   	@RequestMapping("order1.s")
-  	public Result pay1(Integer oid,String addr,String phone,String name)  {
+  	public Result pay1(Integer oid,String addr,String phone,String name,Double total)  {
   		try {
   			Order order = new Order();
   			order.setOid(oid);
   			order.setName(name);
   			order.setPhone(phone);
   			order.setAddr(addr);
+  			order.setTotal(total);
   			System.out.println("订单"+order.toString());
   			obiz.insertOrder2(order);
   			return Result.success("支付成功!");

@@ -214,7 +214,7 @@ function clearText(field)
       		<tr bgcolor="#41581B">
                 <td colspan="3" ><a href="shoppingcart.html"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;更新</strong></a> 购物车&nbsp;&nbsp;</td>
                 <td align="right"><h4>合计:</h4></td>
-                <td align="right"><h4 >￥{{total}}</h4></td>
+                <td align="right"><h4 >￥{{total1}}</h4></td>
                 <td> </td>
             </tr>
         </table>
@@ -230,7 +230,7 @@ function clearText(field)
 		el :".right",
 		data :{
 			plist:[],
-			total:0
+			total : 0
 		},
 		created(){
 			axios.get("getLoginedUser").then(res=>{
@@ -245,11 +245,14 @@ function clearText(field)
 			});
 		},
 		computed:{
-			Total(){
+			total1(){
+				var total1 = 0;
 				for(var i in this.plist){
-					this.total+=this.plist[i].shop_price*this.plist[i].count
+					total1+=this.plist[i].shop_price*this.plist[i].count;
 			    }
-			    return this.total;
+				this.total=total1;
+				console.info("total:"+this.total);
+				return total1;
 			}
 		},
 		methods:{

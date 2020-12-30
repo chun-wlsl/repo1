@@ -234,8 +234,8 @@ public class OrderDao extends BaseDao{
 	}
 	
 	public int updateByOid(Order o) {
-		String sql = "update orders set name=?,state=1,addr=?,phone=? where oid = ?";
-		return jt.update(sql, o.getName(), o.getAddr(), o.getPhone(), o.getOid());
+		String sql = "update orders set name=?,state=1,addr=?,phone=?,total=? where oid = ?";
+		return jt.update(sql, o.getName(), o.getAddr(), o.getPhone(),o.getTotal(), o.getOid());
 	}
 	
 	public int updateState1(int oid) {

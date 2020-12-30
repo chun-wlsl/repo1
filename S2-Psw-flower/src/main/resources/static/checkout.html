@@ -194,7 +194,7 @@ function clearText(field)
 			<dl id="giftItems" class="hidden" style="display: none;"></dl>
 			<div class="total">
 				<em id="promotion"></em>
-				<h3  align="center">	商品金额: <strong id="effectivePrice"  >￥{{total}}元</strong></h3>
+				<h3  align="center">	商品金额: <strong id="effectivePrice"  >￥{{total1}}元</strong></h3>
 			</div>
 			<form id="orderForm" action="msg.html" method="post">
 				<input type="hidden" name="order.oid" value="73"/>
@@ -241,7 +241,8 @@ function clearText(field)
 				
 				addr : "",
 				name : "",
-				phone : ""
+				phone : "",
+				tatol : 0
 			},
 			created(){
 				axios.get("getLoginedUser").then(res=>{
@@ -262,12 +263,14 @@ function clearText(field)
 				});
 			},
 			computed:{
-				total(){
-					var total = 0;
+				total1(){
+					var total1 = 0;
 					for(var i in this.plist){
-						total+=this.plist[i].shop_price*this.plist[i].count;
+						total1+=this.plist[i].shop_price*this.plist[i].count;
 				    }
-				    return total;
+					this.total=total1;
+					console.info("total:"+this.total);
+					return total1;
 				}
 			},
 			methods:{
@@ -279,6 +282,7 @@ function clearText(field)
 						params.append("name",this.name);
 						params.append("addr",this.addr);
 						params.append("phone",this.phone);
+						params.append("total",this.total1);
 						axios.post("order1.s",params).then(res=>{
 							alert(res.data.msg);
 							if(res.data.code == 1){
