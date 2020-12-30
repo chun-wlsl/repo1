@@ -1,6 +1,9 @@
 package com.yc.flower.action;
 
+
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import com.yc.flower.bean.User;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.OrderBiz;
 import com.yc.flower.dao.OrderDao;
+import com.yc.flower.dao.UserDao;
 
 
 @RestController
@@ -28,51 +32,130 @@ public class OrderAction {
 	@Resource
 	private OrderDao odao;
 	
+	@Resource
+    private UserDao udao;
 	
 	//添加订单成功(结算）
 	@RequestMapping("order.s")
-	public Result insertOrder(Order order, HttpSession session ,Double total) throws SQLException {
+	public Result pay(Order order, HttpSession session ,String addr,String phone,String name)  {
 
 		try {
 			User user = (User) session.getAttribute("loginedUser");
 			order.setUid(user.getUid());
-			order.setTotal(total);
+			order.setName(name);
+			order.setPhone(phone);
+			order.setAddr(addr);
+			System.out.println("订单"+order.toString());
 			obiz.insertOrder(order);
 			return Result.success("下单成功!");
 		} catch (BizException e) {
 			e.printStackTrace();
 			return Result.failure(e.getMessage());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
 		}
 	}
 	
+
+	
+	/*
+	 * @RequestMapping("queryAll")
+	public Map<String, Object> queryAll() throws SQLException {
+		Map<String,Object> data = new HashMap<>();
+		data.put("clist",cdao.queryCategory());
+		data.put("cslist",csdao.queryCategorySecond());
+		return data;
+	}
+	 */
+	
+	
 	
 	@RequestMapping("queryOrders")
-	//查询用户uid的未支付订单
-	public List<?> queryOrders( HttpSession session) {
+	//查询用户uid的订单（所有）
+	public List<Map<String,Object>> queryOrders( HttpSession session) {
+		//获取用户uid
 		User user = (User) session.getAttribute("loginedUser");
-		int uid =user.getUid();
-		return odao.selectOrders(uid);
+		int uid = udao.queryId(user) ;
+		
+		Map<String, Object> map;
+		//获取用户所有的订单信息
+		List<Map<String, Object>> list=	odao.selectOrders(uid);
+		
+		List<Map<String, Object>> orderitem;
+		List<Map<String, Object>> res=new ArrayList<Map<String,Object>>();
+		
+		for(Map<String,Object> o:list) {
+			int oid =(int) o.get("oid");
+			
+			orderitem  = odao.queryItem(oid);
+			map=new HashMap<String,Object>();
+			map.put("order",o);
+			map.put("orderItem",orderitem);
+			res.add(map);
+			
+		}
+		return res;
+		
 	}
 	
 	
+	//确认收货
+	//确认收货
+	@RequestMapping("mksGetPro")
+		public Result mksGetPro(int id){
+            System.out.println("收货的订单编号："+id);
+			int result = odao.mksGetPro(id);
+			if(result==0) {
+				return Result.failure("收货失败!");
+			}else {
+				return Result.success("收货成功!");
+			}
+			
+		}
 	
-	//支付成功
-	@RequestMapping("updateState")
-	public Result  updateState(int oid,String addr,String phone,String name) throws BizException {
 	
-		//odao.updateState(1);
-		Order order =new Order();
-		order.setOid(oid);
-		order.setName(name);
-		order.setAddr(addr);
-		order.setPhone(phone);
-		System.out.println("订单编号"+oid+"收货人："+name+"\n收货地址："+addr+"\n收货电话"+phone);
-		System.out.println(order.toString());
-		obiz.pay(order);
-		return Result.success("支付成功!");
+	
+	
+	
+	
+//		
+//		
+//		return null;
+//	}
+//	
+	
+	/*
+	 * public Map<String, Object> queryAll() throws SQLException {
+		Map<String,Object> data = new HashMap<>();
+		data.put("clist",cdao.queryCategory());
+		data.put("cslist",csdao.queryCategorySecond());
+		return data;
 	}
+	 */
+	
+
 	
 	
+//	
+//	//支付成功
+//	@RequestMapping("updateState")
+//	public Result  updateState(int oid,String addr,String phone,String name) throws BizException {
+//	
+//		//odao.updateState(1);
+//		Order order =new Order();
+//		order.setOid(oid);
+//		order.setName(name);
+//		order.setAddr(addr);
+//		order.setPhone(phone);
+//		System.out.println("订单编号"+oid+"收货人："+name+"\n收货地址："+addr+"\n收货电话"+phone);
+//		System.out.println(order.toString());
+//		obiz.pay(order);
+//		return Result.success("支付成功!");
+//	}
+//	
+	
+	//后台
 	@RequestMapping(path="orders.s",params="op=save")
 	public Result save(Integer oid, Integer uid, String name, Double total, Integer state, String addr, String phone){
    		Order order = new Order();
@@ -92,6 +175,9 @@ public class OrderAction {
 		}
 	}
    	
+	
+	
+	
    	//给后台使用，查找所有的商品
    	@RequestMapping("queryAllOrders")
 	public Map<String, Object> queryAllOrders(Integer oid, Integer uid, String name, Integer state, String page, String rows){

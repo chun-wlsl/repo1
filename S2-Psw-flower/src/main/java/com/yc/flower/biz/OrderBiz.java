@@ -27,14 +27,14 @@ public class OrderBiz {
 	public void insertOrder(Order order) throws BizException, SQLException{
 
 		// 验证输入值
-		//Utils.checkNull(order.getAddr(), "请填写收货地址");
-		//Utils.checkNull(order.getPhone(), "请填写收货人电话");
-		//Utils.checkNull(order.getName(), "请填写收货人姓名");
+				Utils.checkNull(order.getAddr(), "请填写收货地址");
+				Utils.checkNull(order.getPhone(), "请填写收货人电话");
+				Utils.checkNull(order.getName(), "请填写收货人姓名");
 		
 		// 计算总金额
 		Double total = cdao.selectTotalByUid(order.getUid());
 		order.setTotal(total);
-       //order.setState(0);
+        order.setState(0);
 		
 		// 写入数据库
 		// 订单主表  orders
@@ -46,7 +46,7 @@ public class OrderBiz {
 		cdao.clearCart(order.getUid());
 
 	}
-
+    //后台
 	public void save(Order o) throws BizException {
 		Utils.checkNull(o.getUid(), "用户ID不能为空");
 		Utils.checkNull(o.getName(), "收货人姓名不能为空");
@@ -64,16 +64,16 @@ public class OrderBiz {
 	
 	
 	
-	//支付成功（改变订单的状态  1 已支付）   
-	public void pay(Order order) throws BizException {
-		Utils.checkNull(order.getAddr(), "请填写收货地址");
-	    Utils.checkNull(order.getPhone(), "请填写收货人电话");
-	    Utils.checkNull(order.getName(), "请填写收货人姓名");
-	     
-	    int i=  odao.checkState(order);
-	    
-	    System.out.println(i);
-	}
+//	//支付成功（改变订单的状态  1 已支付）   
+//	public void pay(Order order) throws BizException {
+//		Utils.checkNull(order.getAddr(), "请填写收货地址");
+//	    Utils.checkNull(order.getPhone(), "请填写收货人电话");
+//	    Utils.checkNull(order.getName(), "请填写收货人姓名");
+//	     
+//	    int i=  odao.checkState(order);
+//	    
+//	    System.out.println(i);
+//	}
 	
 	
 	

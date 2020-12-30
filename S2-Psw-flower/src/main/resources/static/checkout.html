@@ -268,7 +268,7 @@ function clearText(field)
 						<hr />
 						<p style="text-align:right">
 							<a >
-								<img src="images/finalbutton.gif" width="204" height="51" border="0" @click="check(plist[0].oid)"/>
+								<img src="images/finalbutton.gif" width="204" height="51" border="0" @click="check()"/>
 							</a>
 						</p>
 				</div>
@@ -285,7 +285,7 @@ function clearText(field)
 					axios.get("getLoginedUser").then(res=>{
 						if( res.data && res.data.uid ){
 							//console.log(this.$refs.counts.value);
-							axios.get("queryOrders").then(res=>{
+							axios.get("cart.s?op=queryCart").then(res=>{
 								this.plist  = res.data;
 							});
 						}else {
@@ -304,22 +304,52 @@ function clearText(field)
 					}
 				},
 				methods:{
-					check(oid){
+					check(){
 						if(confirm("确认提交?")){
 							var params = new URLSearchParams();
 							
 							params.append("name",this.name);
 							params.append("addr",this.addr);
 							params.append("phone",this.phone);
-							axios.post("updateState?oid="+oid,params).then(res=>{
+							axios.post("order.s",params).then(res=>{
 								alert(res.data.msg);
-								location.href = "checkout.html";
+								location.href = "olist.html";
 							})
 						}
 					}
 				}
 			})
-		
+			
+			
+			/*
+			created:function () {
+				var id=location.search.replace("?","");
+				var op="query";
+				if(id!=""){
+					op="queryByOid";
+				}
+				axios.get("orders.do?op="+op+"&oid="+id).then((res)=>{
+					this.orders=res.data.orders;
+					this.orderItem=res.data.orderitem;
+					console.info(this.orders);
+					console.info(this.orderItem);
+				});
+			},
+			methods:{
+				pay(){
+					axios({
+						url:"pay.do?op=pay",
+						params:{
+							oid:this.orders.id,
+							sum:this.orders.total,
+						}
+					}).then((res)=>{
+
+					})
+				}
+			}
+			
+		*/
 		</script>
        
         

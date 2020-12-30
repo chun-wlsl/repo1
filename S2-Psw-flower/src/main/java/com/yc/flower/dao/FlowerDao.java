@@ -31,7 +31,7 @@ public class FlowerDao extends BaseDao{
    
    //查找商品
    public List<Flower> selectFlower(){
-		String sql = "select * from flower where fcount>0 and limit 0,8";
+		String sql = "select * from flower  limit 0,8";
 		return jt.query(sql, flowerRowMapper);
 	
    }

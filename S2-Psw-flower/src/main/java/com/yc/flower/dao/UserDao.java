@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,17 @@ public class UserDao extends BaseDao{
 		return jt.query(sql,UserRowMapper );
 	}
 	
-
+	
+	//根据用户名和密码查询uid
+   public int queryId(User user) {
+    	
+    	String name=user.getName();
+    	String pwd=user.getPwd();
+    	String sql="select uid from user where name=? and pwd=?";
+    	return  (int) jt.queryForList(sql, name,pwd).get(0).get("uid");
+       }
+	
+	
 	//根据用户名查询用户
 	public User selectByName(String name) {
 		String sql="select * from user where name=?";

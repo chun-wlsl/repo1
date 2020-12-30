@@ -13,8 +13,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
 import com.yc.flower.bean.Order;
-import com.yc.flower.bean.User;
+
+
 
 @Repository
 public class OrderDao extends BaseDao{
@@ -25,36 +27,32 @@ public class OrderDao extends BaseDao{
 	 * @return 
 	 * @return 
 	 */
-	public int insertOrder(Order order) {
-
-		String sql="insert into orders values(null,?,null,?,now(),0,null,null)";
-
-
+	public int insertOrder(Order orders) {
+		String sql = "insert into orders values(null,?,?,?,now(),?,?,?)";
 		KeyHolder kh = new GeneratedKeyHolder();
 		jt.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql, new String[] {"oid"});
-				ps.setObject(1, order.getUid());
-
-				//ps.setObject(2, order.getName());
-				ps.setObject(2, order.getTotal());
-                //ps.setObject(4, order.getState());
-				//ps.setObject(4, order.getAddr());
-				//ps.setObject(5, order.getPhone());
-
-				//ps.setObject(2, order.getName());
-				//ps.setObject(3, order.getTotal());
-               // ps.setObject(4, 1);
-				//ps.setObject(5, order.getAddr());
-				//ps.setObject(6, order.getPhone());
-
+				ps.setObject(1, orders.getUid());
+				ps.setObject(2, orders.getName());
+				ps.setObject(3, orders.getTotal());
+				ps.setObject(4, orders.getState());
+				ps.setObject(5, orders.getAddr());
+				ps.setObject(6, orders.getPhone());
+				
 				return ps;
 			}
 			
 		}, kh);
 		return kh.getKey().intValue();
-		
+		/*jt.update(sql,
+				orders.getTotal(),
+				orders.getState(),
+				orders.getAddr(),
+				orders.getPhone(),
+				orders.getUid(),
+				orders.getName());*/
 	}
 	
 	
@@ -81,12 +79,28 @@ public class OrderDao extends BaseDao{
 		jt.update(sql, order.getOid(), order.getUid());
 	}
 	
+   //查找用户uid的所有订单(单表）
+	public List<Order>  selectOrder(int uid){
+		
+		String sql="select * from orders where uid=?";
+		return jt.query(sql, OrderRowMapper, uid);
+		
+	}
 	
 	
+	
+       //根据订单编号查询订单详情
+   public List<Map<String, Object>> queryItem(int oid){
+	String sql="select * from orderitem where oid=?";
+	return jt.queryForList(sql, oid);
+   }
+
+
+
+	 
 	
 	
 	//查询所有的订单（主表)
-	
 	public  List<Order> selectAllOrder(){
 		String sql="select * from orders";
 		return jt.query(sql,OrderRowMapper);
@@ -107,20 +121,25 @@ public class OrderDao extends BaseDao{
 			}
 		};
 
-	//查询uid用户的为支付订单详情
+	//查询uid用户的支付订单详情(所有的）
 	public List<Map<String,Object>> selectOrders(int uid) {
 		return jt.queryForList("select * from orders a "
 				+ "left join orderitem b on a.oid=b.oid"
 				+ " left join flower c on b.fid=c.fid "
-				+ "where a.state=0 and a.uid=?", uid);
+				+ "where  a.uid=?", uid);
 	}
 	
+	
+	
 	//支付成功
-	public int checkState(Order order) {
-		String sql="update orders set state=1,name=?,addr=?,phone=? where oid=? ";
-		return jt.update(sql,order.getName(),order.getAddr(),order.getPhone(),order.getOid());
+	public int mksGetPro(int  oid) {
+		
+		String sql="update orders set state=4 where oid=?";
+		
+		return jt.update(sql, oid);
 		
 	}
+	
 	
 	/*更改订单状态
 	 *   state:0未支付  1支付成功   2 未发货    3已发货     4已收货 
@@ -130,7 +149,7 @@ public class OrderDao extends BaseDao{
 	//状态改变  state=1
 	public int updateState(int state,int oid) {
 		String sql="update orders set state= ? where oid=? ";
-		return jt.update(sql, state,oid);
+		return jt.update(sql,state,oid);
 		
 	}
 	
