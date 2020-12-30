@@ -20,7 +20,7 @@ public class FlowerDao extends BaseDao{
 	//查找最热商品（花）
    public List<Flower> selectHot(){
 		String sql = "select * from flower where fcount>0 and is_hot=1"
-				+ " limit 0,10";
+				+ " limit 0,8";
 		return jt.query(sql, flowerRowMapper);
 	}
    

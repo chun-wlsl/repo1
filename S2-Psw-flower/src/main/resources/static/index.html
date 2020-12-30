@@ -211,12 +211,13 @@ function clearText(field)
 	                <a :href="'productdetail.html#'+f.fid">详情</a>
 	             <a @click="addCart(f.fid)" >添加购物车</a> 
 	             <!--   <button  @click="addCart()"  class="button">添加购物车</button> --> 
-	              <!--   <button  @click="addCart(f.fid)"  class="button">添加购物车</button>-->
+	              <!--  <button  @click="addCart(f.fid)"  class="button">添加购物车</button>-->
 	            </p>
 	       
         	</div> 
         </div>
-        <h3>最新商品</h3>
+      
+       <h3>最新商品</h3>
 		<div  v-for="l in list">
         	<div  class="product_box"  style="width: 165px;">
           
