@@ -26,7 +26,7 @@ public class CartAction {
 	
 	/**
 	 * 添加购物车
-	 * 
+	 * producctdetail.html的添加购物车
 	 * @param pid     商品id
 	 * @param count   商品数量
 	 * @param session 会话对象
@@ -35,7 +35,7 @@ public class CartAction {
 	 * @throws BizException 
 	 */
 	@RequestMapping("addCart")
-	public Result addCart(int fid, int count, HttpSession session) {
+	public Result addCartdetail(int fid, int count, HttpSession session) {
 		// 获取当前的登录的用户
 		User user = (User) session.getAttribute("loginedUser");
 		System.out.println("fid:"+fid);
@@ -53,7 +53,6 @@ public class CartAction {
 		}
 		// 返回结果
 	}
-	
 	
 	/**
 	 * 查询购物车

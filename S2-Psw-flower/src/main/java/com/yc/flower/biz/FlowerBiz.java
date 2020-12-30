@@ -45,15 +45,32 @@ public class FlowerBiz{
 	    Flower f=fdao.queryFlowerById(fid);//添加购物车商品的fid(主键）
 	    System.out.println(f.toString());
 		//库存是否大于添加购物车的数量
-	     int counts=f.getFcount();
+	    int counts=f.getFcount();
+	    System.out.println("counts:"+counts);
+	    System.out.println("count:"+count);
 	    if(counts>=count) {
 	    	//商品-添加购物车的数量
 	    	fdao.updateCount(count,fid);
 	    	cdao.addCart(uid, fid, count);
-	    	
 	    }else {
 	    	throw new BizException("库存不足");
 	    }
+	}
+	
+	// 添加购物车，需先判断商品库存是否充足
+	public void addCart1(Integer uid, Integer fid) throws SQLException, BizException {
+		// 获取商品的信息
+		Flower f = fdao.queryFlowerById(fid);// 添加购物车商品的fid(主键）
+		System.out.println(f.toString());
+		// 库存是否大于添加购物车的数量
+		int counts = f.getFcount();
+		if (counts >= 1) {
+			// 商品-添加购物车的数量
+			fdao.updateCount(1, fid);
+			cdao.addCart(uid, fid, 1);
+		} else {
+			throw new BizException("库存不足");
+		}
 	}
 
 	public void save(Flower f) throws BizException {

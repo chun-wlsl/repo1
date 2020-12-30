@@ -93,7 +93,7 @@ public class FlowerDao extends BaseDao{
 	//(前台)更改商品（花)的库存量
 			public int updateCount(int fid,int count) {
 				String sql="update flower set fcount=fcount- ? where fid=?";
-				 return jt.update(sql, count,fid);	
+				 return jt.update(sql, count, fid);	
 			}
 	
 		
