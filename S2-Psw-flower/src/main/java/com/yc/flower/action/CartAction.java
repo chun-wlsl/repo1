@@ -41,22 +41,17 @@ public class CartAction {
 		System.out.println("fid:"+fid);
 		System.out.println("count:"+count);
 		// 添加购物车记录, 注意:这里没有判断,是否有添加过商品,请自行移植
-				try {
-					fbiz.addCart(user.getUid(), fid, count);
-					return Result.success("添加购物车成功!");
-				} catch (SQLException e) {
-					e.printStackTrace();
-					return Result.failure("系统错误，请联系管理员！");
-				} catch (BizException e) {
-					
-					e.printStackTrace();
-					return Result.failure(e.getMessage());
-				}
-			
-			// 返回结果
-			
-		
-		
+		try {
+			fbiz.addCart(user.getUid(), fid, count);
+			return Result.success("添加购物车成功!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Result.failure("系统错误，请联系管理员！");
+		} catch (BizException e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
+		}
+		// 返回结果
 	}
 	
 	
@@ -78,17 +73,24 @@ public class CartAction {
 		User user = (User) session.getAttribute("loginedUser");
 		System.out.println("fid" + fid);
 		System.out.println("count" + count);
-		cdao.upCart(user.getUid(), fid, count);
-
-		return Result.success("操作成功！");
-
+		int i = cdao.upCart(user.getUid(), fid, count);
+		if(i > 0) {
+			return Result.success("更新成功！");
+		}else {
+			return Result.failure("更新失败！");
+		}
 	}
 	
 	//清空购物车
 	@RequestMapping(path = "cart.s", params = "op=clearCart")
-	public void clearCart(HttpSession session) throws SQLException {
+	public Result clearCart(HttpSession session) throws SQLException {
 		User user = (User) session.getAttribute("loginedUser");
-		cdao.clearCart(user.getUid());
+		int i = cdao.clearCart(user.getUid());
+		if(i > 0) {
+			return Result.success("清空购物车成功！");
+		}else {
+			return Result.failure("清空购物车失败！");
+		}
 	}
 	
 	
@@ -99,13 +101,14 @@ public class CartAction {
 	
 	//删除购物车中的某件商品fid
 	@RequestMapping(path = "cart.s", params = "op=deleteCart")
-	public void deleteCart(int fid,HttpSession session) {
+	public Result deleteCart(int fid,HttpSession session) {
 		User user = (User) session.getAttribute("loginedUser");
 		System.out.println("删除的商品id"+fid);
-		
-		cdao.deleteCart(fid);
-		
-		
-		
+		int i = cdao.deleteCart(fid);
+		if(i > 0) {
+			return Result.success("删除鲜花成功！");
+		}else {
+			return Result.failure("删除鲜花失败！");
+		}
 	}
 }

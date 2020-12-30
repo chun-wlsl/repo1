@@ -32,9 +32,9 @@ public class CartDao extends BaseDao {
 	}
 
 	//个别
-	public void deleteCart(Integer fid) {
+	public int deleteCart(Integer fid) {
 		String sql = "delete from cart where fid=?";
-		jt.update(sql, fid);
+		return jt.update(sql, fid);
 
 	}
 	
@@ -45,9 +45,9 @@ public class CartDao extends BaseDao {
 */
 
 	//清除uid用户的购物车
-	public void clearCart(Integer iUid) throws SQLException {
+	public int clearCart(Integer iUid) throws SQLException {
 		String sql = "delete from cart where uid = ?";
-		jt.update(sql, iUid);
+		return jt.update(sql, iUid);
 	}
 
 	//添加购物车
@@ -97,9 +97,9 @@ public class CartDao extends BaseDao {
 	/*
 	 * 更新购物车
 	 */
-	public void upCart(int uid, int fid, int count) {
+	public int upCart(int uid, int fid, int count) {
 		String sql = "update cart set count=? where uid=? and fid=?";
-		jt.update(sql, count, uid, fid);
+		return jt.update(sql, count, uid, fid);
 	}
 
 }
