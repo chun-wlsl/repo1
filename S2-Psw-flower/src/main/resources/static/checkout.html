@@ -50,9 +50,9 @@ function clearText(field)
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                 <li><a href="topic.html">留言板</a></li>
+                <li><a href="topic.html">留言板</a></li>
                 <li><a href="contact.html">联系我们</a></li>
-               
+               	<li><a href="olist.html">个人订单</a></li>
                
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
@@ -103,8 +103,6 @@ function clearText(field)
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
 	<div id="sidebar" class="left">
-	
-	
     	<div class="categorylist"><span class="bottom"></span>
             <h3>分类</h3> 
             
@@ -120,8 +118,6 @@ function clearText(field)
             </div>
         </div>
         
-        
-
         <div  id="fdiscount">
           <span class="bottom"></span>
             <h2 align="center">每周特价</h2>   
@@ -137,27 +133,6 @@ function clearText(field)
                 </p>
             </div>
         </div>
-        
-        <!-- <script>
-       var v= new Vue({
-			el : "#fdiscount",
-			data :{
-				flower:{}
-			},
-			created(){
-				axios.get("queryDiscount").then(res=>{
-					this.flower = res.data;
-				});
-			}
-		})
-        
-        </script> 
-        
-        
-        
-        -->
-      
-        
     </div>
     <!-- 左边 -->
      <script>
@@ -181,17 +156,15 @@ function clearText(field)
     
     <div id="content" class="right">
     	<h2>订单</h2>
-       <div class="span24" id="payform">
-		
+       	<div class="span24" id="payform">
 			<div class="step step1">
 				<ul>
-					<li  ><h3>生成订单成功</h3></li>
-					<li  >订单号:{{plist[0].oid}}</li>
+					<li><h3>生成订单成功</h3></li>
+					<li>订单号:{{plist[0].oid}}</li>
 				</ul>
 			</div>
-		
-				<table>
-					<tbody>
+			<table>
+				<tbody>
 					<tr>
 						<th width="100px" align="center">图片</th>
 						<th width="80px" align="center">商品</th>
@@ -199,7 +172,6 @@ function clearText(field)
 						<th width="80px" align="center">数量</th>
 						<th width="100px" align="center">小计</th>
 					</tr>
-					
 					<tr v-for="p in plist">
 						<td width="150px">
 							<img :src="p.image" style="width:165px;height:120px;"/>
@@ -219,137 +191,108 @@ function clearText(field)
 					</tr>
 				</tbody>
 			</table>
-				<dl id="giftItems" class="hidden" style="display: none;">
-				</dl>
-				<div class="total">
-					<em id="promotion"></em>
+			<dl id="giftItems" class="hidden" style="display: none;"></dl>
+			<div class="total">
+				<em id="promotion"></em>
 				<h3  align="center">	商品金额: <strong id="effectivePrice"  >￥{{total}}元</strong></h3>
-				</div>
+			</div>
 			<form id="orderForm" action="msg.html" method="post">
 				<input type="hidden" name="order.oid" value="73"/>
-				<div class="span24">
-				<br />
+				<div class="span24"><br />
 					<p>
-							收货地址：<input name="order.addr" type="text" v-model="addr" style="width:350px" />
-								<br />
-							收货人&nbsp;&nbsp;&nbsp;：<input name="order.name" type="text" v-model="name" style="width:350px" />
-								<br /> 
-							联系方式：<input name="order.phone" type="text" v-model="phone" style="width:350px" />
-
-						</p>
-						<hr />
-						<p>
-							选择银行：<br/>
-							<input type="radio" name="pd_FrpId" value="ICBC-NET-B2C" checked="checked"/>工商银行
-							<img src="bank_img/icbc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="pd_FrpId" value="BOC-NET-B2C"/>中国银行
-							<img src="bank_img/bc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<br/>
-							<input type="radio" name="pd_FrpId" value="ABC-NET-B2C"/>农业银行
-							<img src="bank_img/abc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							
-							<input type="radio" name="pd_FrpId" value="BOCO-NET-B2C"/>交通银行
-							<img src="bank_img/bcc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<br/>
-							<input type="radio" name="pd_FrpId" value="PINGANBANK-NET"/>平安银行
-							<img src="bank_img/pingan.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="pd_FrpId" value="CCB-NET-B2C"/>建设银行
-							<img src="bank_img/ccb.bmp" align="middle"/>
-							<br/>
-							<input type="radio" name="pd_FrpId" value="CEB-NET-B2C"/>光大银行
-							<img src="bank_img/guangda.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="pd_FrpId" value="CMBCHINA-NET-B2C"/>招商银行
-							<img src="bank_img/cmb.bmp" align="middle"/>
-						</p>
-						<hr />
-						<p style="text-align:right">
-							<a >
-								<img src="images/finalbutton.gif" width="204" height="51" border="0" @click="check()"/>
-							</a>
-						</p>
+						收货地址：<input name="order.addr" type="text" v-model="addr" style="width:350px" /><br />
+						收货人&nbsp;&nbsp;&nbsp;：<input name="order.name" type="text" v-model="name" style="width:350px" /><br /> 
+						联系方式：<input name="order.phone" type="text" v-model="phone" style="width:350px" />
+					</p>
+					<hr />
+					<p>
+						选择银行：<br/>
+						<input type="radio" name="pd_FrpId" value="ICBC-NET-B2C" checked="checked"/>工商银行
+						<img src="bank_img/icbc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="pd_FrpId" value="BOC-NET-B2C"/>中国银行
+						<img src="bank_img/bc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+						<input type="radio" name="pd_FrpId" value="ABC-NET-B2C"/>农业银行
+						<img src="bank_img/abc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="pd_FrpId" value="BOCO-NET-B2C"/>交通银行
+						<img src="bank_img/bcc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+						<input type="radio" name="pd_FrpId" value="PINGANBANK-NET"/>平安银行
+						<img src="bank_img/pingan.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="pd_FrpId" value="CCB-NET-B2C"/>建设银行
+						<img src="bank_img/ccb.bmp" align="middle"/><br/>
+						<input type="radio" name="pd_FrpId" value="CEB-NET-B2C"/>光大银行
+						<img src="bank_img/guangda.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="pd_FrpId" value="CMBCHINA-NET-B2C"/>招商银行
+						<img src="bank_img/cmb.bmp" align="middle"/>
+					</p>
+					<hr />
+					<p style="text-align:right">
+						<a >
+							<img src="images/finalbutton.gif" width="204" height="51" border="0" @click="check()"/>
+						</a>
+					</p>
 				</div>
 			</form>
 		</div>
-		 
 		<script type="text/javascript">
-			var v1 = new Vue({
-				el :"#payform",
-				data :{
-					plist:[]
-				},
-				created(){
-					axios.get("getLoginedUser").then(res=>{
-						if( res.data && res.data.uid ){
-							//console.log(this.$refs.counts.value);
-							axios.get("cart.s?op=queryCart").then(res=>{
+		var v1 = new Vue({
+			el :"#payform",
+			data :{
+				plist:[{oid:""}],
+				
+				addr : "",
+				name : "",
+				phone : ""
+			},
+			created(){
+				axios.get("getLoginedUser").then(res=>{
+					if( res.data && res.data.uid ){
+						//console.log(this.$refs.counts.value);
+						if(location.hash.substring(1) == 0){
+							alert("请选择你要支付的订单");
+							location.href = "olist.html";
+						}else if(location.hash.substring(1) > 0){
+							axios.get("queryOrdersByOid?oid="+location.hash.substring(1)).then(res=>{
 								this.plist  = res.data;
 							});
-						}else {
-							alert("你尚未登录");
-							location.href = "login.html";
 						}
-					});
-				},
-				computed:{
-					total(){
-						var total = 0;
-						for(var i in this.plist){
-					           total+=this.plist[i].shop_price*this.plist[i].count;
-					       }
-					    return total;
+					}else {
+						alert("你尚未登录");
+						location.href = "login.html";
 					}
-				},
-				methods:{
-					check(){
-						if(confirm("确认提交?")){
-							var params = new URLSearchParams();
-							
-							params.append("name",this.name);
-							params.append("addr",this.addr);
-							params.append("phone",this.phone);
-							axios.post("order.s",params).then(res=>{
-								alert(res.data.msg);
-								location.href = "olist.html";
-							})
-						}
-					}
-				}
-			})
-			
-			
-			/*
-			created:function () {
-				var id=location.search.replace("?","");
-				var op="query";
-				if(id!=""){
-					op="queryByOid";
-				}
-				axios.get("orders.do?op="+op+"&oid="+id).then((res)=>{
-					this.orders=res.data.orders;
-					this.orderItem=res.data.orderitem;
-					console.info(this.orders);
-					console.info(this.orderItem);
 				});
 			},
+			computed:{
+				total(){
+					var total = 0;
+					for(var i in this.plist){
+						total+=this.plist[i].shop_price*this.plist[i].count;
+				    }
+				    return total;
+				}
+			},
 			methods:{
-				pay(){
-					axios({
-						url:"pay.do?op=pay",
-						params:{
-							oid:this.orders.id,
-							sum:this.orders.total,
-						}
-					}).then((res)=>{
-
-					})
+				check(){
+					console.info("====oid:" + location.hash.substring(1));
+					if(confirm("确认提交?")){
+						var params = new URLSearchParams();
+						params.append("oid",location.hash.substring(1));
+						params.append("name",this.name);
+						params.append("addr",this.addr);
+						params.append("phone",this.phone);
+						axios.post("order1.s",params).then(res=>{
+							alert(res.data.msg);
+							if(res.data.code == 1){
+								location.href = "olist.html";
+							}
+						});
+					}
+					
+					
 				}
 			}
-			
-		*/
+		})
 		</script>
        
-        
-        
     </div>
     
     <div class="cleaner"></div>

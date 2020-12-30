@@ -65,6 +65,7 @@ function clearText(field)
                 		<li><a href="checkout.html">支付</a></li>
                 		<li><a href="topic.html">留言板</a></li>
                			<li><a href="contact.html">联系我们</a></li>
+               			<li><a href="olist.html">个人订单</a></li>
                 		<li id="headerLogin" class="headerLogin" style="display: list-item;">
 							<a href="login.html" v-if=" user==''">登录</a>
 							<!--<a  v-if="user!=null"><a  href="myself.html">{{user.name}}</a></a>|  -->
@@ -274,7 +275,6 @@ function clearText(field)
 					mlist : {}
 				},
 				created(){
-					var fid=location.hash.substring(1);
 					axios.get("queryFlowerById?fid="+location.hash.substring(1)).then(res=>{
 						this.product = res.data;
 					});
@@ -349,9 +349,5 @@ function clearText(field)
 	</div>
 
 </body>
-<script type='text/javascript' src='js/logging.js'></script>
-<div style="display: none">
-	<script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540'
-		language='JavaScript' charset='gb2312'></script>
-</div>
+
 </html>

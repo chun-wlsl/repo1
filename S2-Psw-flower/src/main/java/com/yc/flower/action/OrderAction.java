@@ -35,18 +35,17 @@ public class OrderAction {
 	@Resource
     private UserDao udao;
 	
-	//添加订单成功(结算）
+	//添加订单成功(结算，shoppingcart.html中的Order方法)
 	@RequestMapping("order.s")
-	public Result pay(Order order, HttpSession session ,String addr,String phone,String name)  {
-
+	public Result pay(Double total, HttpSession session)  {
 		try {
 			User user = (User) session.getAttribute("loginedUser");
+			Order order = new Order();
 			order.setUid(user.getUid());
-			order.setName(name);
-			order.setPhone(phone);
-			order.setAddr(addr);
-			System.out.println("订单"+order.toString());
-			obiz.insertOrder(order);
+			order.setTotal(total);
+			order.setState(0);
+			System.out.println("下订单："+order.toString());
+			obiz.insertOrder1(order);
 			return Result.success("下单成功!");
 		} catch (BizException e) {
 			e.printStackTrace();
@@ -192,6 +191,42 @@ public class OrderAction {
 		return data;
 	}
 
+   	@RequestMapping("queryOrdersByOid")
+	//查询oid的订单详情（所有）
+	public List<?> queryOrdersByOid(Integer oid) {
+		List<?> orderitem = odao.queryItembyOid(oid);
+		return orderitem;
+	}
 	
-	
+   	//更新订单成功(checkout.html中的check方法）
+  	@RequestMapping("order1.s")
+  	public Result pay1(Integer oid,String addr,String phone,String name)  {
+  		try {
+  			Order order = new Order();
+  			order.setOid(oid);
+  			order.setName(name);
+  			order.setPhone(phone);
+  			order.setAddr(addr);
+  			System.out.println("订单"+order.toString());
+  			obiz.insertOrder2(order);
+  			return Result.success("支付成功!");
+  		} catch (BizException e) {
+  			e.printStackTrace();
+  			return Result.failure(e.getMessage());
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  			return Result.failure(e.getMessage());
+  		}
+  	}
+   	
+  	@RequestMapping("topay.s")
+  	public Result topay(Integer oid)  {
+  		int state = 1;
+  		int i = odao.updateState(state , oid) ;
+  		if( i > 0) {
+  			return Result.success("下单成功!");
+  		}else {
+  			return Result.failure("下单失败!");
+  		}
+  	}
 }

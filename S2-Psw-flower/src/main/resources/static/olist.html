@@ -52,9 +52,9 @@ function clearText(field)
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                 <li><a href="topic.html">留言板</a></li>
+                <li><a href="topic.html">留言板</a></li>
                 <li><a href="contact.html">联系我们</a></li>
-               
+               	<li><a href="olist.html">个人订单</a></li>
                
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
@@ -64,57 +64,43 @@ function clearText(field)
 				
 				<li id="headerRegister" class="headerRegister"
 						style="display: list-item;"><a @click="logout()">退出</a>|</li>
-                
-                
             </ul>
            
             <br style="clear: left" />
         </div>
-
-
-    </div> <!-- END of header -->
+	</div> <!-- END of header -->
     
-     <script type="text/javascript">
-			var v5= new Vue({
-				el:"#templatemo_header",
-				data:{
-					user:{},
-			        flo:[]
-				},
-				created(){
-					axios.get("getLoginedUser").then(res=>{
-						this.user = res.data;
+    <script type="text/javascript">
+    var v5= new Vue({
+		el:"#templatemo_header",
+		data:{
+			user:{},
+	        flo:[]
+		},
+		created(){
+			axios.get("getLoginedUser").then(res=>{
+				this.user = res.data;
+			});
+		},
+		methods:{
+			logout(){
+				if(confirm("确定要退出登录?")){
+					axios.get("out.s").then(res=>{
+						alert(res.data.msg);
+						location.href = "index.html";
 					});
-					axios.get("queryHot").then(res=>{
-					this.flist = res.data;
-				});
-					
-					
-				},
-				methods:{
-					logout(){
-						if(confirm("确定要退出登录?")){
-							axios.get("out.s").then(res=>{
-								alert(res.data.msg);
-								location.href = "index.html";
-							});
-						}
-					}
 				}
-			})
-		
-		
-		</script>
+			}
+		}
+	})
+    </script>
 </div> <!-- END of header wrapper -->
 
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
 	<div id="sidebar" class="left">
-	
-	
     	<div class="categorylist"><span class="bottom"></span>
             <h3>分类</h3> 
-            
             <!-- 分类展示 -->  
             <div > 
                 <ul class="sidebar_list">
@@ -126,9 +112,6 @@ function clearText(field)
                 </ul>
             </div>
         </div>
-        
-        
-
         <div  id="fdiscount">
           <span class="bottom"></span>
             <h2 align="center">每周特价</h2>   
@@ -144,14 +127,6 @@ function clearText(field)
                 </p>
             </div>
         </div>
-        
-      
-        
-        
-        
-      
-      
-        
     </div>
     <!-- 左边 -->
      <script>
@@ -173,90 +148,55 @@ function clearText(field)
             </script>
     
     
-    <div id="content" class="right faqs">
-    
-    
-    
-		<div id="olistnav" class="span24">
-            <!-- 
-            <table width="700" border="0" cellpadding="5" cellspacing="0">
-          	<tr bgcolor="#395015">
-             <th width="150px" align="center">商品</th>
-						<th width="80px" align="center">名字</th>
-						<th width="80px" align="center">价格</th>
-						<th width="80px" align="center">数量</th>
-						<th width="80px" align="center">小计</th>
-				</tr>		
-						
-				<tr>			
-						<td width="165px"><img :src="o.image" /></td>
-						<td width="80px" align="center"><a target="_blank">{{o.pname}}</a></td>
-						<td width="80px" align="center">{{o.shop_price}}</td>
-						<td class="quantity" width="80px" align="center">{{o.count}} </td>
-						<td width="80px" align="center">
-							<span class="subtotal">￥{{o.subtotal}}</span>
-						</td>
-             </tr>
-			</table>
-			
-			 --> 
-			 <table id="table">
-					<tbody>
+	<div id="content" class="right faqs">
+    	<div id="olistnav" class="span24"> 
+			<table id="table">
+				<tbody>
 				<template v-for="oi in orders">
-				<!-- 订单的表头 每个订单只显示一次 -->
-				<template v-if="showOrder(oi.order.oid)">
+					<!-- 订单的表头 每个订单只显示一次 -->
+					<template v-if="showOrder(oi.order.oid)">
+						<tr >
+							<th colspan="6">
+								订单号:{{oi.order.oid}} &nbsp;&nbsp;&nbsp;&nbsp; 
+								收货人：{{oi.order.name}}&nbsp;&nbsp;&nbsp;&nbsp;
+								金额:<font color="red">{{oi.order.total}}  </font>&nbsp;&nbsp;&nbsp;&nbsp;
+								状态 :
+									<a @click="changePage(oi.order.state,oi.order.oid)"><font color="red" v-text="showState(oi.order.state)"></font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+								下单时间：{{oi.order.otime}}
+							</th>
+						</tr>
+						<tr >
+							<th colspan="6">
+								<button v-if="oi.order.state==0" class="orderop"><a :href="'checkout.html#'+oi.order.oid">去支付</a></button>
+								<button v-if="oi.order.state==2" @click="mksGetPro(oi.order.oid)" class="orderop" >确认收货</button>
+							</th>
+						</tr>
+						<tr >
+							<th width="80px" align="center">图片</th>
+							<th width="80px" align="center">商品</th>
+							<th width="80px" align="center">数量</th>
+							<th width="80px" align="center">小计</th>
+						</tr>
+					</template>
+					<!-- 订单详情项     每个订单可能有多个订单详情项 -->
 					<tr >
-						<th colspan="6">
-						订单号:{{oi.order.oid}} &nbsp;&nbsp;&nbsp;&nbsp; 
-						收货人：{{oi.order.name}}&nbsp;&nbsp;&nbsp;&nbsp;
-						金额:<font color="red">{{oi.order.total}}  </font>&nbsp;&nbsp;&nbsp;&nbsp;
-						状态 :
-							<a @click="changePage(oi.order.state,oi.order.oid)"><font color="red" v-text="showState(oi.order.state)"></font></a>&nbsp;&nbsp;&nbsp;&nbsp;
-						下单时间：{{oi.order.otime}}
-						
-						</th>
-					</tr>
-					<tr >
-						<th colspan="6">
-						<button v-if="oi.order.state==0" class="orderop"><a :href="'check.html?'+oi.order.oid">去支付</a></button>
-						<button v-if="oi.order.state==3" @click="mksGetPro(oi.order.oid)" class="orderop" >确认收货</button>
-						</th>
-					</tr>
-					<tr >
-						<th width="80px" align="center">图片</th>
-						<th width="80px" align="center">商品</th>
-					
-						<th width="80px" align="center">数量</th>
-						<th width="80px" align="center">小计</th>
-						
-					</tr>
-				</template>
-				<!-- 订单详情项     每个订单可能有多个订单详情项 -->
-				<tr >
-					<td width="80px" align="center">
-						<a :href="'detail.html?'+oi.order.fid"><img :src="oi.order.image"/></a>
-					</td>
-					<td width="80px" align="center">
-						<a target="_blank">{{oi.order.fname}}</a>
-					</td>
-					
-					<td class="quantity" width="80px" align="center">
+						<td width="80px" align="center">
+							<a :href="'productdetail.html?'+oi.order.fid"><img :src="oi.order.image" style="width:165px;height:120px;"/></a>
+						</td>
+						<td width="80px" align="center">
+							<a target="_blank">{{oi.order.fname}}</a>
+						</td>
+						<td class="quantity" width="80px" align="center">
 							{{oi.order.count}}						
-					</td>
-					<td width="80px" align="center">
-						<span class="subtotal">￥{{oi.order.subtotal}}</span>
-					</td>
-					
-				</tr>
-				<br/>
-			</template>			
+						</td>
+						<td width="80px" align="center">
+							<span class="subtotal">￥{{oi.order.subtotal}}</span>
+						</td>
+					</tr><br/>
+				</template>			
 				</tbody>
-				
 			</table>
-			 
-			  
 		</div>
-		
 		<script type="text/javascript">
 		var currentOrderId=null; 
 		var v7=	new Vue({
@@ -265,9 +205,17 @@ function clearText(field)
 					orders:[]//所有订单数据
 				},
 				created(){
-					axios.get("queryOrders").then(res=>{
-						this.orders = res.data;
-					})
+					axios.get("getLoginedUser").then(res=>{
+						if( res.data && res.data.uid ){
+							axios.get("queryOrders").then(res=>{
+								this.orders = res.data;
+							});
+						} else {
+							alert("你尚未登录");
+							location.href = "login.html";
+						}
+					});
+					
 				},
 				
 				methods:{
@@ -347,6 +295,4 @@ function clearText(field)
 </div>
 
 </body>
-<script type='text/javascript' src='js/logging.js'></script>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </html>

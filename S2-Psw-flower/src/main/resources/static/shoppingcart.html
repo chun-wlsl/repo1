@@ -55,7 +55,7 @@ function clearText(field)
                 <li><a href="checkout.html">支付</a></li>
                 <li><a href="topic.html">留言板</a></li>
                	<li><a href="contact.html">联系我们</a></li>
-               
+                <li><a href="olist.html">个人订单</a></li>
                
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
@@ -197,99 +197,91 @@ function clearText(field)
             <tr bgcolor="#41581B" v-for="p in plist">
                 <td width="150px" align="center"><a :href="'productdetail.html#'+p.fid"><img :src="p.image" style="width:165px;height:120px;"/></a></td> 
                 <td width="50px" align="center">{{p.fname}}</td> 
-                <td align="center"  width="60" name="quantity1" id="quantity1" size="6" maxlength="2">
-              
-						{{p.count}}
-				
-                </td>
-                
+                <td align="center"  width="60" name="quantity1" id="quantity1" size="6" maxlength="2">{{p.count}}</td>
                 <!--   
                 <button @click="addP(p,-1)">-</button>
 						{{p.count}}
 				<button @click="addP(p,1)">+</button> -->
-        
-                
                 <td align="center" width="80px">￥{{p.shop_price}}</td> 
                 <td align="center" width="80px">￥{{p.shop_price*p.count}}</td>
                 <td align="center" width="80px"> 
-                <a  @click="deleteCart(p.fid)"  href="#">
-                <img src="images/remove.png" alt="remove" /><br />删除</a> 
+                	<a  @click="deleteCart(p.fid)"  href="#">
+                		<img src="images/remove.png" alt="remove" /><br />删除
+                	</a> 
                 </td>
             </tr>
            
-      <tr bgcolor="#41581B">
+      		<tr bgcolor="#41581B">
                 <td colspan="3" ><a href="shoppingcart.html"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;更新</strong></a> 购物车&nbsp;&nbsp;</td>
                 <td align="right"><h4>合计:</h4></td>
-                <td align="right"><h4>￥{{total}}</h4></td>
+                <td align="right"><h4 >￥{{total}}</h4></td>
                 <td> </td>
             </tr>
         </table>
 		<div class="cleaner h20"><a href="#" class="button" @click="clearCart()">清空购物车</a></div>
-        <div class="right"><a href="checkout.html" class="button" >提交订单</a></div>
+        <div class="right"><a href="#" class="button" @click="Order()">提交订单</a></div>
         <div class="cleaner h20"></div>
         <div class="blank_box">
         	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
         </div>    
     </div>
-    
-  
-    
-<script type="text/javascript">
-			var v11 = new Vue({
-				el :".right",
-				data :{
-					plist:[]
-				},
-				created(){
-					axios.get("getLoginedUser").then(res=>{
-						if( res.data && res.data.uid ){
-							axios.get("cart.s?op=queryCart").then(res=>{
-								this.plist = res.data;
-							});
-						}else {
-							alert("你尚未登录");
-							location.href = "login.html";
-						}
+	<script type="text/javascript">
+	var v11 = new Vue({
+		el :".right",
+		data :{
+			plist:[],
+			total:0
+		},
+		created(){
+			axios.get("getLoginedUser").then(res=>{
+				if( res.data && res.data.uid ){
+					axios.get("cart.s?op=queryCart").then(res=>{
+						this.plist = res.data;
 					});
-				},
-				computed:{
-					total(){
-						var total = 0;
-						for(var i in this.plist){
-					           total+=this.plist[i].shop_price*this.plist[i].count
-					       }
-					    return total;
-					}
-				},
-				methods:{
-					deleteCart(fid){
-						if(confirm("确定删除该商品?")){
-							axios.get("cart.s?op=deleteCart&fid="+fid).then(res=>{
-								//alert(res.data.msg);
-								location.href="shoppingcart.html";
-							})
-						}
-					},
-					clearCart(){
-						if(confirm("确定要清空购物车?")){
-							axios.get("cart.s?op=clearCart").then(res=>{
-								//alert(res.data.msg);
-							})
-						}
-					},
-					Order(){
-						if(confirm("确认提交?")){
-							var params = new URLSearchParams();
-							axios.post("order.s",params).then(res=>{
-								alert(res.data.msg);
-								location.href = "checkout.html";
-							})
-						}
-					}
+				}else {
+					alert("你尚未登录");
+					location.href = "login.html";
 				}
-			})
-		
-		</script>
+			});
+		},
+		computed:{
+			Total(){
+				for(var i in this.plist){
+					this.total+=this.plist[i].shop_price*this.plist[i].count
+			    }
+			    return this.total;
+			}
+		},
+		methods:{
+			deleteCart(fid){
+				if(confirm("确定删除该商品?")){
+					axios.get("cart.s?op=deleteCart&fid="+fid).then(res=>{
+						alert(res.data.msg);
+						location.href="shoppingcart.html";
+					});
+				}
+			},
+			clearCart(){
+				if(confirm("确定要清空购物车?")){
+					axios.get("cart.s?op=clearCart").then(res=>{
+						alert(res.data.msg);
+						location.href="shoppingcart.html";
+					});
+				}
+			},
+			Order(){
+				if(confirm("确定要下单?")){
+					var params = new URLSearchParams();
+					params.append("total",this.total);
+					axios.post("order.s",params).then(res=>{
+						alert(res.data.msg);
+						location.href = "olist.html";
+					});
+				}
+			}
+		}
+	})
+	</script>
 
     
     
@@ -313,6 +305,5 @@ function clearText(field)
 </div>
 
 </body>
-<script type='text/javascript' src='js/logging.js'></script>
-<div style="display:none"></div>
+
 </html>

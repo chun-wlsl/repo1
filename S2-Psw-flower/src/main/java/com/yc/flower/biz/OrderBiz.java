@@ -46,6 +46,18 @@ public class OrderBiz {
 		cdao.clearCart(order.getUid());
 
 	}
+	
+	public void insertOrder1(Order order) throws BizException, SQLException{
+		// 写入数据库
+		// 订单主表  orders
+		int oid = odao.insertOrder1(order);
+		// 订单明细 orderitem
+		order.setOid(oid);
+		odao.insertItems(order);
+		// 清空购物车 cart ==> uid
+		cdao.clearCart(order.getUid());
+
+	}
     //后台
 	public void save(Order o) throws BizException {
 		Utils.checkNull(o.getUid(), "用户ID不能为空");
@@ -62,7 +74,15 @@ public class OrderBiz {
 		}
 	}
 	
-	
+	public void insertOrder2(Order order) throws BizException, SQLException{
+		// 验证输入值
+		Utils.checkNull(order.getAddr(), "请填写收货地址");
+		Utils.checkNull(order.getPhone(), "请填写收货人电话");
+		Utils.checkNull(order.getName(), "请填写收货人姓名");
+		// 写入数据库
+		odao.updateByOid(order);
+		
+	}
 	
 //	//支付成功（改变订单的状态  1 已支付）   
 //	public void pay(Order order) throws BizException {

@@ -226,5 +226,49 @@ public class OrderDao extends BaseDao{
 		return ret;
 	}
 
+	public List<?> queryItembyOid(Integer oid){
+		String sql = "select * from  orderitem a left "
+				+ "join orders b on a.oid = b.oid left join flower c "
+				+ "on a.fid = c.fid where b.oid=?";
+		return jt.queryForList(sql, oid);
+	}
 	
+	/**
+	 * 新增订单主表（未支付）
+	 * @param orders
+	 * @return 
+	 * @return 
+	 */
+	public int insertOrder1(Order orders) {
+		String sql = "insert into orders values(null,?,?,?,now(),?,?,?)";
+		KeyHolder kh = new GeneratedKeyHolder();
+		jt.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql, new String[] {"oid"});
+				ps.setObject(1, orders.getUid());
+				ps.setObject(2, orders.getName());
+				ps.setObject(3, orders.getTotal());
+				ps.setObject(4, orders.getState());
+				ps.setObject(5, orders.getAddr());
+				ps.setObject(6, orders.getPhone());
+				
+				return ps;
+			}
+			
+		}, kh);
+		return kh.getKey().intValue();
+		/*jt.update(sql,
+				orders.getTotal(),
+				orders.getState(),
+				orders.getAddr(),
+				orders.getPhone(),
+				orders.getUid(),
+				orders.getName());*/
+	}
+	
+	public int updateByOid(Order o) {
+		String sql = "update orders set name=?,state=1,addr=?,phone=? where oid = ?";
+		return jt.update(sql, o.getName(), o.getAddr(), o.getPhone(), o.getOid());
+	}
 }
