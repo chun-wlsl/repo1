@@ -229,4 +229,16 @@ public class OrderAction {
   			return Result.failure("下单失败!");
   		}
   	}
+  	
+  	//后台
+  	@RequestMapping(path="orders.s",params="op=updateState")
+  	public Result updateState1(Integer oid){
+     	Order order = new Order();
+     	int i = odao.updateState1(oid);
+     	if( i > 0) {
+  			return Result.success("订单状态修改成功!");
+     	}else {
+  			return Result.failure("订单状态修改失败!");
+  		}
+  	}
 }

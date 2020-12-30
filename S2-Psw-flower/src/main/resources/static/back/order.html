@@ -90,18 +90,44 @@ function getState(value,row,index) {
             res = '<font style="color:red;">未支付</font>';
             break;
         case 1:
-            res = '<font style="color:yellow;">支付成功</font>';
+            res = '<font style="color:yellow;"><button onclick="updateState('+index+')">支付成功</button></font>';
             break;
         case 2:
-            res = '<font style="color:green;">未收货</font>';
+            res = "<font style='color:green;'><button onclick='updateState("+index+")'>未发货</button></font>";
             break;
         case 3:
+            res = '<font style="color:yellow;">已发货</font>';
+            break;
+        case 4:
             res = '已收货';
             break;
         default:
             break;
     }
     return res;
+}
+
+function updateState(index){
+	//index 有值就是修改表格中的某一行记录，否则是新增
+	//下标从0开始，0是false
+	//edit不传参 index为undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		var param = new URLSearchParams();
+		param.append("oid", rows[index].oid);
+		param.append("op", "updateState");
+		axios.post("../orders.s",param).then(res=>{
+			alert(res.data.msg);
+			if(res.data.code==1){
+				//刷新表格
+				$('#dg').datagrid('reload');
+			}
+		});
+		$("#ff").form('load',rows[index]);
+	}else{
+		$("#ff").form('clear');
+	}
+	
 }
 </script>
 </head>

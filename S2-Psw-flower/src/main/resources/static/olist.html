@@ -168,7 +168,7 @@ function clearText(field)
 						<tr >
 							<th colspan="6">
 								<button v-if="oi.order.state==0" class="orderop"><a :href="'checkout.html#'+oi.order.oid">去支付</a></button>
-								<button v-if="oi.order.state==2" @click="mksGetPro(oi.order.oid)" class="orderop" >确认收货</button>
+								<button v-if="oi.order.state==3" @click="mksGetPro(oi.order.oid)" class="orderop" >确认收货</button>
 							</th>
 						</tr>
 						<tr >
@@ -237,7 +237,7 @@ function clearText(field)
 							case 1:
 								return '支付成功 ';
 							case 2:
-								return ' 未发货';
+								return '未发货';
 							case 3:
 								return '已发货';
 							case 4:

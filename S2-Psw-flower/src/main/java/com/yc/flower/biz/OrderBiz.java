@@ -50,7 +50,7 @@ public class OrderBiz {
 	public void insertOrder1(Order order) throws BizException, SQLException{
 		// 写入数据库
 		// 订单主表  orders
-		int oid = odao.insertOrder1(order);
+		int oid = odao.insertOrder(order);
 		// 订单明细 orderitem
 		order.setOid(oid);
 		odao.insertItems(order);
