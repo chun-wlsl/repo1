@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpSession;
@@ -101,6 +102,29 @@ public class UserAction {
 		return bbiz.resetPwd(name, vcode, password, (String)session.getAttribute("vcode"));
 	}
 	
+	//path = "cart.s", params = "op=deleteCart"
+	@RequestMapping(path="reUser.s",params = "op=reU")
+	public Result reUser(HttpSession session,String name,String pwd,String sex,String phone,String addr,String email) throws Exception {
+	
+		User user =(User) session.getAttribute("loginedUser");
+		
+		user.setName(name);
+		user.setPwd(pwd);
+		user.setSex(sex);
+		user.setPhone(phone);
+		user.setAddr(addr);
+		user.setEmail(email);
+		System.out.println(user.toString());
+		try {
+			ubiz.reUser(user);
+			return new Result(1,"修改成功！");
+		}catch (BizException e) {
+			e.printStackTrace();
+			return new Result(0,e.getMessage());
+		}
+	}
+	
+
 	//给后台使用，查找所有的
    	@RequestMapping("queryAllUser")
 	public Map<String, Object> queryAllUser(Integer uid, String name, String sex, String page, String rows){
@@ -135,4 +159,5 @@ public class UserAction {
 		}
 		
 	}
+
 }

@@ -1,6 +1,7 @@
 package com.yc.flower.action;
 
 import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,4 +104,10 @@ public class FlowerAction {
 		}
 		
 	}
+   	
+   	//查找最新商品
+    @RequestMapping("queryNewProduct")
+ 	public List<Flower> queryNewProduct(){
+ 		return fdao.queryNewProduct();
+ 	}
 }

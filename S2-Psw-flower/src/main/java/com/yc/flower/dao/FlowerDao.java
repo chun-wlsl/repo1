@@ -4,10 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 
 import com.yc.flower.bean.Flower;
 
@@ -22,6 +23,12 @@ public class FlowerDao extends BaseDao{
 				+ " limit 0,10";
 		return jt.query(sql, flowerRowMapper);
 	}
+   
+   public List<Flower> queryNewProduct() {
+		String sql = "select * from flower where fcount>0  order by fdate desc limit 0,8";
+		return jt.query(sql, flowerRowMapper);
+	}
+   
 	
    //查找类别为cid的所有商品（花）
    public List<Flower> queryFlowerByCid(int cid) {

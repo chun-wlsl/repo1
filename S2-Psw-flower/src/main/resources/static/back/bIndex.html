@@ -8,6 +8,7 @@
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
 <script type="text/javascript">
 var data = [{
     iconCls: 'icon-sum',
@@ -26,6 +27,7 @@ var data = [{
         url:'user.html'
     }]
 }];
+
 function selectMenu(Item){
 	if(	$('#tt').tabs('exists',Item.text)){
 		$('#tt').tabs('select',Item.text)
@@ -33,10 +35,21 @@ function selectMenu(Item){
 		$('#tt').tabs('add',{
 			title: Item.text,
 			selected: true,
-			content:"<iframe src=' "+Item.url+"' style='width:100%;height:100%;border:opx'></iframe>"
+			closable: true,
+			content:"<iframe src=' "+Item.url+"' style='width:100%;height:100%;border:opx;'></iframe>"
 		});
 	}
-}	
+}
+
+function logout(){
+	if(confirm("确定要退出登录?")){
+		axios.get("../out.s").then(res=>{
+			alert(res.data.msg);
+			location.href = "../index.html";
+		});
+	}
+}
+
 </script>
 </head>
 <body>
@@ -45,7 +58,7 @@ function selectMenu(Item){
 			<img src="img/logo.png" class="logo" style="width:100px"/>
 			<div class="top-btns">
 				<span>欢迎您，管理员</span>
-				<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
+				<a href="#" class="easyui-linkbutton" onclick="logout()" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
 			</div>
 		</div>
 		
@@ -53,19 +66,18 @@ function selectMenu(Item){
 		
 		<div class="easyui-accordion" data-options="region:'west',split:true" title="菜单区" style="width:200px;">
 			<div class="easyui-accordion" fit="true" id="navmenu">
-				<div id="sm" class="easyui-sidemenu" title="数据维护" 
+				<div id="sm" class="easyui-sidemenu" title="数据管理" 
 					data-options="iconCls:'icon-ok',data:data,fit:true,onSelect:selectMenu" style="overflow:auto;padding:10px;">
-				</div>
-			
-				<div title="物流信息查询" data-options="iconCls:'icon-ok'" style="padding:10px;">
-				</div>
-				<div title="财务报表" data-options="iconCls:'icon-ok'" style="padding:10px;">
 				</div>
 			</div>
 		</div>
 		<div id="tt" class="easyui-tabs" data-options="region:'center',title:'功能区',iconCls:'icon-ok'">
 			<div title="Home" style="padding:10px;">
-				jQuery easyui framework help you build your web page easily.
+				绿艺鲜花是国内排行前列的鲜花行业品牌服务商，以“花心思，只为你”为品牌理念，为用户提供优质鲜花礼品配送服务。<br>
+				我们拥有一支金牌花艺师团队，持续打造具有设计感的原创花艺产品，全国2000多个城市送花上门，让心意准时到达。<br>
+				<a>
+					<img alt="" src="../images/flower_bIndex.png" width="700px">
+				</a>
 			</div>
 		</div>
 	</div>

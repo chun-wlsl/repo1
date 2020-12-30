@@ -75,6 +75,32 @@ public class UserBiz {
 
 	
 	
+	//用户更改个人信息
+		public void reUser(User user) throws Exception {
+			//字段验证
+			Utils.checkNull(user.getName(), "用户名不能为空");
+			Utils.checkNull(user.getPwd(), "密码不能为空");
+			Utils.checkNull(user.getSex(), "性别不能为空");
+			Utils.checkNull(user.getPhone(),"电话号码不能为空");
+			Utils.checkNull(user.getAddr(), "居住地址不能为空");
+			Utils.checkNull(user.getEmail(),"邮箱地址不能为空");
+			//Utils.checkNull(user.getCode(),"验证码不能为空");
+			
+			
+			//同名验证
+			User dbUser=udao.selectByName(user.getName());
+			if (dbUser !=null) {
+				throw new BizException("该用户名不能使用");
+			}
+			
+			try {
+				udao.updateUser(user);
+			} catch (Exception e) {
+				throw new BizException("修改失败",e);
+			}
+		}
+	
+	
 	//验证码
 	public String sendVcode(String name) {
 		User user =udao.selectByName(name);

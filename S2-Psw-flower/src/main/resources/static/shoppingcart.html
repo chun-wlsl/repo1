@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title> Shopping Cart</title>
+<title>购物车</title>
 <meta name="keywords" content="free template, shopping cart, floral, ecommerce, online, store" />
 <meta name="description" content="Floral, Shopping Cart, free template for ecommerce websites." />
 <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
@@ -53,14 +53,14 @@ function clearText(field)
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                 <li><a href="topic.html">留言板</a></li>
-                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="topic.html">留言板</a></li>
+               	<li><a href="contact.html">联系我们</a></li>
                
                
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
 						<a href="login.html" v-if=" user==''">登录</a>
-						<a v-if="user!=null">{{user.name}}</a>|
+						<a v-if="user!=null" href="myself.html">{{user.name}}</a>|
 				</li>
 				
 				<li id="headerRegister" class="headerRegister"
@@ -86,10 +86,6 @@ function clearText(field)
 					axios.get("getLoginedUser").then(res=>{
 						this.user = res.data;
 					});
-					axios.get("queryHot").then(res=>{
-					this.flist = res.data;
-				});
-					
 					
 				},
 				methods:{
@@ -269,7 +265,7 @@ function clearText(field)
 					deleteCart(fid){
 						if(confirm("确定删除该商品?")){
 							axios.get("cart.s?op=deleteCart&fid="+fid).then(res=>{
-								alert(res.data.msg);
+								//alert(res.data.msg);
 								location.href="shoppingcart.html";
 							})
 						}
@@ -277,7 +273,7 @@ function clearText(field)
 					clearCart(){
 						if(confirm("确定要清空购物车?")){
 							axios.get("cart.s?op=clearCart").then(res=>{
-								alert(res.data.msg);
+								//alert(res.data.msg);
 							})
 						}
 					},

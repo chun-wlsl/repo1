@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>主页</title>
+<title>绿艺鲜花店</title>
 <meta name="keywords" content="free template,  ecommerce, online shopping, store" />
 <meta name="description" content="Floral Shop is free website template for ecommerce or online shopping websites. Products, Shopping Cart, FAQs and Checkout pages are included." />
 <link rel="stylesheet" href="templatemo_style.css" type="text/css" />
@@ -54,15 +54,16 @@ function clearText(field)
                 <li><a href="clist.html#1" >商品分类</a></li> 
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
-                <li><a href="olist.html">我的订单</a></li>
-                 <li><a href="topic.html">留言板</a></li>
-                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="checkout.html">支付</a></li>
+                 <li><a href="contact.html">留言板</a></li>
+                <li><a href="topic.html">联系我们</a></li>
+                <li><a href="service.html">在线客服</a></li>
                
                
                 <li id="headerLogin" class="headerLogin"
 						style="display: list-item;">
 						<a href="login.html" v-if=" user==''">登录</a>
-						<a v-if="user!=null">{{user.name}}</a>|
+						<a v-if="user!=null" href="myself.html">{{user.name}}</a>
 				</li>
 				
 				<li id="headerRegister" class="headerRegister"
@@ -114,10 +115,6 @@ function clearText(field)
 					axios.get("getLoginedUser").then(res=>{
 						this.user = res.data;
 					});
-					axios.get("queryHot").then(res=>{
-					this.flist = res.data;
-				});
-					
 					
 				},
 				methods:{
@@ -134,8 +131,6 @@ function clearText(field)
 		
 		
 		</script>
-		
-		
 </div> <!-- END of header wrapper -->
 <div id="templatemo_main_wrapper">
 <div id="templatemo_main">
@@ -199,13 +194,15 @@ function clearText(field)
     
     
     <div id="content" class="right">
-		<h2>欢迎来到绿艺鲜花</h2>
-	    <h3>热销商品</h3>
-        <span  v-for="f in flist">
-        <div  class="product_box"  style="width: 165px">
+    	<font style="font-size: 40pt; filter:shadow(color=red); width:100%;color:white   ; line-height:150%; font-family:华文彩云">
+    		<b>欢迎来到绿艺鲜花店</b>
+    	</font><br>
+    	<h3><font style="color:#FFBB77">热销商品</font></h3>
+        <div  v-for="f in flist">
+        	<div  class="product_box"  style="width: 165px;">
           
 	            <a :href="'productdetail.html#'+f.fid">
-	            <img :src="f.image" alt="flowers 1" style="width: 165px" />
+	            <img :src="f.image" alt="flowers 1" style="width: 165px;height:120px;" />
 	            </a>
 	      		<h3>{{f.fname}}</h3>
 	      		
@@ -217,9 +214,30 @@ function clearText(field)
 	              <!--   <button  @click="addCart(f.fid)"  class="button">添加购物车</button>-->
 	            </p>
 	       
-        </div> 
-         </span>    
-            	
+        	</div> 
+        </div>
+        <h3>最新商品</h3>
+		<div  v-for="l in list">
+        	<div  class="product_box"  style="width: 165px;">
+          
+	            <a :href="'productdetail.html#'+l.fid">
+	            <img :src="l.image" alt="flowers 1" style="width: 165px;height:120px;" />
+	            </a>
+	      		<h3>{{l.fname}}</h3>
+	      		
+	            <p class="product_price">￥{{l.marketPrice}}</p>
+	            <p class="add_to_cart">
+	                <a :href="'productdetail.html#'+l.fid">详情</a>
+	             	<a @click="addCart(l.fid)" >添加购物车</a> 
+	             	<!--   <button  @click="addCart()"  class="button">添加购物车</button> --> 
+	              	<!--   <button  @click="addCart(f.fid)"  class="button">添加购物车</button>-->
+	            </p>
+	       
+        	</div> 
+        </div>
+            
+         </div>
+        
     
         
         <div class="blank_box">
@@ -231,12 +249,16 @@ function clearText(field)
      var v1= new Vue({
 			el:"#content",
 			data:{
-				flist:[]
+				flist:[],
+				list : []
 			},
 			created(){
-				axios.get("queryProduct").then(res=>{
+				axios.get("queryHot").then(res=>{
 					this.flist = res.data;
-				})
+				});
+				axios.get("queryNewProduct").then(res=>{
+					this.list = res.data;
+				});
 			},
 			methods:{
 				addCart(fid){

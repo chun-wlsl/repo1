@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>留言贴子</title>
+<title>在线客服</title>
 <meta name="keywords" content="free template, contact,  ecommerce" />
 <meta name="description" content=" Contact Form, Location Maps, Addresses, free template for ecommerce websites." />
 <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
@@ -53,8 +53,8 @@ function clearText(field)
                 <!--class="selected"  -->
                 <li><a href="shoppingcart.html" >购物车</a></li>
                 <li><a href="checkout.html">支付</a></li>
-                <li><a href="topic.html">留言板</a></li>
-               	<li><a href="contact.html">联系我们</a></li>
+                 <li><a href="topic.html">留言板</a></li>
+                <li><a href="contact.html">联系我们</a></li>
                
                
                 <li id="headerLogin" class="headerLogin"
@@ -86,6 +86,10 @@ function clearText(field)
 					axios.get("getLoginedUser").then(res=>{
 						this.user = res.data;
 					});
+					axios.get("queryHot").then(res=>{
+					this.flist = res.data;
+				});
+					
 					
 				},
 				methods:{
@@ -102,56 +106,65 @@ function clearText(field)
 		
 		
 		</script>
+    
+    
 </div> <!-- END of header wrapper -->
-
-<div id="templatemo_main_wrapper" align="center">
-    <div id="content" width="100%">
-		 <h2><strong><i>分享你的故事吧 ...</i></strong></h2>
-	
-        <div id="mapborders" class=""  width="100%" >
-        	<table id="contents" width="92%" border="0" align="center" cellpadding="4" cellspacing="1" bgcolor="#F4F9FD" class="tableborder"> 
-        		<tbody  v-for="l in list">
-                	<tr class="header"> 
-                 		<td width="55%" height="23"><font color="black">发布者: {{l.name}} </font></td> 
-                 		<td width="45%"><font color="black">发布时间: {{l.publishtime}} </font></td> 
-                	</tr> 
-                	<tr bgcolor="#FFFFFF"> 
-                 		<td height="23" colspan="2">
-                 			<table border="0" width="100%" cellspacing="1" cellpadding="8" bgcolor="#FFFFFF"> 
-                   				<tbody>
-                    				<tr> 
-                     					<td width="100%" bgcolor="#6B8E23" style="word-break:break-all"><font color="black">{{l.content}} </font></td> 
-                    				</tr> 
-                   				</tbody>
-                  			</table>
-                  		</td> 
-                	</tr> 
-               	</tbody>
-            </table> <br><br>
-		</div>
-	</div>
-    <script type="text/javascript">
-    var vue2 = new Vue({
-    	el : "#mapborders",
-    	data : {
-    		list : {}
-    	},
-    	created(){
-    		axios.get("queryMsg").then(res=>{
-				this.list = res.data;
-			});
-    	}
-    });
-    </script>
-	<div class="cleaner h40"></div>
-	<div class="blank_box">
-		<a href="#">
-			<img src="images/free_shipping.jpg" alt="Free Shipping" />
-		</a>
-	</div>
-	<div class="cleaner"></div>
-
-
+<div id="templatemo_main_wrapper">
+<div id="templatemo_main">
+	<div id="sidebar" class="left">
+    	<div class="sidebar_box"><span class="bottom"></span>
+            <h3>鲜花用途</h3>   
+            <div class="content"> 
+                <ul class="sidebar_list">
+                    <li><a href="#">爱情鲜花</a></li>
+                    <li><a href="#">生日鲜花</a></li>
+                    <li><a href="#">友情鲜花</a></li>
+                    <li><a href="#">问候长辈</a></li>
+                    <li><a href="#">探病慰问</a></li>
+                    <li><a href="#">道歉鲜花</a></li>
+                    <li><a href="#">祝贺鲜花</a></li>
+                    <li><a href="#">婚庆鲜花</a></li>
+                    <li><a href="#">商务鲜花</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar_box"><span class="bottom"></span>
+            <h3>Weekly Special</h3>   
+            <div class="content special"> 
+                <img src="images/templatemo_image_01.jpg" alt="Flowers" />
+                <a href="#">Citrus Burst Bouquet</a>
+                <p>
+                	Price:
+                    <span class="price normal_price">$160</span>&nbsp;&nbsp;
+                    <span class="price special_price">$100</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="content" class="right">
+		<h2>在线客服</h2>
+        <div class="cleaner h40"></div>
+        <div>
+           <form method="post" name="contact" action="#">
+           		<div id="col131" class="col col13">
+                
+                   
+                	
+			 	</div>
+                
+                
+            </form>
+        </div>
+        
+        <div class="cleaner h40"></div>        
+        <div class="blank_box">
+        	<a href="#"><img src="images/free_shipping.jpg" alt="Free Shipping" /></a>
+        </div>  
+        <div class="cleaner"></div>  
+    </div>
+    <div class="cleaner"></div>
+</div> <!-- END of main -->
 </div> <!-- END of main wrapper -->
 
 <div id="templatemo_footer_wrapper">
@@ -162,7 +175,6 @@ function clearText(field)
         <a href="#"><img src="images/1311260374_visa-straight.png" alt="Visa" /></a>
     </div>
 	<div class="footer_right">
-		
 	</div>
     <div class="cleaner"></div>
 </div> <!-- END of footer -->

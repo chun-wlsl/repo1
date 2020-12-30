@@ -1,11 +1,15 @@
-/*package com.yc.flower;
+package com.yc.flower;
 import javax.annotation.Resource;
 
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.yc.flower.action.UserAction;
+import com.yc.flower.bean.Administrator;
 import com.yc.flower.bean.User;
+import com.yc.flower.biz.AdministratorBiz;
+import com.yc.flower.biz.BizException;
+import com.yc.flower.dao.AdministratorDao;
 
 @SpringBootTest
 public class UserTest {
@@ -36,4 +40,13 @@ public class UserTest {
 	   int i=uAction.queryAll();
 	   System.out.println("总用户数："+i);
 	}
-}*/
+	
+	@Test
+	public void test4() throws BizException {
+		AdministratorBiz adao = new AdministratorBiz();
+		String aname = "admin";
+		String apwd = "a";
+		System.out.println("aname是：" + aname + " apwd:" +apwd);
+		System.out.println("结果是：" + adao.login(aname, apwd));
+	}
+}

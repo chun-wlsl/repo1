@@ -12,7 +12,7 @@ public class Msg implements java.io.Serializable {
 	private Date publishtime;
 	private Timestamp modifytime;
 	private Integer uid;
-	private Integer tid;
+	private Integer fid;
 	
 	public Integer getMid() {
 		return mid;
@@ -44,17 +44,16 @@ public class Msg implements java.io.Serializable {
 	public void setUid(Integer uid) {
 		this.uid = uid;
 	}
-	public Integer getTid() {
-		return tid;
+	public Integer getFid() {
+		return fid;
 	}
-	public void setTid(Integer tid) {
-		this.tid = tid;
+	public void setFid(Integer fid) {
+		this.fid = fid;
 	}
-	
 	@Override
 	public String toString() {
 		return "Msg [mid=" + mid + ", content=" + content + ", publishtime=" + publishtime + ", modifytime="
-				+ modifytime + ", uid=" + uid + ", tid=" + tid + "]";
+				+ modifytime + ", uid=" + uid + ", fid=" + fid + "]";
 	}
 	
 }
