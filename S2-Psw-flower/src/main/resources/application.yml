@@ -25,7 +25,7 @@ mail:
 #spring 日志输出设置
 #日志级别：debug , info,warn, erro
 
-         
-  
+server:
+   port: 80
   
  
