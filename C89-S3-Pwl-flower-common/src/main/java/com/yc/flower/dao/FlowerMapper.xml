@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.flower.dao.FlowerMapper">
+  <resultMap id="BaseResultMap" type="com.yc.flower.bean.Flower">
+    <id column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="fname" jdbcType="VARCHAR" property="fname" />
+    <result column="market_price" jdbcType="DECIMAL" property="marketPrice" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="shop_price" jdbcType="DECIMAL" property="shopPrice" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="is_hot" jdbcType="INTEGER" property="isHot" />
+    <result column="fdate" jdbcType="TIMESTAMP" property="fdate" />
+    <result column="fcount" jdbcType="INTEGER" property="fcount" />
+    <result column="advice" jdbcType="VARCHAR" property="advice" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    fid, fname, market_price, discount, shop_price, image, cid, is_hot, fdate, fcount, 
+    advice
+  </sql>
+  <select id="selectByExample" parameterType="com.yc.flower.bean.FlowerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flower
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from flower
+    where fid = #{fid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from flower
+    where fid = #{fid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yc.flower.bean.FlowerExample">
+    delete from flower
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yc.flower.bean.Flower">
+    insert into flower (fid, fname, market_price, 
+      discount, shop_price, image, 
+      cid, is_hot, fdate, 
+      fcount, advice)
+    values (#{fid,jdbcType=INTEGER}, #{fname,jdbcType=VARCHAR}, #{marketPrice,jdbcType=DECIMAL}, 
+      #{discount,jdbcType=DECIMAL}, #{shopPrice,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR}, 
+      #{cid,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{fdate,jdbcType=TIMESTAMP}, 
+      #{fcount,jdbcType=INTEGER}, #{advice,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yc.flower.bean.Flower">
+    insert into flower
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fid != null">
+        fid,
+      </if>
+      <if test="fname != null">
+        fname,
+      </if>
+      <if test="marketPrice != null">
+        market_price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="shopPrice != null">
+        shop_price,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="fdate != null">
+        fdate,
+      </if>
+      <if test="fcount != null">
+        fcount,
+      </if>
+      <if test="advice != null">
+        advice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fid != null">
+        #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="fname != null">
+        #{fname,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null">
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="shopPrice != null">
+        #{shopPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="fdate != null">
+        #{fdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fcount != null">
+        #{fcount,jdbcType=INTEGER},
+      </if>
+      <if test="advice != null">
+        #{advice,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yc.flower.bean.FlowerExample" resultType="java.lang.Long">
+    select count(*) from flower
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update flower
+    <set>
+      <if test="record.fid != null">
+        fid = #{record.fid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fname != null">
+        fname = #{record.fname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marketPrice != null">
+        market_price = #{record.marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shopPrice != null">
+        shop_price = #{record.shopPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.isHot != null">
+        is_hot = #{record.isHot,jdbcType=INTEGER},
+      </if>
+      <if test="record.fdate != null">
+        fdate = #{record.fdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fcount != null">
+        fcount = #{record.fcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.advice != null">
+        advice = #{record.advice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update flower
+    set fid = #{record.fid,jdbcType=INTEGER},
+      fname = #{record.fname,jdbcType=VARCHAR},
+      market_price = #{record.marketPrice,jdbcType=DECIMAL},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      shop_price = #{record.shopPrice,jdbcType=DECIMAL},
+      image = #{record.image,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=INTEGER},
+      is_hot = #{record.isHot,jdbcType=INTEGER},
+      fdate = #{record.fdate,jdbcType=TIMESTAMP},
+      fcount = #{record.fcount,jdbcType=INTEGER},
+      advice = #{record.advice,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yc.flower.bean.Flower">
+    update flower
+    <set>
+      <if test="fname != null">
+        fname = #{fname,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null">
+        market_price = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="shopPrice != null">
+        shop_price = #{shopPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="fdate != null">
+        fdate = #{fdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fcount != null">
+        fcount = #{fcount,jdbcType=INTEGER},
+      </if>
+      <if test="advice != null">
+        advice = #{advice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fid = #{fid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yc.flower.bean.Flower">
+    update flower
+    set fname = #{fname,jdbcType=VARCHAR},
+      market_price = #{marketPrice,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      shop_price = #{shopPrice,jdbcType=DECIMAL},
+      image = #{image,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=INTEGER},
+      fdate = #{fdate,jdbcType=TIMESTAMP},
+      fcount = #{fcount,jdbcType=INTEGER},
+      advice = #{advice,jdbcType=VARCHAR}
+    where fid = #{fid,jdbcType=INTEGER}
+  </update>
+</mapper>
