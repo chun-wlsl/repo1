@@ -4,13 +4,13 @@
   <resultMap id="BaseResultMap" type="com.yc.flower.bean.Flower">
     <id column="fid" jdbcType="INTEGER" property="fid" />
     <result column="fname" jdbcType="VARCHAR" property="fname" />
-    <result column="market_price" jdbcType="DECIMAL" property="marketPrice" />
-    <result column="discount" jdbcType="DECIMAL" property="discount" />
-    <result column="shop_price" jdbcType="DECIMAL" property="shopPrice" />
+    <result column="market_price" jdbcType="DOUBLE" property="marketPrice" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="shop_price" jdbcType="DOUBLE" property="shopPrice" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="cid" jdbcType="INTEGER" property="cid" />
     <result column="is_hot" jdbcType="INTEGER" property="isHot" />
-    <result column="fdate" jdbcType="TIMESTAMP" property="fdate" />
+    <result column="fdate" jdbcType="DATE" property="fdate" />
     <result column="fcount" jdbcType="INTEGER" property="fcount" />
     <result column="advice" jdbcType="VARCHAR" property="advice" />
   </resultMap>
@@ -109,12 +109,12 @@
   <insert id="insert" parameterType="com.yc.flower.bean.Flower">
     insert into flower (fid, fname, market_price, 
       discount, shop_price, image, 
-      cid, is_hot, fdate, 
-      fcount, advice)
-    values (#{fid,jdbcType=INTEGER}, #{fname,jdbcType=VARCHAR}, #{marketPrice,jdbcType=DECIMAL}, 
-      #{discount,jdbcType=DECIMAL}, #{shopPrice,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR}, 
-      #{cid,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{fdate,jdbcType=TIMESTAMP}, 
-      #{fcount,jdbcType=INTEGER}, #{advice,jdbcType=VARCHAR})
+      cid, is_hot, fdate, fcount, 
+      advice)
+    values (#{fid,jdbcType=INTEGER}, #{fname,jdbcType=VARCHAR}, #{marketPrice,jdbcType=DOUBLE}, 
+      #{discount,jdbcType=DOUBLE}, #{shopPrice,jdbcType=DOUBLE}, #{image,jdbcType=VARCHAR}, 
+      #{cid,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{fdate,jdbcType=DATE}, #{fcount,jdbcType=INTEGER}, 
+      #{advice,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yc.flower.bean.Flower">
     insert into flower
@@ -161,13 +161,13 @@
         #{fname,jdbcType=VARCHAR},
       </if>
       <if test="marketPrice != null">
-        #{marketPrice,jdbcType=DECIMAL},
+        #{marketPrice,jdbcType=DOUBLE},
       </if>
       <if test="discount != null">
-        #{discount,jdbcType=DECIMAL},
+        #{discount,jdbcType=DOUBLE},
       </if>
       <if test="shopPrice != null">
-        #{shopPrice,jdbcType=DECIMAL},
+        #{shopPrice,jdbcType=DOUBLE},
       </if>
       <if test="image != null">
         #{image,jdbcType=VARCHAR},
@@ -179,7 +179,7 @@
         #{isHot,jdbcType=INTEGER},
       </if>
       <if test="fdate != null">
-        #{fdate,jdbcType=TIMESTAMP},
+        #{fdate,jdbcType=DATE},
       </if>
       <if test="fcount != null">
         #{fcount,jdbcType=INTEGER},
@@ -205,13 +205,13 @@
         fname = #{record.fname,jdbcType=VARCHAR},
       </if>
       <if test="record.marketPrice != null">
-        market_price = #{record.marketPrice,jdbcType=DECIMAL},
+        market_price = #{record.marketPrice,jdbcType=DOUBLE},
       </if>
       <if test="record.discount != null">
-        discount = #{record.discount,jdbcType=DECIMAL},
+        discount = #{record.discount,jdbcType=DOUBLE},
       </if>
       <if test="record.shopPrice != null">
-        shop_price = #{record.shopPrice,jdbcType=DECIMAL},
+        shop_price = #{record.shopPrice,jdbcType=DOUBLE},
       </if>
       <if test="record.image != null">
         image = #{record.image,jdbcType=VARCHAR},
@@ -223,7 +223,7 @@
         is_hot = #{record.isHot,jdbcType=INTEGER},
       </if>
       <if test="record.fdate != null">
-        fdate = #{record.fdate,jdbcType=TIMESTAMP},
+        fdate = #{record.fdate,jdbcType=DATE},
       </if>
       <if test="record.fcount != null">
         fcount = #{record.fcount,jdbcType=INTEGER},
@@ -240,13 +240,13 @@
     update flower
     set fid = #{record.fid,jdbcType=INTEGER},
       fname = #{record.fname,jdbcType=VARCHAR},
-      market_price = #{record.marketPrice,jdbcType=DECIMAL},
-      discount = #{record.discount,jdbcType=DECIMAL},
-      shop_price = #{record.shopPrice,jdbcType=DECIMAL},
+      market_price = #{record.marketPrice,jdbcType=DOUBLE},
+      discount = #{record.discount,jdbcType=DOUBLE},
+      shop_price = #{record.shopPrice,jdbcType=DOUBLE},
       image = #{record.image,jdbcType=VARCHAR},
       cid = #{record.cid,jdbcType=INTEGER},
       is_hot = #{record.isHot,jdbcType=INTEGER},
-      fdate = #{record.fdate,jdbcType=TIMESTAMP},
+      fdate = #{record.fdate,jdbcType=DATE},
       fcount = #{record.fcount,jdbcType=INTEGER},
       advice = #{record.advice,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -260,13 +260,13 @@
         fname = #{fname,jdbcType=VARCHAR},
       </if>
       <if test="marketPrice != null">
-        market_price = #{marketPrice,jdbcType=DECIMAL},
+        market_price = #{marketPrice,jdbcType=DOUBLE},
       </if>
       <if test="discount != null">
-        discount = #{discount,jdbcType=DECIMAL},
+        discount = #{discount,jdbcType=DOUBLE},
       </if>
       <if test="shopPrice != null">
-        shop_price = #{shopPrice,jdbcType=DECIMAL},
+        shop_price = #{shopPrice,jdbcType=DOUBLE},
       </if>
       <if test="image != null">
         image = #{image,jdbcType=VARCHAR},
@@ -278,7 +278,7 @@
         is_hot = #{isHot,jdbcType=INTEGER},
       </if>
       <if test="fdate != null">
-        fdate = #{fdate,jdbcType=TIMESTAMP},
+        fdate = #{fdate,jdbcType=DATE},
       </if>
       <if test="fcount != null">
         fcount = #{fcount,jdbcType=INTEGER},
@@ -292,13 +292,13 @@
   <update id="updateByPrimaryKey" parameterType="com.yc.flower.bean.Flower">
     update flower
     set fname = #{fname,jdbcType=VARCHAR},
-      market_price = #{marketPrice,jdbcType=DECIMAL},
-      discount = #{discount,jdbcType=DECIMAL},
-      shop_price = #{shopPrice,jdbcType=DECIMAL},
+      market_price = #{marketPrice,jdbcType=DOUBLE},
+      discount = #{discount,jdbcType=DOUBLE},
+      shop_price = #{shopPrice,jdbcType=DOUBLE},
       image = #{image,jdbcType=VARCHAR},
       cid = #{cid,jdbcType=INTEGER},
       is_hot = #{isHot,jdbcType=INTEGER},
-      fdate = #{fdate,jdbcType=TIMESTAMP},
+      fdate = #{fdate,jdbcType=DATE},
       fcount = #{fcount,jdbcType=INTEGER},
       advice = #{advice,jdbcType=VARCHAR}
     where fid = #{fid,jdbcType=INTEGER}

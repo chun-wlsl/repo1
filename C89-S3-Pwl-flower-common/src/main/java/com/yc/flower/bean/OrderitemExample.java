@@ -234,62 +234,52 @@ public class OrderitemExample {
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalEqualTo(String value) {
+        public Criteria andSubtotalEqualTo(Double value) {
             addCriterion("subtotal =", value, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalNotEqualTo(String value) {
+        public Criteria andSubtotalNotEqualTo(Double value) {
             addCriterion("subtotal <>", value, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalGreaterThan(String value) {
+        public Criteria andSubtotalGreaterThan(Double value) {
             addCriterion("subtotal >", value, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalGreaterThanOrEqualTo(String value) {
+        public Criteria andSubtotalGreaterThanOrEqualTo(Double value) {
             addCriterion("subtotal >=", value, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalLessThan(String value) {
+        public Criteria andSubtotalLessThan(Double value) {
             addCriterion("subtotal <", value, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalLessThanOrEqualTo(String value) {
+        public Criteria andSubtotalLessThanOrEqualTo(Double value) {
             addCriterion("subtotal <=", value, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalLike(String value) {
-            addCriterion("subtotal like", value, "subtotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andSubtotalNotLike(String value) {
-            addCriterion("subtotal not like", value, "subtotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andSubtotalIn(List<String> values) {
+        public Criteria andSubtotalIn(List<Double> values) {
             addCriterion("subtotal in", values, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalNotIn(List<String> values) {
+        public Criteria andSubtotalNotIn(List<Double> values) {
             addCriterion("subtotal not in", values, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalBetween(String value1, String value2) {
+        public Criteria andSubtotalBetween(Double value1, Double value2) {
             addCriterion("subtotal between", value1, value2, "subtotal");
             return (Criteria) this;
         }
 
-        public Criteria andSubtotalNotBetween(String value1, String value2) {
+        public Criteria andSubtotalNotBetween(Double value1, Double value2) {
             addCriterion("subtotal not between", value1, value2, "subtotal");
             return (Criteria) this;
         }

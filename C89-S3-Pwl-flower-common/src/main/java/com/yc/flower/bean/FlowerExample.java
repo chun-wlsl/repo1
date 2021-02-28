@@ -1,8 +1,8 @@
 package com.yc.flower.bean;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class FlowerExample {
@@ -104,6 +104,32 @@ public class FlowerExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andFidIsNull() {
@@ -246,52 +272,52 @@ public class FlowerExample {
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceEqualTo(BigDecimal value) {
+        public Criteria andMarketPriceEqualTo(Double value) {
             addCriterion("market_price =", value, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceNotEqualTo(BigDecimal value) {
+        public Criteria andMarketPriceNotEqualTo(Double value) {
             addCriterion("market_price <>", value, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceGreaterThan(BigDecimal value) {
+        public Criteria andMarketPriceGreaterThan(Double value) {
             addCriterion("market_price >", value, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andMarketPriceGreaterThanOrEqualTo(Double value) {
             addCriterion("market_price >=", value, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceLessThan(BigDecimal value) {
+        public Criteria andMarketPriceLessThan(Double value) {
             addCriterion("market_price <", value, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andMarketPriceLessThanOrEqualTo(Double value) {
             addCriterion("market_price <=", value, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceIn(List<BigDecimal> values) {
+        public Criteria andMarketPriceIn(List<Double> values) {
             addCriterion("market_price in", values, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceNotIn(List<BigDecimal> values) {
+        public Criteria andMarketPriceNotIn(List<Double> values) {
             addCriterion("market_price not in", values, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andMarketPriceBetween(Double value1, Double value2) {
             addCriterion("market_price between", value1, value2, "marketPrice");
             return (Criteria) this;
         }
 
-        public Criteria andMarketPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andMarketPriceNotBetween(Double value1, Double value2) {
             addCriterion("market_price not between", value1, value2, "marketPrice");
             return (Criteria) this;
         }
@@ -306,52 +332,52 @@ public class FlowerExample {
             return (Criteria) this;
         }
 
-        public Criteria andDiscountEqualTo(BigDecimal value) {
+        public Criteria andDiscountEqualTo(Double value) {
             addCriterion("discount =", value, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountNotEqualTo(BigDecimal value) {
+        public Criteria andDiscountNotEqualTo(Double value) {
             addCriterion("discount <>", value, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountGreaterThan(BigDecimal value) {
+        public Criteria andDiscountGreaterThan(Double value) {
             addCriterion("discount >", value, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andDiscountGreaterThanOrEqualTo(Double value) {
             addCriterion("discount >=", value, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountLessThan(BigDecimal value) {
+        public Criteria andDiscountLessThan(Double value) {
             addCriterion("discount <", value, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andDiscountLessThanOrEqualTo(Double value) {
             addCriterion("discount <=", value, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountIn(List<BigDecimal> values) {
+        public Criteria andDiscountIn(List<Double> values) {
             addCriterion("discount in", values, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountNotIn(List<BigDecimal> values) {
+        public Criteria andDiscountNotIn(List<Double> values) {
             addCriterion("discount not in", values, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andDiscountBetween(Double value1, Double value2) {
             addCriterion("discount between", value1, value2, "discount");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andDiscountNotBetween(Double value1, Double value2) {
             addCriterion("discount not between", value1, value2, "discount");
             return (Criteria) this;
         }
@@ -366,52 +392,52 @@ public class FlowerExample {
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceEqualTo(BigDecimal value) {
+        public Criteria andShopPriceEqualTo(Double value) {
             addCriterion("shop_price =", value, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceNotEqualTo(BigDecimal value) {
+        public Criteria andShopPriceNotEqualTo(Double value) {
             addCriterion("shop_price <>", value, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceGreaterThan(BigDecimal value) {
+        public Criteria andShopPriceGreaterThan(Double value) {
             addCriterion("shop_price >", value, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andShopPriceGreaterThanOrEqualTo(Double value) {
             addCriterion("shop_price >=", value, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceLessThan(BigDecimal value) {
+        public Criteria andShopPriceLessThan(Double value) {
             addCriterion("shop_price <", value, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andShopPriceLessThanOrEqualTo(Double value) {
             addCriterion("shop_price <=", value, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceIn(List<BigDecimal> values) {
+        public Criteria andShopPriceIn(List<Double> values) {
             addCriterion("shop_price in", values, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceNotIn(List<BigDecimal> values) {
+        public Criteria andShopPriceNotIn(List<Double> values) {
             addCriterion("shop_price not in", values, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andShopPriceBetween(Double value1, Double value2) {
             addCriterion("shop_price between", value1, value2, "shopPrice");
             return (Criteria) this;
         }
 
-        public Criteria andShopPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andShopPriceNotBetween(Double value1, Double value2) {
             addCriterion("shop_price not between", value1, value2, "shopPrice");
             return (Criteria) this;
         }
@@ -617,52 +643,52 @@ public class FlowerExample {
         }
 
         public Criteria andFdateEqualTo(Date value) {
-            addCriterion("fdate =", value, "fdate");
+            addCriterionForJDBCDate("fdate =", value, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateNotEqualTo(Date value) {
-            addCriterion("fdate <>", value, "fdate");
+            addCriterionForJDBCDate("fdate <>", value, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateGreaterThan(Date value) {
-            addCriterion("fdate >", value, "fdate");
+            addCriterionForJDBCDate("fdate >", value, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateGreaterThanOrEqualTo(Date value) {
-            addCriterion("fdate >=", value, "fdate");
+            addCriterionForJDBCDate("fdate >=", value, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateLessThan(Date value) {
-            addCriterion("fdate <", value, "fdate");
+            addCriterionForJDBCDate("fdate <", value, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateLessThanOrEqualTo(Date value) {
-            addCriterion("fdate <=", value, "fdate");
+            addCriterionForJDBCDate("fdate <=", value, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateIn(List<Date> values) {
-            addCriterion("fdate in", values, "fdate");
+            addCriterionForJDBCDate("fdate in", values, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateNotIn(List<Date> values) {
-            addCriterion("fdate not in", values, "fdate");
+            addCriterionForJDBCDate("fdate not in", values, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateBetween(Date value1, Date value2) {
-            addCriterion("fdate between", value1, value2, "fdate");
+            addCriterionForJDBCDate("fdate between", value1, value2, "fdate");
             return (Criteria) this;
         }
 
         public Criteria andFdateNotBetween(Date value1, Date value2) {
-            addCriterion("fdate not between", value1, value2, "fdate");
+            addCriterionForJDBCDate("fdate not between", value1, value2, "fdate");
             return (Criteria) this;
         }
 

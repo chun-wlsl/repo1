@@ -5,7 +5,7 @@ public class Orderitem {
 
     private Integer count;
 
-    private String subtotal;
+    private Double subtotal;
 
     private Integer fid;
 
@@ -27,12 +27,12 @@ public class Orderitem {
         this.count = count;
     }
 
-    public String getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(String subtotal) {
-        this.subtotal = subtotal == null ? null : subtotal.trim();
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
     }
 
     public Integer getFid() {

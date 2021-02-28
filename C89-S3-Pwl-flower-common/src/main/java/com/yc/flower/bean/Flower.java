@@ -1,6 +1,5 @@
 package com.yc.flower.bean;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Flower {
@@ -8,11 +7,11 @@ public class Flower {
 
     private String fname;
 
-    private BigDecimal marketPrice;
+    private Double marketPrice;
 
-    private BigDecimal discount;
+    private Double discount;
 
-    private BigDecimal shopPrice;
+    private Double shopPrice;
 
     private String image;
 
@@ -42,27 +41,27 @@ public class Flower {
         this.fname = fname == null ? null : fname.trim();
     }
 
-    public BigDecimal getMarketPrice() {
+    public Double getMarketPrice() {
         return marketPrice;
     }
 
-    public void setMarketPrice(BigDecimal marketPrice) {
+    public void setMarketPrice(Double marketPrice) {
         this.marketPrice = marketPrice;
     }
 
-    public BigDecimal getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(BigDecimal discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
-    public BigDecimal getShopPrice() {
+    public Double getShopPrice() {
         return shopPrice;
     }
 
-    public void setShopPrice(BigDecimal shopPrice) {
+    public void setShopPrice(Double shopPrice) {
         this.shopPrice = shopPrice;
     }
 

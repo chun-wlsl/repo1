@@ -2,6 +2,7 @@ package com.yc.flower.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class UserExample {
@@ -103,6 +104,32 @@ public class UserExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andUidIsNull() {
@@ -666,52 +693,52 @@ public class UserExample {
         }
 
         public Criteria andUtimeEqualTo(Date value) {
-            addCriterion("utime =", value, "utime");
+            addCriterionForJDBCDate("utime =", value, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeNotEqualTo(Date value) {
-            addCriterion("utime <>", value, "utime");
+            addCriterionForJDBCDate("utime <>", value, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeGreaterThan(Date value) {
-            addCriterion("utime >", value, "utime");
+            addCriterionForJDBCDate("utime >", value, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("utime >=", value, "utime");
+            addCriterionForJDBCDate("utime >=", value, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeLessThan(Date value) {
-            addCriterion("utime <", value, "utime");
+            addCriterionForJDBCDate("utime <", value, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeLessThanOrEqualTo(Date value) {
-            addCriterion("utime <=", value, "utime");
+            addCriterionForJDBCDate("utime <=", value, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeIn(List<Date> values) {
-            addCriterion("utime in", values, "utime");
+            addCriterionForJDBCDate("utime in", values, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeNotIn(List<Date> values) {
-            addCriterion("utime not in", values, "utime");
+            addCriterionForJDBCDate("utime not in", values, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeBetween(Date value1, Date value2) {
-            addCriterion("utime between", value1, value2, "utime");
+            addCriterionForJDBCDate("utime between", value1, value2, "utime");
             return (Criteria) this;
         }
 
         public Criteria andUtimeNotBetween(Date value1, Date value2) {
-            addCriterion("utime not between", value1, value2, "utime");
+            addCriterionForJDBCDate("utime not between", value1, value2, "utime");
             return (Criteria) this;
         }
     }

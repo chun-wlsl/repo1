@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yc.flower.dao.OrderitemMapper">
-  <resultMap id="BaseResultMap" type="com.yc.flower.bean.Orderitem">
-    <id column="iid" jdbcType="INTEGER" property="iid" />
-    <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="subtotal" jdbcType="DOUBLE" property="subtotal" />
-    <result column="fid" jdbcType="INTEGER" property="fid" />
-    <result column="oid" jdbcType="INTEGER" property="oid" />
+<mapper namespace="com.yc.flower.dao.AdministratorMapper">
+  <resultMap id="BaseResultMap" type="com.yc.flower.bean.Administrator">
+    <id column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="aname" jdbcType="VARCHAR" property="aname" />
+    <result column="apwd" jdbcType="VARCHAR" property="apwd" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    iid, count, subtotal, fid, oid
+    aid, aname, apwd
   </sql>
-  <select id="selectByExample" parameterType="com.yc.flower.bean.OrderitemExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.yc.flower.bean.AdministratorExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from orderitem
+    from administrator
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +84,67 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from orderitem
-    where iid = #{iid,jdbcType=INTEGER}
+    from administrator
+    where aid = #{aid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from orderitem
-    where iid = #{iid,jdbcType=INTEGER}
+    delete from administrator
+    where aid = #{aid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yc.flower.bean.OrderitemExample">
-    delete from orderitem
+  <delete id="deleteByExample" parameterType="com.yc.flower.bean.AdministratorExample">
+    delete from administrator
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yc.flower.bean.Orderitem">
-    insert into orderitem (iid, count, subtotal, 
-      fid, oid)
-    values (#{iid,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{subtotal,jdbcType=DOUBLE}, 
-      #{fid,jdbcType=INTEGER}, #{oid,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.yc.flower.bean.Administrator">
+    insert into administrator (aid, aname, apwd
+      )
+    values (#{aid,jdbcType=INTEGER}, #{aname,jdbcType=VARCHAR}, #{apwd,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.yc.flower.bean.Orderitem">
-    insert into orderitem
+  <insert id="insertSelective" parameterType="com.yc.flower.bean.Administrator">
+    insert into administrator
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="iid != null">
-        iid,
+      <if test="aid != null">
+        aid,
       </if>
-      <if test="count != null">
-        count,
+      <if test="aname != null">
+        aname,
       </if>
-      <if test="subtotal != null">
-        subtotal,
-      </if>
-      <if test="fid != null">
-        fid,
-      </if>
-      <if test="oid != null">
-        oid,
+      <if test="apwd != null">
+        apwd,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="iid != null">
-        #{iid,jdbcType=INTEGER},
+      <if test="aid != null">
+        #{aid,jdbcType=INTEGER},
       </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
+      <if test="aname != null">
+        #{aname,jdbcType=VARCHAR},
       </if>
-      <if test="subtotal != null">
-        #{subtotal,jdbcType=DOUBLE},
-      </if>
-      <if test="fid != null">
-        #{fid,jdbcType=INTEGER},
-      </if>
-      <if test="oid != null">
-        #{oid,jdbcType=INTEGER},
+      <if test="apwd != null">
+        #{apwd,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yc.flower.bean.OrderitemExample" resultType="java.lang.Long">
-    select count(*) from orderitem
+  <select id="countByExample" parameterType="com.yc.flower.bean.AdministratorExample" resultType="java.lang.Long">
+    select count(*) from administrator
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update orderitem
+    update administrator
     <set>
-      <if test="record.iid != null">
-        iid = #{record.iid,jdbcType=INTEGER},
+      <if test="record.aid != null">
+        aid = #{record.aid,jdbcType=INTEGER},
       </if>
-      <if test="record.count != null">
-        count = #{record.count,jdbcType=INTEGER},
+      <if test="record.aname != null">
+        aname = #{record.aname,jdbcType=VARCHAR},
       </if>
-      <if test="record.subtotal != null">
-        subtotal = #{record.subtotal,jdbcType=DOUBLE},
-      </if>
-      <if test="record.fid != null">
-        fid = #{record.fid,jdbcType=INTEGER},
-      </if>
-      <if test="record.oid != null">
-        oid = #{record.oid,jdbcType=INTEGER},
+      <if test="record.apwd != null">
+        apwd = #{record.apwd,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,40 +152,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update orderitem
-    set iid = #{record.iid,jdbcType=INTEGER},
-      count = #{record.count,jdbcType=INTEGER},
-      subtotal = #{record.subtotal,jdbcType=DOUBLE},
-      fid = #{record.fid,jdbcType=INTEGER},
-      oid = #{record.oid,jdbcType=INTEGER}
+    update administrator
+    set aid = #{record.aid,jdbcType=INTEGER},
+      aname = #{record.aname,jdbcType=VARCHAR},
+      apwd = #{record.apwd,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yc.flower.bean.Orderitem">
-    update orderitem
+  <update id="updateByPrimaryKeySelective" parameterType="com.yc.flower.bean.Administrator">
+    update administrator
     <set>
-      <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
+      <if test="aname != null">
+        aname = #{aname,jdbcType=VARCHAR},
       </if>
-      <if test="subtotal != null">
-        subtotal = #{subtotal,jdbcType=DOUBLE},
-      </if>
-      <if test="fid != null">
-        fid = #{fid,jdbcType=INTEGER},
-      </if>
-      <if test="oid != null">
-        oid = #{oid,jdbcType=INTEGER},
+      <if test="apwd != null">
+        apwd = #{apwd,jdbcType=VARCHAR},
       </if>
     </set>
-    where iid = #{iid,jdbcType=INTEGER}
+    where aid = #{aid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yc.flower.bean.Orderitem">
-    update orderitem
-    set count = #{count,jdbcType=INTEGER},
-      subtotal = #{subtotal,jdbcType=DOUBLE},
-      fid = #{fid,jdbcType=INTEGER},
-      oid = #{oid,jdbcType=INTEGER}
-    where iid = #{iid,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.yc.flower.bean.Administrator">
+    update administrator
+    set aname = #{aname,jdbcType=VARCHAR},
+      apwd = #{apwd,jdbcType=VARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
   </update>
 </mapper>

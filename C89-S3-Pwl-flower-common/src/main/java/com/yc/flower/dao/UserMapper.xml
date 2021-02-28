@@ -10,7 +10,7 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="addr" jdbcType="VARCHAR" property="addr" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="utime" jdbcType="TIMESTAMP" property="utime" />
+    <result column="utime" jdbcType="DATE" property="utime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -109,7 +109,7 @@
       email, utime)
     values (#{uid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{utime,jdbcType=TIMESTAMP})
+      #{email,jdbcType=VARCHAR}, #{utime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.yc.flower.bean.User">
     insert into user
@@ -168,7 +168,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="utime != null">
-        #{utime,jdbcType=TIMESTAMP},
+        #{utime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -206,7 +206,7 @@
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.utime != null">
-        utime = #{record.utime,jdbcType=TIMESTAMP},
+        utime = #{record.utime,jdbcType=DATE},
       </if>
     </set>
     <if test="_parameter != null">
@@ -223,7 +223,7 @@
       phone = #{record.phone,jdbcType=VARCHAR},
       addr = #{record.addr,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      utime = #{record.utime,jdbcType=TIMESTAMP}
+      utime = #{record.utime,jdbcType=DATE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -253,7 +253,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="utime != null">
-        utime = #{utime,jdbcType=TIMESTAMP},
+        utime = #{utime,jdbcType=DATE},
       </if>
     </set>
     where uid = #{uid,jdbcType=INTEGER}
@@ -267,7 +267,7 @@
       phone = #{phone,jdbcType=VARCHAR},
       addr = #{addr,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      utime = #{utime,jdbcType=TIMESTAMP}
+      utime = #{utime,jdbcType=DATE}
     where uid = #{uid,jdbcType=INTEGER}
   </update>
 </mapper>
