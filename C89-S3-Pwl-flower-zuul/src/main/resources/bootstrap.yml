@@ -1,0 +1,8 @@
+spring:
+   application:
+      #定义应用名
+      name: flower-zuul
+   cloud: 
+     config: 
+       uri: http://localhost:9000
+       label: main
