@@ -65,7 +65,7 @@
 		
 		<dependency>
 			<groupId>com.yc</groupId>
-			<artifactId>C89-S3-Pwxq-sq-common</artifactId>
+			<artifactId>C89-S3-Pwl-flower-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
