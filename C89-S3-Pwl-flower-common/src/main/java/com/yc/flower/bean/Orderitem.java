@@ -1,6 +1,11 @@
 package com.yc.flower.bean;
 
-public class Orderitem {
+import java.io.Serializable;
+
+public class Orderitem implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
     private Integer iid;
 
     private Integer count;

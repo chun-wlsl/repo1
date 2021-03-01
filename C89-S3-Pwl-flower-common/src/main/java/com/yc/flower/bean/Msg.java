@@ -1,8 +1,12 @@
 package com.yc.flower.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Msg {
+public class Msg implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
     private Integer mid;
 
     private String content;

@@ -1,6 +1,11 @@
 package com.yc.flower.bean;
 
-public class Administrator {
+import java.io.Serializable;
+
+public class Administrator implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
     private Integer aid;
 
     private String aname;
