@@ -14,7 +14,6 @@ public class Flower implements java.io.Serializable{
 	private String image;
 	private Integer cid;//分类
 	private Integer isHot;//是否热门
-	private Integer isHot;//是否热门
 	private Date fdate;//出售日期
 	private  Integer fcount;//库存量
 	private String advice;//建议
