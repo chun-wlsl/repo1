@@ -1,9 +1,13 @@
 package com.yc.flower.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartExample {
+public class CartExample implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
     protected String orderByClause;
 
     protected boolean distinct;
