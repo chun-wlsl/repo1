@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>留言贴子</title>
+<meta name="keywords" content="free template, contact,  ecommerce" />
+<meta name="description" content=" Contact Form, Location Maps, Addresses, free template for ecommerce websites." />
+<link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="css/orman.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
+
+<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/ddsmoothmenu.js"></script>
+
+<!-- 引入vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+<script type="text/javascript">
+
+ddsmoothmenu.init({
+	mainmenuid: "templatemo_menu", //menu DIV id
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	classname: 'ddsmoothmenu', //class added to menu's outer DIV
+	//customtheme: ["#1c5a80", "#18374a"],
+	contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+})
+
+function clearText(field)
+{
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+
+</script>
+
+
+</head>
+
+<body>
+
+<div id="templatemo_wrapper_sp">
+<div id="templatemo_header_wsp">
+	<div id="templatemo_header" class="header_subpage">
+    	<div id="site_title"><a  rel="nofollow"></a></div>
+        <div id="templatemo_menu" class="ddsmoothmenu">
+            <ul>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="clist.html#1" >商品分类</a></li> 
+                <!--class="selected"  -->
+                <li><a href="shoppingcart.html" >购物车</a></li>
+                <li><a href="checkout.html">支付</a></li>
+                <li><a href="topic.html">留言板</a></li>
+               	<li><a href="contact.html">联系我们</a></li>
+                <li><a href="olist.html">个人订单</a></li>
+               
+                <li id="headerLogin" class="headerLogin"
+						style="display: list-item;">
+						<a href="login.html" v-if=" user==''">登录</a>
+						<a v-if="user!=null" href="myself.html">{{user.name}}</a>|
+				</li>
+				
+				<li id="headerRegister" class="headerRegister"
+						style="display: list-item;"><a @click="logout()">退出</a>|</li>
+                
+                
+            </ul>
+           
+            <br style="clear: left" />
+        </div>
+
+
+    </div> <!-- END of header -->
+    
+     <script type="text/javascript">
+			var v5= new Vue({
+				el:"#templatemo_header",
+				data:{
+					user:{},
+			        flo:[]
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					});
+					
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
+</div> <!-- END of header wrapper -->
+
+<div id="templatemo_main_wrapper" align="center">
+    <div id="content" width="100%">
+		 <h2><strong><i>分享你的故事吧 ...</i></strong></h2>
+	
+        <div id="mapborders" class=""  width="100%" >
+        	<table id="contents" width="92%" border="0" align="center" cellpadding="4" cellspacing="1" bgcolor="#F4F9FD" class="tableborder"> 
+        		<tbody  v-for="l in list">
+                	<tr class="header"> 
+                 		<td width="55%" height="23"><font color="black">发布者: {{l.name}} </font></td> 
+                 		<td width="45%"><font color="black">发布时间: {{l.publishtime}} </font></td> 
+                	</tr> 
+                	<tr bgcolor="#FFFFFF"> 
+                 		<td height="23" colspan="2">
+                 			<table border="0" width="100%" cellspacing="1" cellpadding="8" bgcolor="#FFFFFF"> 
+                   				<tbody>
+                    				<tr> 
+                     					<td width="100%" bgcolor="#6B8E23" style="word-break:break-all"><font color="black">{{l.content}} </font></td> 
+                    				</tr> 
+                   				</tbody>
+                  			</table>
+                  		</td> 
+                	</tr> 
+               	</tbody>
+            </table> <br><br>
+		</div>
+	</div>
+    <script type="text/javascript">
+    var vue2 = new Vue({
+    	el : "#mapborders",
+    	data : {
+    		list : {}
+    	},
+    	created(){
+    		axios.get("queryMsg").then(res=>{
+				this.list = res.data;
+			});
+    	}
+    });
+    </script>
+	<div class="cleaner h40"></div>
+	<div class="blank_box">
+		<a href="#">
+			<img src="images/free_shipping.jpg" alt="Free Shipping" />
+		</a>
+	</div>
+	<div class="cleaner"></div>
+
+
+</div> <!-- END of main wrapper -->
+
+<div id="templatemo_footer_wrapper">
+<div id="templatemo_footer">
+	<div class="footer_left">
+    	<a href="#"><img src="images/1311260370_paypal-straight.png" alt="Paypal" /></a>
+        <a href="#"><img src="images/1311260374_mastercard-straight.png" alt="Master" /></a>
+        <a href="#"><img src="images/1311260374_visa-straight.png" alt="Visa" /></a>
+    </div>
+	<div class="footer_right">
+		
+	</div>
+    <div class="cleaner"></div>
+</div> <!-- END of footer -->
+</div> <!-- END of footer wrapper -->
+</div>
+
+</body>
+</html>

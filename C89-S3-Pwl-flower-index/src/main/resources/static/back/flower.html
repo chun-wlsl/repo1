@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>鲜花管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../js/axios.min.js"></script>
+<style type="text/css">
+input{
+	width:200px
+}
+</style>
+
+<script type="text/javascript">
+//图片字段的格式化方法
+function fmtImg(value, row, index){
+	return "<img width='120px' height='100px' src='../"+value+"'>";
+}
+
+//日期字段的格式化方法
+function fmtDate(value, row, index){
+	var date = new Date(value); //获取当前单元格的数据日期
+	var year = date.getFullYear();//取xx年
+	var month = date.getMonth() + 1;//取xx月
+	var day = date.getDate();//取xx日
+	var hour = date.getHours();//取xx时
+	var minute = date.getMinutes();//取xx分
+	var second = date.getSeconds();//取xx秒
+	return year + '年' + month + '月' + day + '日 ' + hour + '时' + minute + '分' + second + '秒';
+}
+
+function query(){
+	$('#dg').datagrid('load',{
+		fname: $("#fname1").textbox('getValue'),
+		cid: $("#cid1").textbox('getValue'),
+		discount: $("#discount1").textbox('getValue'),
+		fcount: $("#fcount1").textbox('getValue'),
+	});
+}
+
+//操作字段的格式化方法
+function fmtOp(value, row, index){
+	return "<button onclick='edit("+index+")'>修改</button>";
+}
+
+//打开修改窗口
+function edit(index){
+	$("#dd").dialog('open');
+	//index 有值就是修改表格中的某一行记录，否则是新增
+	//下标从0开始，0是false
+	//edit不传参 index为undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		rows[index].isHot = rows[index].is_hot;
+		rows[index].marketPrice = rows[index].market_price;
+		rows[index].shopPrice = rows[index].shop_price;
+		//upImg.src = "../" + rows[index].image;
+		$("#ff").form('load',rows[index]);
+	}else{
+		$("#ff").form('clear');
+	}
+	
+}
+
+function save(){
+	console.info("123");
+	var param = new URLSearchParams();
+	param.append("fid", $("#fid").textbox("getValue"));
+	param.append("fname", $("#fname").textbox("getValue"));
+	param.append("marketPrice", $("#marketPrice").textbox("getValue"));
+	param.append("discount", $("#discount").textbox("getValue"));
+	param.append("shopPrice", $("#shopPrice").textbox("getValue"));
+	param.append("image", $("#image").textbox("getValue"));
+	param.append("cid", $("#cid").textbox("getValue"));
+	param.append("isHot", $("#isHot").textbox("getValue"));
+	param.append("fcount", $("#fcount").textbox("getValue"));
+	param.append("advice", $("#advice").textbox("getValue"));
+	param.append("op", "save");
+	axios.post("../flower.s",param).then(res=>{
+		alert(res.data.msg);
+		if(res.data.code==1){
+			//关闭窗口
+			$('#dd').dialog('close');
+			//刷新表格
+			$('#dg').datagrid('reload');
+		}
+
+	});
+	//easyui 的表单的ajax提交方式
+	/* $('#ff').form('submit',{
+		url : '../flower.s',
+		onSubmit: function(param){
+			//扩展请求参数
+			param.op = "save";
+		},
+		success : function(result){
+			//原有的 res==> 消息，现在的  res==> json对象{code, msg, data}
+			//easyui的res需要手动转换
+			console.info(result);
+			if(result){
+				res = $.parseJSON(result);
+				alert(res.code);
+				if(res.code == 1){
+					//关闭窗口
+					$('#dd').dialog('close');
+					//刷新表格
+					$('#dg').datagrid('reload');
+				}
+					
+			}
+			//否则什么都不做
+		}
+	}); */
+}
+
+function upload(newValue, oldValue){
+	//url = ""，表单提交时，地址为空，默认以当前页面的请求地址发出请求
+	var url = "../UploadServlet";
+	/**
+	products/upload/1.jpg
+	
+	product.html:85 Uncaught TypeError: 
+		Failed to construct 'FormData': 
+			parameter 1 is not of type 'HTMLFormElement'.是String对象
+	*/
+	var fd = new FormData(ff);
+	//ajax的res自动转换
+	axios.post(url, fd).then(res=>{
+		alert(res.data.msg);
+		if(res.data.code){
+			//第一个是axios封装的从服务器返回的数据，是一个data对象
+			//第二个是我们自己的data 也就是 Reault.java文件中的data
+			//upImg是原生的HTML控件对象
+			if(res.data.data.indexOf("/") != 0){
+				//不以 / 开头的图片
+				upImg.src = "../" + res.data.data;
+			}else{
+				//以 / 开头的图片( 上传的图片 )
+				upImg.src = res.data.data;
+			}
+			//tbImg是easyui的控件对象
+			$("#tbImg").textbox('setValue', res.data.data);
+		}
+	});
+}
+
+function getIshot(value,row,index) {
+	var res ='';
+    switch (value){
+        case 0:
+            res = '否';
+            break;
+        case 1:
+            res = '<font style="color:green;">是</font>';
+            break;
+        default:
+            break;
+    }
+    return res;
+}
+
+function getCid(value,row,index) {
+	/* var re ='';
+	var param = new URLSearchParams();
+	param.append("cid", value);
+	axios.get("../queryByCid",param).then(res=>{
+		if(res.data.code==1){
+			re = res.data.msg;
+		}
+	}); */
+    return value;
+}
+
+
+function getFcount(value,row,index) {
+	var res ='';
+	if(value <= 0){
+		res = '<strong><font style="color:red;">库存不足,请补货</font></strong>';
+	}else if(value < 5){
+		res = '<font style="color:red;">'+value+'</font>';
+	}else{
+		res = value;
+	}
+    return res;
+}
+
+</script>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:50px">
+			<!-- prompt="书名：" <==> data-options="prompt:'书名：'" -->
+			<input class="easyui-textbox" label="名称：" style="width:200px" id="fname1">
+			<input class="easyui-combobox" label="种类：" style="width:200px" id="cid1"
+				data-options="url:'../queryCategory', valueField:'cid', textField:'cname'">
+			<input class="easyui-textbox" label="折扣：" style="width:200px" id="discount1">
+			<input class="easyui-textbox" label="库存：" style="width:200px" id="fcount1">
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-search'"
+				onclick="query()">查询</a>
+			<a id="btn" href="#" class="easyui-linkbutton"
+				data-options="iconCls:'icon-add'"
+				onclick="edit()">添加</a>
+		</div>
+		<div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
+			<table class="easyui-datagrid" id="dg"
+					data-options="
+						url:'../queryAllProduct',
+						method:'get',
+						border:false,
+						singleSelect:true,
+						fit:true,
+						nowrap:false,
+						fitColumns:true,
+						pagination:true">
+				<thead>
+					<tr>
+						<th data-options="field:'fid', width:100, align:'center'">鲜花编号</th>
+						<th data-options="field:'fname', width:100, align:'center'">花名</th>
+						<th data-options="field:'market_price', width:100, align:'center'">商城价</th>
+						<th data-options="field:'discount', width:100, align:'center'">折扣</th>
+						<th data-options="field:'shop_price', width:100, align:'center'">销售价</th>
+						<th data-options="field:'image', width:120, formatter:fmtImg, align:'center'">图片</th>
+						<th data-options="field:'cid', width:50, align:'center', formatter:getCid">种类</th>
+						<th data-options="field:'is_hot', width:50, align:'center', formatter:getIshot">热卖</th>
+						<th data-options="field:'fdate', width:200, align:'center', formatter:fmtDate">上架日期</th>
+						<th data-options="field:'fcount', width:100, align:'center', formatter:getFcount">库存</th>
+						<th data-options="field:'advice', width:250, align:'center'">建议</th>
+						<!--  -->
+						<th data-options="field:'idd', width:100, formatter:fmtOp, align:'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+	<!-- 编辑窗口 -->
+	<div id="dd" class="easyui-dialog" title="My Dialog" style="width:300px;height:400px;" 
+		data-options="iconCls:'icon-save', resizable:true, modal:true, closed:true, buttons:'#bb'" >
+		<form id="ff" style="margin:0 auto;width: 200px;">
+			<input class="easyui-textbox" id="fid" name="fid" label="鲜花编号"><br> 
+			<input class="easyui-textbox" id="fname" name="fname" label="花名"><br> 
+			<input class="easyui-textbox" id="marketPrice" name="marketPrice" label="商城价"><br> 
+			<input class="easyui-textbox" id="discount" name="discount" label="折扣"><br> 
+			<input class="easyui-textbox" id="shopPrice" name="shopPrice" label="销售价"><br> 
+			<input class="easyui-textbox" id="image" name="image" label="图片" id=tbImg><br>
+			<!-- <input class="easyui-filebox" name="file" label="选择" id="file"
+				data-options="onChange:upload"><br> -->
+			<input class="easyui-combobox" id="cid" name="cid" label="种类" 
+				data-options="url:'../queryCategory', valueField:'cid', textField:'cname'"><br> 
+			<input class="easyui-textbox" id="isHot" name="isHot" label="热卖"><br>
+			<input class="easyui-textbox" id="fcount" name="fcount" label="库存"><br>			
+			<input class="easyui-textbox" id="advice" name="advice" label="建议"><br>
+			<img alt="" src="" height="100px" id="upImg"
+				onclick="filebox_file_id_1.click()">
+		</form>
+	</div>
+	<div id="bb">
+		<a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+		<a href="#" class="easyui-linkbutton">取消</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>后台主页</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+<script type="text/javascript">
+var data = [{
+    iconCls: 'icon-sum',
+    state: 'open',
+    children: [{
+        text: '鲜花管理',
+        url:'flower.html'
+    },{
+        text: '鲜花种类管理',
+        url:'category.html'
+    },{
+        text: '订单管理',
+        url:'order.html'
+    },{
+        text: '用户管理',
+        url:'user.html'
+    }]
+}];
+
+function selectMenu(Item){
+	if(	$('#tt').tabs('exists',Item.text)){
+		$('#tt').tabs('select',Item.text)
+	}else{
+		$('#tt').tabs('add',{
+			title: Item.text,
+			selected: true,
+			closable: true,
+			content:"<iframe src=' "+Item.url+"' style='width:100%;height:100%;border:opx;'></iframe>"
+		});
+	}
+}
+
+function logout(){
+	if(confirm("确定要退出登录?")){
+		axios.get("../out.s").then(res=>{
+			alert(res.data.msg);
+			location.href = "../index.html";
+		});
+	}
+}
+
+</script>
+</head>
+<body>
+	<div id="layout" class="easyui-layout" fit="true" style="visibility:hidden;">>
+		<div data-options="region:'north'" style="height:7%;">
+			<!-- <img src="img/logo.png" class="logo" style="width:100px"/> -->
+			<div class="top-btns">
+				<span>欢迎您，管理员</span>
+				<a href="#" class="easyui-linkbutton" onclick="logout()" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
+			</div>
+		</div>
+		
+		<div data-options="region:'south',split:true," style="height:5%;">绿艺鲜花后台管理系统 V3.0</div>
+		
+		<div class="easyui-accordion" data-options="region:'west',split:true" title="菜单区" style="width:12%;">
+			<div class="easyui-accordion" fit="true" id="navmenu">
+				<div id="sm" class="easyui-sidemenu" title="数据管理" 
+					data-options="iconCls:'icon-ok',data:data,fit:true,onSelect:selectMenu" style="overflow:auto;padding:10px;">
+				</div>
+			</div>
+		</div>
+		<div id="tt" class="easyui-tabs" data-options="region:'center',title:'功能区',iconCls:'icon-ok'">
+			<div title="Home" style="padding:10px;">
+				绿艺鲜花是国内排行前列的鲜花行业品牌服务商，以“花心思，只为你”为品牌理念，为用户提供优质鲜花礼品配送服务。<br>
+				我们拥有一支金牌花艺师团队，持续打造具有设计感的原创花艺产品，全国2000多个城市送花上门，让心意准时到达。<br>
+				<a>
+					<img alt="" src="../images/flower_bIndex.png" width="700px">
+				</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+			$(function() {
+				//解决闪屏的问题
+				window.setTimeout(function() {
+					$("#layout").css("visibility", "visible");
+				}, 800);
+			});
+		</script>
+</body>
+</html>
