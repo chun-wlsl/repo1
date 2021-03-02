@@ -10,3 +10,6 @@ spring:
        #   配置片名： 开发（dev），测试（test），生产（prod）
        # profile: prod
 
+logging:
+   level:
+      com.yc.crbook.dao: debug

@@ -2,7 +2,21 @@
 spring:
    application:
       name: flower-user
+   mail:
+      #邮箱服务器地址
+      host: smtp.qq.com
+      username: 1740642733@qq.com
+      password: wuyvjhhvxuosdeia
+      default-encoding: UTF-8
    cloud:
       config:
          uri: http://localhost:9000
          label: main
+
+logging:
+   level:
+      com.yc.crbook.dao: debug         
+         
+mail:
+   from:
+      addr: 1740642733@qq.com         
