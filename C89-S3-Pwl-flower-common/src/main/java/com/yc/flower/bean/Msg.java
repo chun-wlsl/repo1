@@ -1,6 +1,7 @@
 package com.yc.flower.bean;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Msg implements Serializable{
@@ -13,13 +14,24 @@ public class Msg implements Serializable{
 
     private Date publishtime;
 
-    private Date modifytime;
+    private Timestamp modifytime;
 
     private Integer uid;
 
     private Integer fid;
+    
+    //关联写留言的用户对象
+    private User user;
 
-    public Integer getMid() {
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getMid() {
         return mid;
     }
 
@@ -43,11 +55,11 @@ public class Msg implements Serializable{
         this.publishtime = publishtime;
     }
 
-    public Date getModifytime() {
+    public Timestamp getModifytime() {
         return modifytime;
     }
 
-    public void setModifytime(Date modifytime) {
+    public void setModifytime(Timestamp modifytime) {
         this.modifytime = modifytime;
     }
 
@@ -66,4 +78,11 @@ public class Msg implements Serializable{
     public void setFid(Integer fid) {
         this.fid = fid;
     }
+
+	@Override
+	public String toString() {
+		return "Msg [mid=" + mid + ", content=" + content + ", publishtime=" + publishtime + ", modifytime="
+				+ modifytime + ", uid=" + uid + ", fid=" + fid + ", user=" + user + "]";
+	}
+    
 }
