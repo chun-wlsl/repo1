@@ -1,8 +1,30 @@
+server:
+   port: 80
+
+
 spring:
    application:
       #定义应用名
       name: flower-zuul
-   cloud: 
-     config: 
-       uri: http://localhost:9000
-       label: main
+
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://127.0.0.1:8000/eureka
+
+# 简单路由配置
+zuul:
+   #    将敏感头设置在 zuul 下，表示对所有的路由的有效
+   #    设置要过滤的敏感头， 设置空值可以取消过滤所有的头域字段 ==》 不过滤
+   sensitiveHeaders: 
+   routes:
+      # 用户网元地址
+      flower-user:
+         path: /user/**
+       # 文章网元地址
+      flower-flowers:
+         path: /flowers/**
+       # 门户网元地址==》默认路由
+      flower-index:
+         path: /**
+      # 默认路由
