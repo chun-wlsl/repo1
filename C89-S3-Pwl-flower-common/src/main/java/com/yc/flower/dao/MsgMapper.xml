@@ -70,6 +70,17 @@
   <sql id="Base_Column_List">
     mid, content, publishtime, modifytime, uid, fid
   </sql>
+  
+  <!--查找全部留言-->
+  <select id="queryMsg" resultType="com.yc.flower.bean.Msg">
+        select a.*,b.* from msg a,user b where a.uid = b.uid order by mid
+  </select>
+  
+  <!--根据fid查找全部留言-->
+  <select id="queryMsgByfid" resultType="com.yc.flower.bean.Msg">
+        select a.*,b.* from msg a,user b where a.uid = b.uid and fid = #{fid,jdbcType=INTEGER}
+  </select>
+  
   <select id="selectByExample" parameterType="com.yc.flower.bean.MsgExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

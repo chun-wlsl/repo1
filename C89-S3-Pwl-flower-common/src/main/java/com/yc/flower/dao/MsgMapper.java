@@ -6,6 +6,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface MsgMapper {
+	
+	List<?> queryMsg();
+	
+	List<?> queryMsgByfid(Integer fid);
+	
     long countByExample(MsgExample example);
 
     int deleteByExample(MsgExample example);

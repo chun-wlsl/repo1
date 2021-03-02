@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Msg;
@@ -44,18 +45,14 @@ public class MsgAction {
 	}
 	
 	@RequestMapping("queryMsg")
-	public List<Msg> queryMsg() {
-		// 创建查询条件
-		MsgExample me = new MsgExample();
-		UserMapper um = new UserMapper();
-		um.selectByPrimaryKey(uid)
-		me.createCriteria().andUidEqualTo(u.getUid());
-		me.setOrderByClause("mid");
-		return mm.selectByExample(me);
+	public List<?> queryMsg() {
+		System.out.println("============"+mm.queryMsg());
+		return mm.queryMsg();
 	}
 	
 	@RequestMapping("queryMsgByfid")
-	public List<?> queryMsgByfid(Integer fid) {
-		return mdao.queryMsgByfid(fid);
+	public List<?> queryMsgByfid(@RequestParam Integer fid) {
+		System.out.println("*****"+mm.queryMsg());
+		return mm.queryMsgByfid(fid);
 	}
 }
