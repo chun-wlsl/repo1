@@ -18,7 +18,7 @@ spring:
           git:
             default-label: main
             uri: https://https://github.com/chun-wlsl/repo1/
-            search-paths: /C89-S3-Ply-flower
+            search-paths: /C89-S3-Pwl
             username:
             password:
       

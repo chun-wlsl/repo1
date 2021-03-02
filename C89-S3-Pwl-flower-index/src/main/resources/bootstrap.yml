@@ -1,6 +1,5 @@
 spring:
    application:
-      #瀹氫箟搴旂敤鍚�
       name: flower-index
    cloud: 
      config: 
