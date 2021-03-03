@@ -42,7 +42,6 @@ public class UserAction {
 			if(errors.hasFieldErrors("name") || errors.hasFieldErrors("pwd")) {
 				return Result.failure("字段验证错误", errors.getAllErrors());
 			}
-			System.out.print("======"+user);
 			User dbuser = ubiz.login(user);
 			// 登录成功之后，将用户对象发送给调用中
 			session.setAttribute("loginedUser", dbuser);

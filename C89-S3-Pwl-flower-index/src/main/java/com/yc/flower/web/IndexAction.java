@@ -42,7 +42,6 @@ public class IndexAction {
 	
 	@RequestMapping("login.s")
 	public Result login(User user, HttpSession session) {
-		System.out.print("======"+user);
 		Result ret = iua.login(user);
 		if (ret.getCode() == 1) {
 			session.setAttribute("loginedUser", ret.getData());
