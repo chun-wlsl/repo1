@@ -50,7 +50,8 @@ public class IndexAction {
 	}
 	
 	@RequestMapping("getLoginedUser")
-	public Result getLoginedUser(@SessionAttribute User loginedUser) {
-		return Result.success("会话中的用户对象", loginedUser);
+	public Result getLoginedUser(HttpSession session) {
+		System.out.println(session.getAttribute("loginedUser"));
+		return Result.success("会话中的用户对象", session.getAttribute("loginedUser"));
 	}
 }
