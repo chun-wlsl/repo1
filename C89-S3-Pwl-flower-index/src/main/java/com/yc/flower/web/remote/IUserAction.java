@@ -17,6 +17,4 @@ public interface IUserAction {
 	@PostMapping("reg")
 	Result reg(User user);
 	
-	@GetMapping("out.s")
-	Result logout();
 }

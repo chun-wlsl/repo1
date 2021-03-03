@@ -79,8 +79,13 @@ public class IndexAction {
 	}
 	
 	@RequestMapping("out.s")
-	public Result logout() {
-		Result ret = iua.logout();
-		return ret;
+	public Result logout(HttpSession session) {
+		Object loginedUser = session.getAttribute("loginedUser");
+		System.out.println("loginedUser:" + loginedUser);
+		if(loginedUser == null) {
+			return Result.failure("你还未登录", null);
+		}
+		session.removeAttribute("loginedUser");
+		return Result.success("成功退出", null);
 	}
 }

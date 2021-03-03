@@ -38,14 +38,14 @@ public class UserAction {
 	
 	//Feign 接口方法参数要加 RequstBody 注解
 	@RequestMapping("login.s")
-	public Result login(@Valid @RequestBody User user, Errors errors) {
+	public Result login(@Valid @RequestBody User user, Errors errors, HttpSession session) {
 		try {
 			if(errors.hasFieldErrors("name") || errors.hasFieldErrors("pwd")) {
 				return Result.failure("字段验证错误", errors.getAllErrors());
 			}
 			User dbuser = ubiz.login(user);
 			// 登录成功之后，将用户对象发送给调用中
-			//session.setAttribute("loginedUser", dbuser);
+			session.setAttribute("loginedUser", dbuser);
 			return Result.success("登录成功", dbuser);
 		} catch (BizException e) {
 			e.printStackTrace();
@@ -79,16 +79,7 @@ public class UserAction {
 		}
 	}
 	
-	@RequestMapping("out.s")
-	public Result logout(HttpSession session) {
-		Object loginedUser = session.getAttribute("loginedUser");
-		System.out.println("loginedUser:" + loginedUser);
-		if(loginedUser == null) {
-			return Result.failure("你还未登录", null);
-		}
-		session.removeAttribute("loginedUser");
-		return Result.success("成功退出", null);
-	}
+	
 	
 	//查询总用户数
 	public int queryAll() {
