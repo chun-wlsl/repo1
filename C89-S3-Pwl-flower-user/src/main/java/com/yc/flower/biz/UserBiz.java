@@ -27,8 +27,8 @@ public class UserBiz {
 	
 	//登录
 	public User login(User user) throws BizException {
-		//Utils.checkNull(user.getName(), "请输入用户名");
-		//Utils.checkNull(user.getPwd(),  "请输入密码");
+		Utils.checkNull(user.getName(), "请输入用户名");
+		Utils.checkNull(user.getPwd(),  "请输入密码");
 		
 		System.out.println(user.getName());
 		
@@ -51,7 +51,7 @@ public class UserBiz {
 
 	
 	//注册
-	public void register(User user) throws Exception {
+	public void register(User user) throws BizException {
 		//字段验证
 		Utils.checkNull(user.getName(), "用户名不能为空");
 		Utils.checkNull(user.getPwd(), "密码不能为空");
@@ -59,19 +59,17 @@ public class UserBiz {
 		Utils.checkNull(user.getPhone(), "电话号码不能为空");
 		Utils.checkNull(user.getAddr(), "居住地址不能为空");
 		Utils.checkNull(user.getEmail(),"邮箱地址不能为空");
-		//Utils.checkNull(user.getCode(),"验证码不能为空");
+		Utils.checkNull(user.getCode(),"验证码不能为空");
 		
 		
 		//同名验证
-		User dbUser=udao.selectByName(user.getName());
-		if (dbUser !=null) {
+		UserExample ue = new UserExample();
+		ue.createCriteria().andNameEqualTo(user.getName());
+		List<User> dbUser=um.selectByExample(ue);
+		if (dbUser.isEmpty()) {
+			um.insertSelective(user);
+		}else {
 			throw new BizException("该用户名已经被注册");
-		}
-		
-		try {
-			um.insert(user);
-		} catch (Exception e) {
-			throw new BizException("注册失败，请联系管理员",e);
 		}
 	}
 

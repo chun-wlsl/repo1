@@ -54,19 +54,16 @@ display: block;
     								params.append("name",this.user.name);
     								params.append("pwd",this.user.pwd);
     								axios.post("login.s",params).then(res=>{
-    									alert(res.data.msg);
-
-    						
     									if(res.data.code==0){
-    										location.href="register.html";
+    										//报错提示
+    										alert(res.data.data);
+    										location.href="login.html";
     									}
     									if(res.data.code==1){
+    										//登录成功提示
+    										alert(res.data.msg);
     										location.href="index.html";
-
     									}
-    				
-    									location.href="index.html";
-
     								}).catch(error=>{
     									alert("系统错误，请联系管理员");
     								})

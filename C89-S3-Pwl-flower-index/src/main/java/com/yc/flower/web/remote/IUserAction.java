@@ -1,6 +1,7 @@
 package com.yc.flower.web.remote;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.yc.flower.bean.Result;
@@ -13,4 +14,9 @@ public interface IUserAction {
 	@PostMapping("login.s")
 	Result login(User user);
 	
+	@PostMapping("reg")
+	Result reg(User user);
+	
+	@GetMapping("out.s")
+	Result logout();
 }

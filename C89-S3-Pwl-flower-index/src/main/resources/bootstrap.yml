@@ -5,3 +5,7 @@ spring:
      config: 
        uri: http://localhost:9000
        label: main
+       
+logging:
+   level:
+      com.yc.flower: debug       

@@ -98,8 +98,14 @@
 								params.append("code",this.code);
 								
 								axios.post("reg",params).then(res=>{
-									alert(res.data.msg);
+									if(res.data.code==0){
+										//报错提示
+										alert(res.data.data);
+										location.href="register.html";
+									}
 									if(res.data.code == 1){
+										//注册成功提示
+										alert(res.data.msg);
 										location.href="login.html";
 									}
 								}).catch(error=>{
