@@ -12,4 +12,10 @@ spring:
 
 logging:
    level:
-      com.yc.crbook.dao: debug
+      com.yc.flower: debug
+      
+ribbon:
+   eureka:
+      enabled: true
+      
+

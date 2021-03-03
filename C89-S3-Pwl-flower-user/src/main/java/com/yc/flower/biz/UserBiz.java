@@ -27,23 +27,18 @@ public class UserBiz {
 	
 	//登录
 	public User login(User user) throws BizException {
-		Utils.checkNull(user.getName(), "请输入用户名");
-		Utils.checkNull(user.getPwd(),  "请输入密码");
+		//Utils.checkNull(user.getName(), "请输入用户名");
+		//Utils.checkNull(user.getPwd(),  "请输入密码");
 		
 		System.out.println(user.getName());
 		
 		UserExample ue = new UserExample();
-		ue.createCriteria().andAddrEqualTo(user.getName());
+		ue.createCriteria().andNameEqualTo(user.getName()).andPwdEqualTo(user.getPwd());
 		List<User> list = um.selectByExample(ue);
 		
 		//如果list集合为空
-		if(list.get(0)==null || list.isEmpty()) {
-			throw new BizException("请检查用户名是否正确");
-		}
-		
-		//如果list集合不为空，检查密码是否正确
-		if (!list.get(0).getPwd().equals(user.getPwd())) {
-			throw new BizException("密码错误");
+		if(list.isEmpty()) {
+			throw new BizException("用户名或密码错误！");
 		}
 		
 		//@SuppressWarnings("null")

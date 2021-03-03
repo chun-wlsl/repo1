@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yc.flower.bean.Flower;
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
-import com.yc.flower.biz.VcodeBiz;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.UserBiz;
-import com.yc.flower.dao.UserDao;
 import com.yc.flower.dao.UserMapper;
 
 @RestController
@@ -44,6 +42,7 @@ public class UserAction {
 			if(errors.hasFieldErrors("name") || errors.hasFieldErrors("pwd")) {
 				return Result.failure("字段验证错误", errors.getAllErrors());
 			}
+			System.out.print("======"+user);
 			User dbuser = ubiz.login(user);
 			// 登录成功之后，将用户对象发送给调用中
 			session.setAttribute("loginedUser", dbuser);
@@ -55,11 +54,11 @@ public class UserAction {
 	}
 	
 	
-	@RequestMapping("getLoginedUser")
-	public User getLoginedUser(String username,HttpSession session) {
-		User user =(User) session.getAttribute("loginedUser");
-		return user;
-	}
+	//@RequestMapping("getLoginedUser")
+	//public User getLoginedUser(HttpSession session) {
+	//	User user =(User) session.getAttribute("loginedUser");
+	//	return user;
+	//}
 	
 	
 	@RequestMapping("reg")

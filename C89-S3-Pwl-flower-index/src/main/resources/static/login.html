@@ -33,8 +33,8 @@ display: block;
 				</table>
             	<div class="tab1">
             		<form action="login.html" method="post" id="loginForm">
-               			<input v-model="username" name="username" type="text" class="kuang_txt" placeholder="用户名">
-                		<input v-model="password" name="password" type="password" class="kuang_txt" placeholder="密码"><br>
+               			<input v-model="user.name" name="username" type="text" class="kuang_txt" placeholder="用户名">
+                		<input v-model="user.pwd" name="password" type="password" class="kuang_txt" placeholder="密码"><br>
                 		<a href="resetPwd.html">忘记密码？</a><br>
                			<input name="" type="checkbox" value="" checked >记住我 <br>
                 		<input @click="login()" name="登录" type="button" class="btn_zhuce" value="登录">
@@ -43,14 +43,16 @@ display: block;
                         new Vue({
                         	el:"#loginForm",
                         	data:{
-                        		username:"",
-								password:""
+                        		user : {
+                        			name:"",
+                        			pwd:""
+                        		}
                         	},
                         	methods:{
                         		login(){
                             		var params = new URLSearchParams();
-    								params.append("username",this.username);
-    								params.append("password",this.password);
+    								params.append("name",this.user.name);
+    								params.append("pwd",this.user.pwd);
     								axios.post("login.s",params).then(res=>{
     									alert(res.data.msg);
 

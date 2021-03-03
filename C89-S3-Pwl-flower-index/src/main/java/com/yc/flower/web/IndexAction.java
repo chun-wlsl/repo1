@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
@@ -41,10 +42,16 @@ public class IndexAction {
 	
 	@RequestMapping("login.s")
 	public Result login(User user, HttpSession session) {
+		System.out.print("======"+user);
 		Result ret = iua.login(user);
 		if (ret.getCode() == 1) {
 			session.setAttribute("loginedUser", ret.getData());
 		}
 		return ret;
+	}
+	
+	@RequestMapping("getLoginedUser")
+	public Result getLoginedUser(@SessionAttribute User loginedUser) {
+		return Result.success("会话中的用户对象", loginedUser);
 	}
 }

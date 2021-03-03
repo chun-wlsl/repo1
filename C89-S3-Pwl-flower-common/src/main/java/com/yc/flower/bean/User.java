@@ -96,4 +96,12 @@ public class User implements Serializable{
     public void setUtime(Date utime) {
         this.utime = utime;
     }
+
+	@Override
+	public String toString() {
+		return "User [uid=" + uid + ", name=" + name + ", pwd=" + pwd + ", sex=" + sex + ", code=" + code + ", phone="
+				+ phone + ", addr=" + addr + ", email=" + email + ", utime=" + utime + "]";
+	}
+    
+    
 }
