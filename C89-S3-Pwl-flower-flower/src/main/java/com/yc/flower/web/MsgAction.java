@@ -37,10 +37,10 @@ public class MsgAction {
 			msg.setContent(content);
 			msg.setFid(fid);
 			mbiz.addMsg(msg);
-			return new Result(1, "留言添加成功！");
+			return Result.success("留言添加成功！", null);
 		} catch (BizException e) {
 			e.printStackTrace();
-			return new Result(0, e.getMessage());
+			return Result.failure("留言添加失败！", e.getMessage());
 		}
 	}
 	
