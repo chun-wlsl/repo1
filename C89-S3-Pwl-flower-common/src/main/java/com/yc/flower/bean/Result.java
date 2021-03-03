@@ -8,12 +8,12 @@ public class Result implements java.io.Serializable{
 	private String msg;
 	private Object data;
 	
-	public static Result success(String msg) {
-		return new Result(1,msg);
+	public static Result success(String msg, Object data) {
+		return new Result(1, msg, data);
 	}
-	
-	public static Result failure(String msg) {
-		return new Result(0,msg);
+
+	public static Result failure(String msg, Object data) {
+		return new Result(0, msg, data);
 	}
 	
 	public Result() {
@@ -48,4 +48,11 @@ public class Result implements java.io.Serializable{
 	public void setData(Object data) {
 		this.data = data;
 	}
+
+	@Override
+	public String toString() {
+		return "Result [code=" + code + ", msg=" + msg + ", data=" + data + "]";
+	}
+	
+	
 }
