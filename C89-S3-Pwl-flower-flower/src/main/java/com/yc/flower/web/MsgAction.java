@@ -3,22 +3,16 @@ package com.yc.flower.web;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Msg;
-import com.yc.flower.bean.MsgExample;
-import com.yc.flower.bean.MsgExample.Criteria;
 import com.yc.flower.bean.Result;
-import com.yc.flower.bean.User;
-import com.yc.flower.bean.UserExample;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.MsgBiz;
 import com.yc.flower.dao.MsgMapper;
-import com.yc.flower.dao.UserMapper;
 
 @RestController
 public class MsgAction {

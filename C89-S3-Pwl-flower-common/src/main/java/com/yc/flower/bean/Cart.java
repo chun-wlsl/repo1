@@ -14,7 +14,28 @@ public class Cart implements Serializable{
 
     private Integer count;
 
-    public Integer getCiid() {
+    //关联对象
+    private User user;
+    
+    private Flower flower;
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Flower getFlower() {
+		return flower;
+	}
+
+	public void setFlower(Flower flower) {
+		this.flower = flower;
+	}
+
+	public Integer getCiid() {
         return ciid;
     }
 
@@ -45,4 +66,12 @@ public class Cart implements Serializable{
     public void setCount(Integer count) {
         this.count = count;
     }
+
+	@Override
+	public String toString() {
+		return "Cart [ciid=" + ciid + ", uid=" + uid + ", fid=" + fid + ", count=" + count + ", user=" + user
+				+ ", flower=" + flower + "]";
+	}
+    
+    
 }

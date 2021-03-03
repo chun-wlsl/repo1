@@ -1,14 +1,5 @@
 package com.yc.flower.web;
 
-
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpSession;
@@ -19,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yc.flower.bean.Flower;
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
+import com.yc.flower.bean.UserExample;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.UserBiz;
 import com.yc.flower.dao.UserMapper;
@@ -79,12 +70,11 @@ public class UserAction {
 		}
 	}
 	
-	
-	
 	//查询总用户数
 	public int queryAll() {
-	   List<User> list=udao.selectAllUser();
-		return  list.size() ;
+		UserExample ue = new UserExample();
+		//List<User> list=udao.selectAllUser();
+		return  (int) um.countByExample(ue) ;
 	}
 	
 	
@@ -125,26 +115,11 @@ public class UserAction {
 		System.out.println(user.toString());
 		try {
 			ubiz.reUser(user);
-			return new Result(1,"修改成功！");
+			return Result.success("修改成功！", null);
 		}catch (BizException e) {
 			e.printStackTrace();
-			return new Result(0,e.getMessage());
+			return Result.failure("修改失败！",e.getMessage());
 		}
-	}
-	
-
-	//给后台使用，查找所有的
-   	@RequestMapping("queryAllUser")
-	public Map<String, Object> queryAllUser(Integer uid, String name, String sex, String page, String rows){
-   		System.out.println("uid:"+uid+"  name:"+name+"  sex:"+sex+"  page:"+page+"  rows:"+rows);
-    	List<?> list = udao.queryAllUser(uid, name, sex, page, rows);
-    	System.out.println("list:"+list);
-    	int total = udao.count(uid, name, sex);
-    	System.out.println("total:"+total);
-    	HashMap<String, Object> data = new HashMap<>();
-    	data.put("rows", list);
-    	data.put("total", total);
-		return data;
 	}
    	
    	//给后台使用，flower页面的save
@@ -160,10 +135,10 @@ public class UserAction {
 		user.setEmail(email);
 		try {
 			ubiz.save(user);
-			return new Result(1,"用户保存成功!");
+			return Result.success("用户保存成功!", null);
 		} catch (BizException e) {
 			e.printStackTrace();
-			return new Result(0,e.getMessage());
+			return Result.failure("用户保存失败!",e.getMessage());
 		}
 		
 	}

@@ -27,4 +27,12 @@ public interface FlowerMapper {
     int updateByPrimaryKeySelective(Flower record);
 
     int updateByPrimaryKey(Flower record);
+
+	List<Flower> selectHot();
+
+	Flower selectByDiscount();
+
+	List<Flower> queryNewProduct();
+
+	void updateCount(int count, int fid);
 }

@@ -14,7 +14,7 @@ import com.yc.flower.util.Utils;
 public class MsgBiz{
 	
 	@Resource
-	private MsgMapper mMapper;
+	private MsgMapper mm;
 	
 	@Transactional
 	public void addMsg(Msg m) throws BizException{
@@ -23,7 +23,7 @@ public class MsgBiz{
 		Utils.checkNull(m.getUid(), "用户ID不能为空");
 		Utils.checkNull(m.getFid(), "鲜花ID不能为空");
 		// 添加到数据库
-		mMapper.insert(m);
+		mm.insertSelective(m);
 	}
 	
 }

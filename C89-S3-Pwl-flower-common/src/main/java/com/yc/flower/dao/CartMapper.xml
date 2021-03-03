@@ -193,4 +193,20 @@
       count = #{count,jdbcType=INTEGER}
     where ciid = #{ciid,jdbcType=INTEGER}
   </update>
+  
+  <update id="update1" parameterType="com.yc.flower.bean.Cart">
+      update cart set count=count+#{count,jdbcType=INTEGER} where uid=#{uid,jdbcType=INTEGER} and fid=#{fid,jdbcType=INTEGER}
+  </update>
+  <select id="selectCart" resultType="com.yc.flower.bean.Cart">
+      select * from cart a left join user b on a.uid=b.uid left join flower c on a.fid=c.fid where a.uid=#{uid,jdbcType=INTEGER}
+  </select>
+  <update id="upCart" parameterType="com.yc.flower.bean.Cart">
+  	  update cart set count=#{count,jdbcType=INTEGER} where uid=#{uid,jdbcType=INTEGER} and fid=#{fid,jdbcType=INTEGER}
+  </update>
+  <delete id="clearCart" parameterType="com.yc.flower.bean.Cart">
+  	  delete from cart where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteCart" parameterType="com.yc.flower.bean.Cart">
+  	  delete from cart where fid = #{fid,jdbcType=INTEGER}
+  </delete>
 </mapper>

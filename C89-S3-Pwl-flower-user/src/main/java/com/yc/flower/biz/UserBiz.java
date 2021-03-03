@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 
 import com.yc.flower.bean.User;
@@ -87,13 +84,16 @@ public class UserBiz {
 		// Utils.checkNull(user.getCode(),"验证码不能为空");
 
 		// 同名验证
-		User dbUser = udao.selectByName(user.getName());
-		if (dbUser != null) {
+		UserExample ue = new UserExample();
+		ue.createCriteria().andNameEqualTo(user.getName());
+		List<User> dbUser = um.selectByExample(ue);
+		if (dbUser.isEmpty()) {
 			throw new BizException("该用户名不能使用");
 		}
 
 		try {
-			udao.updateUser(user);
+			um.updateByPrimaryKeySelective(user);
+			//udao.updateUser(user);
 		} catch (Exception e) {
 			throw new BizException("修改失败", e);
 		}
@@ -102,7 +102,9 @@ public class UserBiz {
 	
 	//验证码
 	public String sendVcode(String name) {
-		User user =udao.selectByName(name);
+		UserExample ue = new UserExample();
+		ue.createCriteria().andNameEqualTo(name);
+		User user = (User) um.selectByExample(ue);
 		//随机生成验证码
 		String vcode=""+System.currentTimeMillis();
 		vcode=vcode.substring(vcode.length()-4);
@@ -114,7 +116,13 @@ public class UserBiz {
 	//重置密码
 	public String resetPwd(String name, String vcode, String password, String sessionVcode) {
 		if (vcode.equalsIgnoreCase(sessionVcode)) {
-			udao.updatePwdByName(password, name);
+			User u = new User();
+			u.setName(name);
+			u.setPwd(password);
+			UserExample ue = new UserExample();
+			ue.createCriteria().andNameEqualTo(name).andPwdEqualTo(password);
+			um.updateByExampleSelective(u, ue);
+			//udao.updatePwdByName(password, name);
 			return "密码重置成功！";
 		}else {
 			return "验证码错误！";
@@ -132,9 +140,10 @@ public class UserBiz {
 		Utils.checkNull(u.getEmail(),"邮箱地址不能为空");
 		
 		if(u.getUid() == null || u.getUid() == 0) {
-			udao.insert(u);
+			um.insertSelective(u);
 		} else {
-			udao.update(u);
+			um.updateByPrimaryKeySelective(u);
 		}
 	}
+	
 }

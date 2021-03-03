@@ -116,4 +116,13 @@ public class Flower implements Serializable{
     public void setAdvice(String advice) {
         this.advice = advice == null ? null : advice.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Flower [fid=" + fid + ", fname=" + fname + ", marketPrice=" + marketPrice + ", discount=" + discount
+				+ ", shopPrice=" + shopPrice + ", image=" + image + ", cid=" + cid + ", isHot=" + isHot + ", fdate="
+				+ fdate + ", fcount=" + fcount + ", advice=" + advice + "]";
+	}
+    
+    
 }
