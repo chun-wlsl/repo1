@@ -205,15 +205,15 @@ public class IndexAction {
 		return ret;
 	}
 	
-	@RequestMapping("mksGetPro")
+	@RequestMapping("topay.s")
 	public Result topay(Integer oid) {
 		Result ret = ifa.topay(oid);
 		return ret;
 	}
 	
 	@PostMapping(path = "orders.s", params = "op=updateState")
-	public Result updateState1(@RequestParam Integer oid) {
-		Result ret = ifa.topay(oid);
+	public Result updateState1(Integer oid) {
+		Result ret = ifa.updateState1(oid);
 		return ret;
 	}
 	

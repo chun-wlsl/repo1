@@ -77,8 +77,8 @@ display: block;
        	  		
        	  		<div class="tab2">
        	  			<form action="login.html" method="post" id="loginForm1">
-                		<input v-model="aname" name="username" type="text" class="kuang_txt" placeholder="管理员用户名">
-                		<input v-model="apwd" name="password" type="password" class="kuang_txt" placeholder="密码"><br>
+                		<input v-model="administrator.aname" name="username" type="text" class="kuang_txt" placeholder="管理员用户名">
+                		<input v-model="administrator.apwd" name="password" type="password" class="kuang_txt" placeholder="密码"><br>
                 		<a href="resetPwd.html">忘记密码？</a><br>
                			<input name="" type="checkbox" value="" checked >记住我 <br>
                 		<input @click="login1()" name="登录" type="button" class="btn_zhuce" value="登录">
