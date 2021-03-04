@@ -15,5 +15,8 @@ public interface IUserAction {
 	
 	@PostMapping("reg")
 	Result reg(User user);
-	
+
+//---AdministratorAction	
+	@PostMapping("login1.s")
+	Result login1(String aname,String apwd);
 }

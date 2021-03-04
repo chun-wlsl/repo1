@@ -215,6 +215,19 @@ public class IndexAction {
 		Result ret = ifa.topay(oid);
 		return ret;
 	}
-
 	
+	@RequestMapping("login1.s")
+	public Result login1(String aname,String apwd, HttpSession session) {
+		Result ret = iua.login1(aname, apwd);
+		if (ret.getCode() == 1) {
+			session.setAttribute("loginedAdmin", ret.getData());
+		}
+		return ret;
+	}
+	
+	@RequestMapping("getloginedAdmin")
+	public Result getLoginedUser1(HttpSession session) {
+		System.out.println(session.getAttribute("loginedAdmin"));
+		return Result.success("会话中的用户对象", session.getAttribute("loginedAdmin"));
+	}
 }
