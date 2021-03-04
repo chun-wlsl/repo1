@@ -221,14 +221,8 @@ public class IndexAction {
 	public Result login1(Administrator admin, HttpSession session) {
 		Result ret = iua.login1(admin);
 		if (ret.getCode() == 1) {
-			session.setAttribute("loginedAdmin", ret.getData());
+			session.setAttribute("loginedUser", ret.getData());
 		}
 		return ret;
-	}
-	
-	@RequestMapping("getloginedAdmin")
-	public Result getloginedAdmin(HttpSession session) {
-		System.out.println(session.getAttribute("loginedAdmin"));
-		return Result.success("会话中的用户对象", session.getAttribute("loginedAdmin"));
 	}
 }

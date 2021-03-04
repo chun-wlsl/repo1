@@ -179,5 +179,7 @@
     where cid = #{cid,jdbcType=INTEGER}
   </update>
   
-  
+  <select id="queryItembyOid" resultMap="BaseResultMap">
+      select * from category where cid= #{cid,jdbcType=INTEGER}
+  </select>
 </mapper>

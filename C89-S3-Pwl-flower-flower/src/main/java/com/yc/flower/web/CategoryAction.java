@@ -34,7 +34,7 @@ public class CategoryAction {
 	// 查询cid 的分类信息
 	@RequestMapping("queryByCid")
 	public Category queryByCid(Integer cid) {
-		return cm.selectByPrimaryKey(cid);
+		return cm.queryByCid(cid);
 	}
 
 	// 给后台使用，category.html页面的保存功能
