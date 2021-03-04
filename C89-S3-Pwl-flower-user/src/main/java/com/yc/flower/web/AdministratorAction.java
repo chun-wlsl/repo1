@@ -2,7 +2,10 @@ package com.yc.flower.web;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,15 +21,17 @@ public class AdministratorAction {
 	private AdministratorBiz abiz;
 	
 	@RequestMapping("login1.s")
-	public Result login1(Administrator admin,HttpSession session) {
-		Administrator a;
+	public Result login1(@Valid @RequestBody Administrator admin, Errors errors, HttpSession session) {
 		try {
-			a = abiz.login(admin);
+			if(errors.hasFieldErrors("aname") || errors.hasFieldErrors("apwd")) {
+				return Result.failure("字段验证错误", errors.getAllErrors());
+			}
+			Administrator a  = abiz.login(admin);
 			session.setAttribute("loginedUser", a);
-			return new Result(1,"登录成功");
+			return Result.success("登录成功", a);
 		} catch (BizException e) {
 			e.printStackTrace();
-			return new Result(0,e.getMessage());
+			return Result.failure("登录失败", e.getMessage());
 		}
 	}
 	

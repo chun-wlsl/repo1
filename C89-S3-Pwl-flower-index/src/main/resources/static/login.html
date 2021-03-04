@@ -98,8 +98,14 @@ display: block;
     								params.append("aname",this.administrator.aname);
     								params.append("apwd",this.administrator.apwd);
     								axios.post("login1.s",params).then(res=>{
-    									alert(res.data.msg);
+    									if(res.data.code==0){
+    										//报错提示
+    										alert(res.data.data);
+    										location.href="login.html";
+    									}
     									if(res.data.code==1){
+    										//登录成功提示
+    										alert(res.data.msg);
     										location.href="/back/bIndex.html";
     									}
     								}).catch(error=>{
