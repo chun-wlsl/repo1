@@ -16,9 +16,7 @@ eureka:
 zuul:
    #    将敏感头设置在 zuul 下，表示对所有的路由的有效
    #    设置要过滤的敏感头， 设置空值可以取消过滤所有的头域字段 ==》 不过滤
-   sensitiveHeaders:
-   - Cookie,Set-Cookie,Authorization
-   
+   sensitiveHeaders: 
    routes:
       # 用户网元地址
       flower-user:
@@ -30,3 +28,14 @@ zuul:
       flower-index:
          path: /**
       # 默认路由
+      
+hystrix:
+   command:
+      default:
+         execution:
+            isolation:
+               thread:
+                  timeoutInMilliseconds: 60000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
