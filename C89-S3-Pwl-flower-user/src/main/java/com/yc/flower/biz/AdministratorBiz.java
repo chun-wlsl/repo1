@@ -18,17 +18,17 @@ public class AdministratorBiz {
 	private AdministratorMapper am;
 	
 	// 登录
-	public Administrator login(String aname, String apwd) throws BizException {
-		Utils.checkNull(aname, "请输入用户名");
-		Utils.checkNull(apwd, "请输入密码");
+	public Administrator login(Administrator admin) throws BizException {
+		Utils.checkNull(admin.getAname(), "请输入用户名");
+		Utils.checkNull(admin.getApwd(), "请输入密码");
 
 		AdministratorExample ae = new AdministratorExample();
-		ae.createCriteria().andAnameEqualTo(aname);
+		ae.createCriteria().andAnameEqualTo(admin.getAname());
 		List<Administrator> list = am.selectByExample(ae);
 		if (list.isEmpty()) { 
 			throw new BizException("请检查用户名是否正确");
 		}
-		if (!list.get(0).getApwd().equals(apwd)) { 
+		if (!list.get(0).getApwd().equals(admin.getApwd())) { 
 			throw new BizException("密码错误"); 
 		} 
 		return list.get(0);

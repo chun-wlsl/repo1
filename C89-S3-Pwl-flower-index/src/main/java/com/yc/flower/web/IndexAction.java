@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yc.flower.bean.Administrator;
 import com.yc.flower.bean.Category;
 import com.yc.flower.bean.Flower;
 import com.yc.flower.bean.Result;
@@ -217,8 +218,8 @@ public class IndexAction {
 	}
 	
 	@RequestMapping("login1.s")
-	public Result login1(String aname,String apwd, HttpSession session) {
-		Result ret = iua.login1(aname, apwd);
+	public Result login1(Administrator admin, HttpSession session) {
+		Result ret = iua.login1(admin);
 		if (ret.getCode() == 1) {
 			session.setAttribute("loginedAdmin", ret.getData());
 		}
@@ -226,7 +227,7 @@ public class IndexAction {
 	}
 	
 	@RequestMapping("getloginedAdmin")
-	public Result getLoginedUser1(HttpSession session) {
+	public Result getloginedAdmin(HttpSession session) {
 		System.out.println(session.getAttribute("loginedAdmin"));
 		return Result.success("会话中的用户对象", session.getAttribute("loginedAdmin"));
 	}

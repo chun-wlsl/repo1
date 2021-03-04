@@ -3,6 +3,7 @@ package com.yc.flower.web.remote;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.yc.flower.bean.Administrator;
 import com.yc.flower.bean.Result;
 import com.yc.flower.bean.User;
 
@@ -18,5 +19,5 @@ public interface IUserAction {
 
 //---AdministratorAction	
 	@PostMapping("login1.s")
-	Result login1(String aname,String apwd);
+	Result login1(Administrator admin);
 }

@@ -87,14 +87,16 @@ display: block;
                         new Vue({
                         	el:"#loginForm1",
                         	data:{
-                        		aname:"",
-								apwd:""
+                        		administrator : {
+                        			aname:"",
+    								apwd:""
+                        		}
                         	},
                         	methods:{
                         		login1(){
                             		var params = new URLSearchParams();
-    								params.append("aname",this.aname);
-    								params.append("apwd",this.apwd);
+    								params.append("aname",this.administrator.aname);
+    								params.append("apwd",this.administrator.apwd);
     								axios.post("login1.s",params).then(res=>{
     									alert(res.data.msg);
     									if(res.data.code==1){

@@ -18,10 +18,10 @@ public class AdministratorAction {
 	private AdministratorBiz abiz;
 	
 	@RequestMapping("login1.s")
-	public Result login1(String aname,String apwd,HttpSession session) {
+	public Result login1(Administrator admin,HttpSession session) {
 		Administrator a;
 		try {
-			a = abiz.login(aname, apwd);
+			a = abiz.login(admin);
 			session.setAttribute("loginedUser", a);
 			return new Result(1,"登录成功");
 		} catch (BizException e) {
