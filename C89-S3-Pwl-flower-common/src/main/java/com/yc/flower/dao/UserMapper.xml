@@ -270,4 +270,9 @@
       utime = #{utime,jdbcType=DATE}
     where uid = #{uid,jdbcType=INTEGER}
   </update>
+  
+  
+  <select id="queryId" resultMap="BaseResultMap">
+      select uid from user where name=#{name,jdbcType=VARCHAR} and pwd=#{pwd,jdbcType=VARCHAR}
+  </select>
 </mapper>

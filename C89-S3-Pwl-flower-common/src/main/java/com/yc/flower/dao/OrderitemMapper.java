@@ -1,8 +1,11 @@
 package com.yc.flower.dao;
 
+import com.yc.flower.bean.Order;
 import com.yc.flower.bean.Orderitem;
 import com.yc.flower.bean.OrderitemExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderitemMapper {
@@ -27,4 +30,10 @@ public interface OrderitemMapper {
     int updateByPrimaryKeySelective(Orderitem record);
 
     int updateByPrimaryKey(Orderitem record);
+
+	void insertItems(Integer oid, Integer uid);
+
+	List<Map<String, Object>> queryItem(int oid);
+
+	List<?> queryItembyOid(Integer oid);
 }

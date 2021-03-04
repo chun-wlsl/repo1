@@ -179,8 +179,5 @@
     where cid = #{cid,jdbcType=INTEGER}
   </update>
   
-  <!--查找全部-->
-  <select id="queryBqueryCategoryook" resultType="com.yc.flower.bean.Category">
-      select * from category
-  </select>
+  
 </mapper>

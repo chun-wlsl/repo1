@@ -1,6 +1,7 @@
 package com.yc.flower.web.remote;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public interface IFlowerAction {
 	List<?> queryMsgByfid(@RequestParam Integer fid);
 	
 //---------------------以下方法还未验证-------------------------------
+//---CategoryAction
 	@GetMapping("queryCategory")
 	List<Category> queryCategory();
 	
@@ -33,7 +35,8 @@ public interface IFlowerAction {
 	
 	@PostMapping("insertCategory")
 	Result insertCategory(Category c);
-	
+
+//---FlowerAction	
 	@GetMapping("queryHot")
 	List<Flower> queryHot();
 	
@@ -54,7 +57,8 @@ public interface IFlowerAction {
 	
 	@GetMapping("queryNewProduct")
 	List<Flower> queryNewProduct();
-	
+
+//---CartAction
 	@PostMapping("addCart")
 	Result addCartdetail(@RequestParam int fid, @RequestParam int count);
 	
@@ -70,11 +74,26 @@ public interface IFlowerAction {
 	@PostMapping(path = "cart.s", params = "op=deleteCart")
 	Result deleteCart(@RequestParam int fid);
 	
+//---OrderAction
+	@PostMapping("order.s")
+	Result pay(@RequestParam Double total);
 	
+	@GetMapping("queryOrders")
+	List<Map<String, Object>> queryOrders();
 	
+	@PostMapping("order.s")
+	Result mksGetPro(@RequestParam int id);
 	
+	@GetMapping("queryOrdersByOid")
+	List<?> queryOrdersByOid(@RequestParam Integer oid);
 	
+	@PostMapping("order1.s")
+	Result pay1(@RequestParam Integer oid, @RequestParam String addr, @RequestParam String phone,
+			@RequestParam String name, @RequestParam Double total);
 	
+	@PostMapping("topay.s")
+	Result topay(Integer oid);
 	
-	
+	@PostMapping(path = "orders.s", params = "op=updateState")
+	Result updateState1(Integer oid);
 }

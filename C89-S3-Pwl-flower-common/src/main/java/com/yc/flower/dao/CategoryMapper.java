@@ -7,9 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface CategoryMapper {
 	
-	List<Category> queryCategory();
-	
-    long countByExample(CategoryExample example);
+	long countByExample(CategoryExample example);
 
     int deleteByExample(CategoryExample example);
 

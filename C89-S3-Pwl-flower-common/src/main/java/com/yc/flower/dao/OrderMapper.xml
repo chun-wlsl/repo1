@@ -255,4 +255,34 @@
       phone = #{phone,jdbcType=VARCHAR}
     where oid = #{oid,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertOrder" parameterType="com.yc.flower.bean.Order">
+    insert into orders values(null, #{uid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{total,jdbcType=VARCHAR},now(),#{state,jdbcType=INTEGER}, 
+      #{addr,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="com.yc.flower.bean.Order">
+    update orders set uid = #{uid,jdbcType=INTEGER},name = #{name,jdbcType=VARCHAR},total = #{total,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},addr = #{addr,jdbcType=VARCHAR},phone = #{phone,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByOid" parameterType="com.yc.flower.bean.Order">
+    update orders set name = #{name,jdbcType=VARCHAR},total = #{total,jdbcType=VARCHAR},
+      state = 1,addr = #{addr,jdbcType=VARCHAR},phone = #{phone,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <select id="selectOrders" resultMap="BaseResultMap">
+      select * from orders a left join orderitem b on a.oid=b.oid left 
+      	join flower c on b.fid=c.fid where a.uid=#{uid,jdbcType=INTEGER}
+  </select>
+  <update id="mksGetPro" parameterType="com.yc.flower.bean.Order">
+   	  update orders set state=4 where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateState" parameterType="com.yc.flower.bean.Order">
+   	  update orders set state=#{state,jdbcType=INTEGER} where oid= #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateState1" parameterType="com.yc.flower.bean.Order">
+   	  update orders set state= state+1 where oid= #{oid,jdbcType=INTEGER}
+  </update>
+  
 </mapper>

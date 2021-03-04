@@ -303,19 +303,17 @@
       advice = #{advice,jdbcType=VARCHAR}
     where fid = #{fid,jdbcType=INTEGER}
   </update>
+  
   <!--查找-->
-  <select id="selectHot" resultType="com.yc.flower.bean.Flower">
+  <select id="selectHot" resultMap="BaseResultMap">
       select * from flower where fcount>0 and is_hot=1 limit 0,8
   </select>
-  
-  <select id="selectByDiscount" resultType="com.yc.flower.bean.Flower">
+  <select id="selectByDiscount" resultMap="BaseResultMap">
       select * from flower ORDER BY discount LIMIT 0,1
   </select>
-  
-  <select id="queryNewProduct" resultType="com.yc.flower.bean.Flower">
+  <select id="queryNewProduct" resultMap="BaseResultMap">
       select * from flower where fcount>0  order by fdate desc limit 0,8
   </select>
-  
   <update id="updateCount" parameterType="com.yc.flower.bean.Flower">
       update flower set fcount=fcount- #{fcount,jdbcType=INTEGER} where fid=#{fid,jdbcType=INTEGER}
   </update>

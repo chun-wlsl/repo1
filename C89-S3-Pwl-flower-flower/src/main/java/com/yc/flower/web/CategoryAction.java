@@ -1,8 +1,6 @@
 package com.yc.flower.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Category;
+import com.yc.flower.bean.CategoryExample;
 import com.yc.flower.bean.Result;
 import com.yc.flower.biz.BizException;
 import com.yc.flower.biz.CategoryBiz;
@@ -28,7 +27,8 @@ public class CategoryAction {
 	// 查看所有的分类
 	@RequestMapping("queryCategory")
 	public List<Category> queryCategory() {
-		return cm.queryCategory();
+		CategoryExample ce = new CategoryExample();
+		return cm.selectByExample(ce);
 	}
 
 	// 查询cid 的分类信息

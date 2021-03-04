@@ -37,4 +37,6 @@ public interface CartMapper {
 	int clearCart(Integer uid);
 
 	int deleteCart(int fid);
+
+	Double selectTotalByUid(Integer uid);
 }

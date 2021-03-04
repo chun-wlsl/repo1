@@ -35,4 +35,11 @@ public class Category implements Serializable{
     public void setIntro(String intro) {
         this.intro = intro == null ? null : intro.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Category [cid=" + cid + ", cname=" + cname + ", intro=" + intro + "]";
+	}
+    
+    
 }

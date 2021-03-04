@@ -28,6 +28,7 @@ public class FlowerAction {
 	// 查找热销商品
 	@RequestMapping("queryHot")
 	public List<Flower> queryHot() {
+		System.out.println("queryHot:" + fm.selectHot());
 		return fm.selectHot();
 	}
 

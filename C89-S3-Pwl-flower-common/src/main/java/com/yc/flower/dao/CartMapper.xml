@@ -209,4 +209,7 @@
   <delete id="deleteCart" parameterType="com.yc.flower.bean.Cart">
   	  delete from cart where fid = #{fid,jdbcType=INTEGER}
   </delete>
+  <select id="selectTotalByUid" resultType="com.yc.flower.bean.Cart">
+      SELECT sum(count * b.shop_price) FROM cart a JOIN flower b ON a.fid = b.fid WHERE uid = #{uid,jdbcType=INTEGER}
+  </select>
 </mapper>

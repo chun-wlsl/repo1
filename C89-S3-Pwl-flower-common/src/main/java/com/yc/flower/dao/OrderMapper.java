@@ -3,6 +3,8 @@ package com.yc.flower.dao;
 import com.yc.flower.bean.Order;
 import com.yc.flower.bean.OrderExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderMapper {
@@ -27,4 +29,18 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+	int insertOrder(Order order);
+
+	void update(Order o);
+
+	void updateByOid(Order order);
+
+	List<Map<String, Object>> selectOrders(int uid);
+
+	int mksGetPro(int id);
+
+	int updateState(int state, Integer oid);
+
+	int updateState1(Integer oid);
 }

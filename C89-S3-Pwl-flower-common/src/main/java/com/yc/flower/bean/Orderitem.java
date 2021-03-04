@@ -16,7 +16,28 @@ public class Orderitem implements Serializable{
 
     private Integer oid;
 
-    public Integer getIid() {
+    //关联对象
+    private Order order;
+    
+    private Flower flower;
+    
+    public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Flower getFlower() {
+		return flower;
+	}
+
+	public void setFlower(Flower flower) {
+		this.flower = flower;
+	}
+
+	public Integer getIid() {
         return iid;
     }
 
@@ -55,4 +76,12 @@ public class Orderitem implements Serializable{
     public void setOid(Integer oid) {
         this.oid = oid;
     }
+
+	@Override
+	public String toString() {
+		return "Orderitem [iid=" + iid + ", count=" + count + ", subtotal=" + subtotal + ", fid=" + fid + ", oid=" + oid
+				+ ", order=" + order + ", flower=" + flower + "]";
+	}
+    
+    
 }

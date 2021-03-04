@@ -208,4 +208,16 @@
       oid = #{oid,jdbcType=INTEGER}
     where iid = #{iid,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertItems" parameterType="java.lang.Integer" >
+  	insert into orderitem select NULL, a.count, a.count * b.shop_price, a.fid, #{oid,jdbcType=INTEGER} FROM
+  		cart a JOIN flower b ON a.fid = b.fid WHERE a.uid = #{uid,jdbcType=INTEGER}
+  </insert>
+  <select id="queryId" resultMap="BaseResultMap">
+      select * from orderitem where oid=#{oid,jdbcType=INTEGER}
+  </select>
+  <select id="queryItembyOid" resultMap="BaseResultMap">
+      select * from  orderitem a left join orders b on a.oid = b.oid left join flower c 
+      on a.fid = c.fid where b.oid=#{oid,jdbcType=INTEGER}
+  </select>
 </mapper>
