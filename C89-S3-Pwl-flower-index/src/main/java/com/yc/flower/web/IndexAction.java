@@ -119,7 +119,7 @@ public class IndexAction {
 	
 	@RequestMapping("queryFlowerByCid")
 	public List<Flower> queryFlowerByCid(int cid) {
-		return ifa.queryHot();
+		return ifa.queryFlowerByCid(cid);
 	}
 	
 	@RequestMapping("queryFlowerById")

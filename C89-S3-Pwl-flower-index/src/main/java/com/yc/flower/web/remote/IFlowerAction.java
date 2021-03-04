@@ -31,7 +31,7 @@ public interface IFlowerAction {
 	List<Category> queryCategory();
 	
 	@GetMapping("queryByCid")
-	Category queryByCid(@RequestParam Integer cid);
+	Category queryByCid(@RequestParam int cid);
 	
 	@PostMapping("insertCategory")
 	Result insertCategory(Category c);
