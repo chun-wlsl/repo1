@@ -16,9 +16,8 @@ eureka:
 zuul:
    #    将敏感头设置在 zuul 下，表示对所有的路由的有效
    #    设置要过滤的敏感头， 设置空值可以取消过滤所有的头域字段 ==》 不过滤
-   sensitiveHeaders: 
-   
-   ignoredHeaders: Cookie
+   sensitiveHeaders:
+   - Cookie,Set-Cookie,Authorization
    
    routes:
       # 用户网元地址
