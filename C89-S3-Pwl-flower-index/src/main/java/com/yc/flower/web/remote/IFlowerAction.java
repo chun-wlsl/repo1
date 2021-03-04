@@ -81,7 +81,7 @@ public interface IFlowerAction {
 	@GetMapping("queryOrders")
 	List<Map<String, Object>> queryOrders();
 	
-	@PostMapping("order.s")
+	@PostMapping("mksGetPro")
 	Result mksGetPro(@RequestParam int id);
 	
 	@GetMapping("queryOrdersByOid")
@@ -92,8 +92,8 @@ public interface IFlowerAction {
 			@RequestParam String name, @RequestParam Double total);
 	
 	@PostMapping("topay.s")
-	Result topay(Integer oid);
+	Result topay(@RequestParam Integer oid);
 	
 	@PostMapping(path = "orders.s", params = "op=updateState")
-	Result updateState1(Integer oid);
+	Result updateState1(@RequestParam Integer oid);
 }

@@ -2,13 +2,16 @@ package com.yc.flower.web;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yc.flower.bean.Category;
@@ -173,6 +176,45 @@ public class IndexAction {
 		return ret;
 	}
 	
+	@RequestMapping("order.s")
+	public Result pay(Double total) {
+		Result ret = ifa.pay(total);
+		return ret;
+	}
+	
+	@RequestMapping("queryOrders")
+	public List<Map<String, Object>> queryOrders() {
+		return ifa.queryOrders();
+	}
+	
+	@RequestMapping("mksGetPro")
+	public Result mksGetPro(int id) {
+		Result ret = ifa.mksGetPro(id);
+		return ret;
+	}
+	
+	@RequestMapping("queryOrdersByOid")
+	public List<?> queryOrdersByOid(Integer oid) {
+		return ifa.queryOrdersByOid(oid);
+	}
+	
+	@RequestMapping("order1.s")
+	public Result pay1(Integer oid, String addr, String phone, String name, Double total) {
+		Result ret = ifa.pay1(oid, addr, phone, name, total);
+		return ret;
+	}
+	
+	@RequestMapping("mksGetPro")
+	public Result topay(Integer oid) {
+		Result ret = ifa.topay(oid);
+		return ret;
+	}
+	
+	@PostMapping(path = "orders.s", params = "op=updateState")
+	public Result updateState1(@RequestParam Integer oid) {
+		Result ret = ifa.topay(oid);
+		return ret;
+	}
 
 	
 }
