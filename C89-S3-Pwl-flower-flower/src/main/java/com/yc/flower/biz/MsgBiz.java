@@ -23,7 +23,7 @@ public class MsgBiz{
 		Utils.checkNull(m.getUid(), "用户ID不能为空");
 		Utils.checkNull(m.getFid(), "鲜花ID不能为空");
 		// 添加到数据库
-		mm.insertSelective(m);
+		mm.insert1(m);
 	}
 	
 }

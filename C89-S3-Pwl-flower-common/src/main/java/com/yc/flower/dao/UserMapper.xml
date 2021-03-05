@@ -272,7 +272,10 @@
   </update>
   
   
-  <select id="queryId" resultMap="BaseResultMap">
+  <select id="queryId" parameterType="com.yc.flower.bean.User" resultMap="BaseResultMap">
       select uid from user where name=#{name,jdbcType=VARCHAR} and pwd=#{pwd,jdbcType=VARCHAR}
+  </select>
+  <select id="queryByUid" parameterType="com.yc.flower.bean.User" resultMap="BaseResultMap">
+      select * from user where uid=#{uid,jdbcType=INTEGER}
   </select>
 </mapper>

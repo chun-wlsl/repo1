@@ -29,4 +29,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
 	int queryId(User user);
+	
+	User queryByUid(Integer uid);
 }

@@ -32,4 +32,6 @@ public interface MsgMapper {
     int updateByPrimaryKeySelective(Msg record);
 
     int updateByPrimaryKey(Msg record);
+
+	void insert1(Msg m);
 }
