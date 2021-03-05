@@ -9,6 +9,6 @@ eureka:
 spring:
    datasource:
       driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1/C89-S3-Pwl-flower?useSSL=false
+      url: jdbc:mysql://127.0.0.1/C89-S3-Pwl-flower?useSSL=false&useUnicode=true&characterEncoding=UTF-8
       username: root
       password: a
