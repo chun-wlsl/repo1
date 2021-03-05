@@ -43,4 +43,6 @@ public interface OrderMapper {
 	int updateState(int state, Integer oid);
 
 	int updateState1(Integer oid);
+	
+	Order queryByOid(Integer oid);
 }

@@ -13,6 +13,7 @@
     <result column="fdate" jdbcType="DATE" property="fdate" />
     <result column="fcount" jdbcType="INTEGER" property="fcount" />
     <result column="advice" jdbcType="VARCHAR" property="advice" />
+    <association property="category" select="com.yc.flower.dao.CategoryMapper.queryByCid" column="cid"></association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -317,4 +318,7 @@
   <update id="updateCount" parameterType="com.yc.flower.bean.Flower">
       update flower set fcount=fcount- #{fcount,jdbcType=INTEGER} where fid=#{fid,jdbcType=INTEGER}
   </update>
+  <select id="queryByFid" resultMap="BaseResultMap">
+      select * from flower where fid = #{fid,jdbcType=INTEGER}
+  </select>
 </mapper>

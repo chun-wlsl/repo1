@@ -35,4 +35,6 @@ public interface FlowerMapper {
 	List<Flower> queryNewProduct();
 
 	void updateCount(int count, int fid);
+	
+	Flower queryByFid(Integer fid);
 }

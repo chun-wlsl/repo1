@@ -2,6 +2,7 @@ package com.yc.flower.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Order implements Serializable{
 
@@ -23,6 +24,27 @@ public class Order implements Serializable{
 
     private String phone;
     
+    //关联对象
+    private User user;
+    
+    private List<Orderitem> orderitem;
+    
+	public List<Orderitem> getOrderitem() {
+		return orderitem;
+	}
+
+	public void setOrderitem(List<Orderitem> orderitem) {
+		this.orderitem = orderitem;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public Integer getOid() {
 		return oid;
 	}

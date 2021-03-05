@@ -7,6 +7,8 @@
     <result column="subtotal" jdbcType="DOUBLE" property="subtotal" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="oid" jdbcType="INTEGER" property="oid" />
+    <association property="flower" select="com.yc.flower.dao.FlowerMapper.queryByFid" column="fid"></association>
+    <association property="order" select="com.yc.flower.dao.OrderMapper.queryByOid" column="oid"></association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

@@ -10,6 +10,8 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="addr" jdbcType="VARCHAR" property="addr" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <association property="user" select="com.yc.flower.dao.UserMapper.queryByUid" column="uid"></association>
+    <collection property="orderitem" ofType="com.yc.flower.bean.Orderitem" select="com.yc.flower.dao.OrderitemMapper.queryId" column="oid"></collection>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -284,5 +286,7 @@
   <update id="updateState1" parameterType="com.yc.flower.bean.Order">
    	  update orders set state= state+1 where oid= #{oid,jdbcType=INTEGER}
   </update>
-  
+  <select id="queryByOid" resultMap="BaseResultMap">
+      select * from orders where oid= #{oid,jdbcType=INTEGER}
+  </select>
 </mapper>

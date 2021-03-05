@@ -6,6 +6,8 @@
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="count" jdbcType="INTEGER" property="count" />
+    <association property="user" select="com.yc.flower.dao.UserMapper.queryByUid" column="uid"></association>
+    <association property="flower" select="com.yc.flower.dao.FlowerMapper.queryByFid" column="fid"></association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

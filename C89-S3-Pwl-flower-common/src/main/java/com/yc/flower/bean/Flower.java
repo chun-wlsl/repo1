@@ -29,7 +29,18 @@ public class Flower implements Serializable{
 
     private String advice;
 
-    public Integer getFid() {
+    //关联对象
+    private Category category;
+    
+    public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Integer getFid() {
         return fid;
     }
 
