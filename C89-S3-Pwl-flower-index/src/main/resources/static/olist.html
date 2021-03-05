@@ -79,7 +79,7 @@ function clearText(field)
 		},
 		created(){
 			axios.get("getLoginedUser").then(res=>{
-				this.user = res.data;
+				this.user = res.data.data;
 			});
 		},
 		methods:{
@@ -206,7 +206,7 @@ function clearText(field)
 				},
 				created(){
 					axios.get("getLoginedUser").then(res=>{
-						if( res.data && res.data.uid ){
+						if( res.data.data && res.data.data.uid ){
 							axios.get("queryOrders").then(res=>{
 								this.orders = res.data;
 							});

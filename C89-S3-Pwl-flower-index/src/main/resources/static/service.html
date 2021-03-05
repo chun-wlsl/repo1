@@ -84,7 +84,7 @@ function clearText(field)
 				},
 				created(){
 					axios.get("getLoginedUser").then(res=>{
-						this.user = res.data;
+						this.user = res.data.data;
 					});
 					axios.get("queryHot").then(res=>{
 					this.flist = res.data;

@@ -84,7 +84,7 @@ function clearText(field)
 				},
 				created(){
 					axios.get("getLoginedUser").then(res=>{
-						this.user = res.data;
+						this.user = res.data.data;
 					});
 					
 				},
@@ -195,7 +195,7 @@ function clearText(field)
             	},
             	created(){
             		axios.get("getLoginedUser").then(res=>{
-            			if(res.data && res.data.uid){
+            			if(res.data.data && res.data.data.uid){
             				this.user = res.data;
             				if(location.hash.substring(1)>0){
             					axios.get("queryFlowerById?fid="+location.hash.substring(1)).then(res=>{

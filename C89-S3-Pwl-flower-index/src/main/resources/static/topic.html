@@ -84,7 +84,7 @@ function clearText(field)
 				},
 				created(){
 					axios.get("getLoginedUser").then(res=>{
-						this.user = res.data;
+						this.user = res.data.data;
 					});
 					
 				},
